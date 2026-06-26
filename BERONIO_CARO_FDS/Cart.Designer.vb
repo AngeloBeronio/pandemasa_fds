@@ -29,11 +29,13 @@ Partial Class Cart
 		Button1 = New Button()
 		Button5 = New Button()
 		Label1 = New Label()
-		DataGridView1 = New DataGridView()
-		Button6 = New Button()
+		cartMenu = New DataGridView()
+		btnAddtoCart = New Button()
 		NumericUpDown1 = New NumericUpDown()
 		Label2 = New Label()
-		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
+		Label3 = New Label()
+		lblSubtotal = New Label()
+		CType(cartMenu, ComponentModel.ISupportInitialize).BeginInit()
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -129,34 +131,34 @@ Partial Class Cart
 		Label1.TabIndex = 18
 		Label1.Text = "ORDER LIST"
 		' 
-		' DataGridView1
+		' cartMenu
 		' 
-		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-		DataGridView1.Location = New Point(472, 201)
-		DataGridView1.Name = "DataGridView1"
-		DataGridView1.Size = New Size(1238, 566)
-		DataGridView1.TabIndex = 19
+		cartMenu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		cartMenu.Location = New Point(472, 129)
+		cartMenu.Name = "cartMenu"
+		cartMenu.Size = New Size(1238, 566)
+		cartMenu.TabIndex = 19
 		' 
-		' Button6
+		' btnAddtoCart
 		' 
-		Button6.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
-		Button6.Cursor = Cursors.Hand
-		Button6.FlatAppearance.BorderColor = Color.White
-		Button6.FlatAppearance.BorderSize = 2
-		Button6.FlatStyle = FlatStyle.Flat
-		Button6.Font = New Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Button6.ForeColor = Color.White
-		Button6.Location = New Point(1411, 817)
-		Button6.Name = "Button6"
-		Button6.Size = New Size(281, 86)
-		Button6.TabIndex = 20
-		Button6.Text = "CHECKOUT"
-		Button6.UseVisualStyleBackColor = False
+		btnAddtoCart.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
+		btnAddtoCart.Cursor = Cursors.Hand
+		btnAddtoCart.FlatAppearance.BorderColor = Color.White
+		btnAddtoCart.FlatAppearance.BorderSize = 2
+		btnAddtoCart.FlatStyle = FlatStyle.Flat
+		btnAddtoCart.Font = New Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnAddtoCart.ForeColor = Color.White
+		btnAddtoCart.Location = New Point(1411, 817)
+		btnAddtoCart.Name = "btnAddtoCart"
+		btnAddtoCart.Size = New Size(281, 86)
+		btnAddtoCart.TabIndex = 20
+		btnAddtoCart.Text = "CHECKOUT"
+		btnAddtoCart.UseVisualStyleBackColor = False
 		' 
 		' NumericUpDown1
 		' 
 		NumericUpDown1.Font = New Font("Segoe UI", 36F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		NumericUpDown1.Location = New Point(472, 806)
+		NumericUpDown1.Location = New Point(484, 796)
 		NumericUpDown1.Name = "NumericUpDown1"
 		NumericUpDown1.Size = New Size(120, 71)
 		NumericUpDown1.TabIndex = 21
@@ -165,12 +167,34 @@ Partial Class Cart
 		' 
 		Label2.AutoSize = True
 		Label2.BackColor = Color.Transparent
-		Label2.Font = New Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Label2.Location = New Point(624, 820)
+		Label2.Font = New Font("Segoe UI Semibold", 27.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Label2.Location = New Point(472, 724)
 		Label2.Name = "Label2"
-		Label2.Size = New Size(263, 50)
+		Label2.Size = New Size(270, 50)
 		Label2.TabIndex = 22
 		Label2.Text = "SET QUANTITY"
+		' 
+		' Label3
+		' 
+		Label3.AutoSize = True
+		Label3.BackColor = Color.Transparent
+		Label3.Font = New Font("Segoe UI Semibold", 27.75F, FontStyle.Bold)
+		Label3.Location = New Point(1203, 724)
+		Label3.Name = "Label3"
+		Label3.Size = New Size(202, 50)
+		Label3.TabIndex = 23
+		Label3.Text = "SUBTOTAL:"
+		' 
+		' lblSubtotal
+		' 
+		lblSubtotal.AutoSize = True
+		lblSubtotal.BackColor = Color.Transparent
+		lblSubtotal.Font = New Font("Segoe UI Semibold", 27.75F, FontStyle.Bold)
+		lblSubtotal.Location = New Point(1432, 724)
+		lblSubtotal.Name = "lblSubtotal"
+		lblSubtotal.Size = New Size(220, 50)
+		lblSubtotal.TabIndex = 24
+		lblSubtotal.Text = "placeholder"
 		' 
 		' Cart
 		' 
@@ -178,10 +202,12 @@ Partial Class Cart
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(lblSubtotal)
+		Controls.Add(Label3)
 		Controls.Add(Label2)
 		Controls.Add(NumericUpDown1)
-		Controls.Add(Button6)
-		Controls.Add(DataGridView1)
+		Controls.Add(btnAddtoCart)
+		Controls.Add(cartMenu)
 		Controls.Add(Label1)
 		Controls.Add(Button5)
 		Controls.Add(Button4)
@@ -190,7 +216,7 @@ Partial Class Cart
 		Controls.Add(Button1)
 		Name = "Cart"
 		Text = "Cart"
-		CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
+		CType(cartMenu, ComponentModel.ISupportInitialize).EndInit()
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).EndInit()
 		ResumeLayout(False)
 		PerformLayout()
@@ -202,8 +228,10 @@ Partial Class Cart
 	Friend WithEvents Button1 As Button
 	Friend WithEvents Button5 As Button
 	Friend WithEvents Label1 As Label
-	Friend WithEvents DataGridView1 As DataGridView
-	Friend WithEvents Button6 As Button
+	Friend WithEvents cartMenu As DataGridView
+	Friend WithEvents btnAddtoCart As Button
 	Friend WithEvents NumericUpDown1 As NumericUpDown
 	Friend WithEvents Label2 As Label
+	Friend WithEvents Label3 As Label
+	Friend WithEvents lblSubtotal As Label
 End Class

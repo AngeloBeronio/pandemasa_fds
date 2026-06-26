@@ -22,17 +22,24 @@ Partial Class Menu__1_
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
+		components = New ComponentModel.Container()
+		Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+		Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+		Dim DataGridViewCellStyle3 As DataGridViewCellStyle = New DataGridViewCellStyle()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Menu__1_))
 		Button1 = New Button()
 		Button2 = New Button()
 		Button3 = New Button()
 		Button4 = New Button()
-		DataGridView1 = New DataGridView()
+		itemMenu = New DataGridView()
 		Button5 = New Button()
 		NumericUpDown1 = New NumericUpDown()
 		PictureBox1 = New PictureBox()
 		Label1 = New Label()
 		Button6 = New Button()
-		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
+		Label2 = New Label()
+		Timer1 = New Timer(components)
+		CType(itemMenu, ComponentModel.ISupportInitialize).BeginInit()
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).BeginInit()
 		CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
@@ -101,13 +108,37 @@ Partial Class Menu__1_
 		Button4.TextAlign = ContentAlignment.MiddleLeft
 		Button4.UseVisualStyleBackColor = False
 		' 
-		' DataGridView1
+		' itemMenu
 		' 
-		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-		DataGridView1.Location = New Point(960, 226)
-		DataGridView1.Name = "DataGridView1"
-		DataGridView1.Size = New Size(872, 720)
-		DataGridView1.TabIndex = 4
+		DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle1.BackColor = SystemColors.Control
+		DataGridViewCellStyle1.Font = New Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
+		DataGridViewCellStyle1.SelectionBackColor = SystemColors.Control
+		DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+		itemMenu.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+		itemMenu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle2.BackColor = SystemColors.Window
+		DataGridViewCellStyle2.Font = New Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+		DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+		itemMenu.DefaultCellStyle = DataGridViewCellStyle2
+		itemMenu.Location = New Point(960, 226)
+		itemMenu.Name = "itemMenu"
+		DataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle3.BackColor = SystemColors.Control
+		DataGridViewCellStyle3.Font = New Font("Segoe UI", 9F)
+		DataGridViewCellStyle3.ForeColor = SystemColors.WindowText
+		DataGridViewCellStyle3.SelectionBackColor = SystemColors.Control
+		DataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle3.WrapMode = DataGridViewTriState.True
+		itemMenu.RowHeadersDefaultCellStyle = DataGridViewCellStyle3
+		itemMenu.Size = New Size(872, 720)
+		itemMenu.TabIndex = 4
 		' 
 		' Button5
 		' 
@@ -127,17 +158,17 @@ Partial Class Menu__1_
 		' 
 		' NumericUpDown1
 		' 
-		NumericUpDown1.Font = New Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		NumericUpDown1.Location = New Point(455, 717)
+		NumericUpDown1.Font = New Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		NumericUpDown1.Location = New Point(455, 715)
 		NumericUpDown1.Name = "NumericUpDown1"
-		NumericUpDown1.Size = New Size(120, 39)
+		NumericUpDown1.Size = New Size(106, 50)
 		NumericUpDown1.TabIndex = 6
 		' 
 		' PictureBox1
 		' 
-		PictureBox1.Location = New Point(455, 264)
+		PictureBox1.Location = New Point(423, 280)
 		PictureBox1.Name = "PictureBox1"
-		PictureBox1.Size = New Size(386, 399)
+		PictureBox1.Size = New Size(455, 374)
 		PictureBox1.TabIndex = 7
 		PictureBox1.TabStop = False
 		' 
@@ -145,10 +176,10 @@ Partial Class Menu__1_
 		' 
 		Label1.AutoSize = True
 		Label1.BackColor = Color.Transparent
-		Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Label1.Location = New Point(443, 130)
+		Label1.Font = New Font("Segoe UI Semibold", 27.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Label1.Location = New Point(404, 68)
 		Label1.Name = "Label1"
-		Label1.Size = New Size(67, 25)
+		Label1.Size = New Size(126, 50)
 		Label1.TabIndex = 8
 		Label1.Text = "Label1"
 		' 
@@ -167,25 +198,37 @@ Partial Class Menu__1_
 		Button6.Text = "ORDER LIST"
 		Button6.UseVisualStyleBackColor = False
 		' 
+		' Label2
+		' 
+		Label2.AutoSize = True
+		Label2.BackColor = Color.Transparent
+		Label2.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Label2.Location = New Point(413, 136)
+		Label2.Name = "Label2"
+		Label2.Size = New Size(67, 25)
+		Label2.TabIndex = 10
+		Label2.Text = "Label2"
+		' 
 		' Menu__1_
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
-		BackgroundImage = My.Resources.Resources.Cashier___Menu__1_
+		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Label2)
 		Controls.Add(Button6)
 		Controls.Add(Label1)
 		Controls.Add(PictureBox1)
 		Controls.Add(NumericUpDown1)
 		Controls.Add(Button5)
-		Controls.Add(DataGridView1)
+		Controls.Add(itemMenu)
 		Controls.Add(Button4)
 		Controls.Add(Button3)
 		Controls.Add(Button2)
 		Controls.Add(Button1)
 		Name = "Menu__1_"
 		Text = "Menu__1_"
-		CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
+		CType(itemMenu, ComponentModel.ISupportInitialize).EndInit()
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).EndInit()
 		CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
 		ResumeLayout(False)
@@ -196,10 +239,12 @@ Partial Class Menu__1_
 	Friend WithEvents Button2 As Button
 	Friend WithEvents Button3 As Button
 	Friend WithEvents Button4 As Button
-	Friend WithEvents DataGridView1 As DataGridView
+	Friend WithEvents itemMenu As DataGridView
 	Friend WithEvents Button5 As Button
 	Friend WithEvents NumericUpDown1 As NumericUpDown
 	Friend WithEvents PictureBox1 As PictureBox
 	Friend WithEvents Label1 As Label
 	Friend WithEvents Button6 As Button
+	Friend WithEvents Label2 As Label
+	Friend WithEvents Timer1 As Timer
 End Class

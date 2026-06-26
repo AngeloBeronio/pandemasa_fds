@@ -28,8 +28,8 @@ Partial Class Payment
 		Button3 = New Button()
 		Button2 = New Button()
 		Button1 = New Button()
-		Button6 = New Button()
-		TextBox1 = New TextBox()
+		btnConfirm = New Button()
+		amoTendered = New TextBox()
 		Button7 = New Button()
 		Button8 = New Button()
 		Button9 = New Button()
@@ -42,11 +42,16 @@ Partial Class Payment
 		Button17 = New Button()
 		Button18 = New Button()
 		Button16 = New Button()
+		dgvOrder = New DataGridView()
+		Label1 = New Label()
+		Panel1 = New Panel()
+		lblSubtotal = New Label()
+		lblTotal = New Label()
+		lblDiscount = New Label()
+		lblChange = New Label()
 		Button19 = New Button()
 		Button20 = New Button()
-		DataGridView1 = New DataGridView()
-		Label1 = New Label()
-		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
+		CType(dgvOrder, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
 		' Button5
@@ -129,163 +134,159 @@ Partial Class Payment
 		Button1.TextAlign = ContentAlignment.MiddleLeft
 		Button1.UseVisualStyleBackColor = False
 		' 
-		' Button6
+		' btnConfirm
 		' 
-		Button6.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
-		Button6.Cursor = Cursors.Hand
-		Button6.FlatAppearance.BorderColor = Color.White
-		Button6.FlatAppearance.BorderSize = 2
-		Button6.FlatStyle = FlatStyle.Flat
-		Button6.Font = New Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Button6.ForeColor = Color.White
-		Button6.Location = New Point(1493, 850)
-		Button6.Name = "Button6"
-		Button6.Size = New Size(281, 86)
-		Button6.TabIndex = 23
-		Button6.Text = "PRINT"
-		Button6.UseVisualStyleBackColor = False
+		btnConfirm.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
+		btnConfirm.Cursor = Cursors.Hand
+		btnConfirm.FlatAppearance.BorderColor = Color.White
+		btnConfirm.FlatAppearance.BorderSize = 2
+		btnConfirm.FlatStyle = FlatStyle.Flat
+		btnConfirm.Font = New Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnConfirm.ForeColor = Color.White
+		btnConfirm.Location = New Point(1493, 850)
+		btnConfirm.Name = "btnConfirm"
+		btnConfirm.Size = New Size(281, 86)
+		btnConfirm.TabIndex = 23
+		btnConfirm.Text = "PRINT"
+		btnConfirm.UseVisualStyleBackColor = False
 		' 
-		' TextBox1
+		' amoTendered
 		' 
-		TextBox1.Font = New Font("Segoe UI", 48F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		TextBox1.Location = New Point(428, 183)
-		TextBox1.Name = "TextBox1"
-		TextBox1.Size = New Size(605, 93)
-		TextBox1.TabIndex = 24
+		amoTendered.Font = New Font("Segoe UI", 48F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		amoTendered.Location = New Point(428, 183)
+		amoTendered.Name = "amoTendered"
+		amoTendered.Size = New Size(605, 93)
+		amoTendered.TabIndex = 24
 		' 
 		' Button7
 		' 
+		Button7.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button7.Location = New Point(478, 329)
 		Button7.Name = "Button7"
 		Button7.Size = New Size(110, 108)
 		Button7.TabIndex = 25
-		Button7.Text = "Button7"
+		Button7.Text = "7"
 		Button7.UseVisualStyleBackColor = True
 		' 
 		' Button8
 		' 
+		Button8.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button8.Location = New Point(664, 329)
 		Button8.Name = "Button8"
 		Button8.Size = New Size(110, 108)
 		Button8.TabIndex = 26
-		Button8.Text = "Button8"
+		Button8.Text = "8"
 		Button8.UseVisualStyleBackColor = True
 		' 
 		' Button9
 		' 
+		Button9.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button9.Location = New Point(844, 329)
 		Button9.Name = "Button9"
 		Button9.Size = New Size(110, 108)
 		Button9.TabIndex = 27
-		Button9.Text = "Button9"
+		Button9.Text = "9"
 		Button9.UseVisualStyleBackColor = True
 		' 
 		' Button10
 		' 
+		Button10.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button10.Location = New Point(844, 484)
 		Button10.Name = "Button10"
 		Button10.Size = New Size(110, 108)
 		Button10.TabIndex = 30
-		Button10.Text = "Button10"
+		Button10.Text = "6"
 		Button10.UseVisualStyleBackColor = True
 		' 
 		' Button11
 		' 
+		Button11.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button11.Location = New Point(664, 484)
 		Button11.Name = "Button11"
 		Button11.Size = New Size(110, 108)
 		Button11.TabIndex = 29
-		Button11.Text = "Button11"
+		Button11.Text = "5"
 		Button11.UseVisualStyleBackColor = True
 		' 
 		' Button12
 		' 
+		Button12.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button12.Location = New Point(478, 484)
 		Button12.Name = "Button12"
 		Button12.Size = New Size(110, 108)
 		Button12.TabIndex = 28
-		Button12.Text = "Button12"
+		Button12.Text = "4"
 		Button12.UseVisualStyleBackColor = True
 		' 
 		' Button13
 		' 
+		Button13.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button13.Location = New Point(844, 642)
 		Button13.Name = "Button13"
 		Button13.Size = New Size(110, 108)
 		Button13.TabIndex = 33
-		Button13.Text = "Button13"
+		Button13.Text = "3"
 		Button13.UseVisualStyleBackColor = True
 		' 
 		' Button14
 		' 
+		Button14.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button14.Location = New Point(664, 642)
 		Button14.Name = "Button14"
 		Button14.Size = New Size(110, 108)
 		Button14.TabIndex = 32
-		Button14.Text = "Button14"
+		Button14.Text = "2"
 		Button14.UseVisualStyleBackColor = True
 		' 
 		' Button15
 		' 
+		Button15.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button15.Location = New Point(478, 642)
 		Button15.Name = "Button15"
 		Button15.Size = New Size(110, 108)
 		Button15.TabIndex = 31
-		Button15.Text = "Button15"
+		Button15.Text = "1"
 		Button15.UseVisualStyleBackColor = True
 		' 
 		' Button17
 		' 
+		Button17.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button17.Location = New Point(664, 809)
 		Button17.Name = "Button17"
 		Button17.Size = New Size(110, 108)
 		Button17.TabIndex = 35
-		Button17.Text = "Button17"
+		Button17.Text = "0"
 		Button17.UseVisualStyleBackColor = True
 		' 
 		' Button18
 		' 
-		Button18.Location = New Point(1081, 828)
+		Button18.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
+		Button18.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Button18.ForeColor = Color.White
+		Button18.Location = New Point(1048, 642)
 		Button18.Name = "Button18"
 		Button18.Size = New Size(195, 108)
 		Button18.TabIndex = 34
-		Button18.Text = "Button18"
-		Button18.UseVisualStyleBackColor = True
+		Button18.Text = "PWD/SENIOR"
+		Button18.UseVisualStyleBackColor = False
 		' 
 		' Button16
 		' 
+		Button16.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
 		Button16.Location = New Point(478, 809)
 		Button16.Name = "Button16"
 		Button16.Size = New Size(110, 108)
 		Button16.TabIndex = 36
-		Button16.Text = "Button16"
+		Button16.Text = "."
 		Button16.UseVisualStyleBackColor = True
 		' 
-		' Button19
+		' dgvOrder
 		' 
-		Button19.Location = New Point(1081, 690)
-		Button19.Name = "Button19"
-		Button19.Size = New Size(195, 108)
-		Button19.TabIndex = 37
-		Button19.Text = "Button19"
-		Button19.UseVisualStyleBackColor = True
-		' 
-		' Button20
-		' 
-		Button20.Location = New Point(1081, 527)
-		Button20.Name = "Button20"
-		Button20.Size = New Size(195, 108)
-		Button20.TabIndex = 38
-		Button20.Text = "Button20"
-		Button20.UseVisualStyleBackColor = True
-		' 
-		' DataGridView1
-		' 
-		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-		DataGridView1.Location = New Point(1361, 207)
-		DataGridView1.Name = "DataGridView1"
-		DataGridView1.Size = New Size(390, 374)
-		DataGridView1.TabIndex = 39
+		dgvOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		dgvOrder.Location = New Point(1361, 207)
+		dgvOrder.Name = "dgvOrder"
+		dgvOrder.Size = New Size(390, 374)
+		dgvOrder.TabIndex = 39
 		' 
 		' Label1
 		' 
@@ -299,6 +300,84 @@ Partial Class Payment
 		Label1.TabIndex = 40
 		Label1.Text = "ORDER LIST"
 		' 
+		' Panel1
+		' 
+		Panel1.BackColor = Color.Red
+		Panel1.Location = New Point(1010, 683)
+		Panel1.Name = "Panel1"
+		Panel1.Size = New Size(21, 23)
+		Panel1.TabIndex = 41
+		' 
+		' lblSubtotal
+		' 
+		lblSubtotal.AutoSize = True
+		lblSubtotal.BackColor = Color.Transparent
+		lblSubtotal.Font = New Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		lblSubtotal.ForeColor = Color.White
+		lblSubtotal.Location = New Point(1473, 642)
+		lblSubtotal.Name = "lblSubtotal"
+		lblSubtotal.Size = New Size(68, 25)
+		lblSubtotal.TabIndex = 42
+		lblSubtotal.Text = "Label2"
+		' 
+		' lblTotal
+		' 
+		lblTotal.AutoSize = True
+		lblTotal.BackColor = Color.Transparent
+		lblTotal.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		lblTotal.ForeColor = Color.White
+		lblTotal.Location = New Point(1493, 763)
+		lblTotal.Name = "lblTotal"
+		lblTotal.Size = New Size(123, 45)
+		lblTotal.TabIndex = 43
+		lblTotal.Text = "Label2"
+		' 
+		' lblDiscount
+		' 
+		lblDiscount.AutoSize = True
+		lblDiscount.BackColor = Color.Transparent
+		lblDiscount.Font = New Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		lblDiscount.ForeColor = Color.White
+		lblDiscount.Location = New Point(1473, 691)
+		lblDiscount.Name = "lblDiscount"
+		lblDiscount.Size = New Size(68, 25)
+		lblDiscount.TabIndex = 44
+		lblDiscount.Text = "Label2"
+		' 
+		' lblChange
+		' 
+		lblChange.AutoSize = True
+		lblChange.BackColor = Color.Transparent
+		lblChange.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		lblChange.ForeColor = Color.White
+		lblChange.Location = New Point(1639, 763)
+		lblChange.Name = "lblChange"
+		lblChange.Size = New Size(123, 45)
+		lblChange.TabIndex = 45
+		lblChange.Text = "Label2"
+		' 
+		' Button19
+		' 
+		Button19.Font = New Font("Segoe UI Semibold", 26F, FontStyle.Bold)
+		Button19.Location = New Point(844, 809)
+		Button19.Name = "Button19"
+		Button19.Size = New Size(110, 108)
+		Button19.TabIndex = 46
+		Button19.Text = "X"
+		Button19.UseVisualStyleBackColor = True
+		' 
+		' Button20
+		' 
+		Button20.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
+		Button20.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Button20.ForeColor = Color.White
+		Button20.Location = New Point(1048, 809)
+		Button20.Name = "Button20"
+		Button20.Size = New Size(195, 108)
+		Button20.TabIndex = 47
+		Button20.Text = "Clear"
+		Button20.UseVisualStyleBackColor = False
+		' 
 		' Payment
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
@@ -306,10 +385,15 @@ Partial Class Payment
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		BackgroundImageLayout = ImageLayout.Stretch
 		ClientSize = New Size(1904, 1041)
-		Controls.Add(Label1)
-		Controls.Add(DataGridView1)
 		Controls.Add(Button20)
 		Controls.Add(Button19)
+		Controls.Add(lblChange)
+		Controls.Add(lblDiscount)
+		Controls.Add(lblTotal)
+		Controls.Add(lblSubtotal)
+		Controls.Add(Panel1)
+		Controls.Add(Label1)
+		Controls.Add(dgvOrder)
 		Controls.Add(Button16)
 		Controls.Add(Button17)
 		Controls.Add(Button18)
@@ -322,8 +406,8 @@ Partial Class Payment
 		Controls.Add(Button9)
 		Controls.Add(Button8)
 		Controls.Add(Button7)
-		Controls.Add(TextBox1)
-		Controls.Add(Button6)
+		Controls.Add(amoTendered)
+		Controls.Add(btnConfirm)
 		Controls.Add(Button5)
 		Controls.Add(Button4)
 		Controls.Add(Button3)
@@ -332,7 +416,7 @@ Partial Class Payment
 		DoubleBuffered = True
 		Name = "Payment"
 		Text = "Payment"
-		CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
+		CType(dgvOrder, ComponentModel.ISupportInitialize).EndInit()
 		ResumeLayout(False)
 		PerformLayout()
 	End Sub
@@ -342,8 +426,8 @@ Partial Class Payment
 	Friend WithEvents Button3 As Button
 	Friend WithEvents Button2 As Button
 	Friend WithEvents Button1 As Button
-	Friend WithEvents Button6 As Button
-	Friend WithEvents TextBox1 As TextBox
+	Friend WithEvents btnConfirm As Button
+	Friend WithEvents amoTendered As TextBox
 	Friend WithEvents Button7 As Button
 	Friend WithEvents Button8 As Button
 	Friend WithEvents Button9 As Button
@@ -356,8 +440,13 @@ Partial Class Payment
 	Friend WithEvents Button17 As Button
 	Friend WithEvents Button18 As Button
 	Friend WithEvents Button16 As Button
+	Friend WithEvents dgvOrder As DataGridView
+	Friend WithEvents Label1 As Label
+	Friend WithEvents Panel1 As Panel
+	Friend WithEvents lblSubtotal As Label
+	Friend WithEvents lblTotal As Label
+	Friend WithEvents lblDiscount As Label
+	Friend WithEvents lblChange As Label
 	Friend WithEvents Button19 As Button
 	Friend WithEvents Button20 As Button
-	Friend WithEvents DataGridView1 As DataGridView
-	Friend WithEvents Label1 As Label
 End Class
