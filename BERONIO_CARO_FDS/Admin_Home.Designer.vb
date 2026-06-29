@@ -36,6 +36,7 @@ Partial Class Admin_Homevb
 		Button3 = New Button()
 		Button5 = New Button()
 		Button6 = New Button()
+		Button4 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -134,7 +135,7 @@ Partial Class Admin_Homevb
 		' 
 		' Button1
 		' 
-		Button1.Location = New Point(1412, 862)
+		Button1.Location = New Point(1341, 870)
 		Button1.Name = "Button1"
 		Button1.Size = New Size(304, 54)
 		Button1.TabIndex = 8
@@ -143,7 +144,7 @@ Partial Class Admin_Homevb
 		' 
 		' Button2
 		' 
-		Button2.Location = New Point(1412, 950)
+		Button2.Location = New Point(1341, 961)
 		Button2.Name = "Button2"
 		Button2.Size = New Size(304, 54)
 		Button2.TabIndex = 9
@@ -198,12 +199,22 @@ Partial Class Admin_Homevb
 		Button6.TextAlign = ContentAlignment.MiddleLeft
 		Button6.UseVisualStyleBackColor = False
 		' 
+		' Button4
+		' 
+		Button4.Location = New Point(1321, 141)
+		Button4.Name = "Button4"
+		Button4.Size = New Size(304, 54)
+		Button4.TabIndex = 13
+		Button4.Text = "Button4"
+		Button4.UseVisualStyleBackColor = True
+		' 
 		' Admin_Homevb
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button4)
 		Controls.Add(Button3)
 		Controls.Add(Button5)
 		Controls.Add(Button6)
@@ -237,4 +248,5 @@ Partial Class Admin_Homevb
 	Friend WithEvents Button3 As Button
 	Friend WithEvents Button5 As Button
 	Friend WithEvents Button6 As Button
+	Friend WithEvents Button4 As Button
 End Class

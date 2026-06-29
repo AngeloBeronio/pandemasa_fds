@@ -28,31 +28,31 @@ Partial Class Admin_Inv
 		Button6 = New Button()
 		DataGridView1 = New DataGridView()
 		Panel1 = New Panel()
-		CheckBox1 = New CheckBox()
-		CheckBox2 = New CheckBox()
-		CheckBox3 = New CheckBox()
-		CheckBox4 = New CheckBox()
-		CheckBox5 = New CheckBox()
-		Panel2 = New Panel()
 		Label1 = New Label()
-		Label2 = New Label()
-		Label3 = New Label()
-		RadioButton1 = New RadioButton()
-		RadioButton2 = New RadioButton()
-		NumericUpDown1 = New NumericUpDown()
-		Panel3 = New Panel()
-		Label4 = New Label()
-		TextBox1 = New TextBox()
+		CheckBox5 = New CheckBox()
+		CheckBox4 = New CheckBox()
+		CheckBox3 = New CheckBox()
+		CheckBox2 = New CheckBox()
+		CheckBox1 = New CheckBox()
+		Panel2 = New Panel()
 		TextBox2 = New TextBox()
 		Label5 = New Label()
+		TextBox1 = New TextBox()
+		Label4 = New Label()
+		Panel3 = New Panel()
+		NumericUpDown1 = New NumericUpDown()
+		RadioButton2 = New RadioButton()
+		RadioButton1 = New RadioButton()
+		Label3 = New Label()
+		Label2 = New Label()
 		Panel4 = New Panel()
-		Label6 = New Label()
-		TextBox3 = New TextBox()
-		Button1 = New Button()
-		ComboBox1 = New ComboBox()
-		Button2 = New Button()
-		Button4 = New Button()
 		FlowLayoutPanel1 = New FlowLayoutPanel()
+		Button4 = New Button()
+		Button2 = New Button()
+		ComboBox1 = New ComboBox()
+		Button1 = New Button()
+		TextBox3 = New TextBox()
+		Label6 = New Label()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		Panel1.SuspendLayout()
 		Panel2.SuspendLayout()
@@ -104,7 +104,7 @@ Partial Class Admin_Inv
 		Button6.Name = "Button6"
 		Button6.Size = New Size(196, 60)
 		Button6.TabIndex = 13
-		Button6.Text = "MANAGE INVENTORY"
+		Button6.Text = "HOME"
 		Button6.TextAlign = ContentAlignment.MiddleLeft
 		Button6.UseVisualStyleBackColor = False
 		' 
@@ -129,35 +129,24 @@ Partial Class Admin_Inv
 		Panel1.Size = New Size(1003, 140)
 		Panel1.TabIndex = 17
 		' 
-		' CheckBox1
+		' Label1
 		' 
-		CheckBox1.AutoSize = True
-		CheckBox1.Location = New Point(20, 84)
-		CheckBox1.Name = "CheckBox1"
-		CheckBox1.Size = New Size(84, 19)
-		CheckBox1.TabIndex = 0
-		CheckBox1.Text = "CheckBox1"
-		CheckBox1.UseVisualStyleBackColor = True
+		Label1.AutoSize = True
+		Label1.Location = New Point(20, 30)
+		Label1.Name = "Label1"
+		Label1.Size = New Size(41, 15)
+		Label1.TabIndex = 5
+		Label1.Text = "Label1"
 		' 
-		' CheckBox2
+		' CheckBox5
 		' 
-		CheckBox2.AutoSize = True
-		CheckBox2.Location = New Point(173, 84)
-		CheckBox2.Name = "CheckBox2"
-		CheckBox2.Size = New Size(84, 19)
-		CheckBox2.TabIndex = 1
-		CheckBox2.Text = "CheckBox2"
-		CheckBox2.UseVisualStyleBackColor = True
-		' 
-		' CheckBox3
-		' 
-		CheckBox3.AutoSize = True
-		CheckBox3.Location = New Point(323, 84)
-		CheckBox3.Name = "CheckBox3"
-		CheckBox3.Size = New Size(84, 19)
-		CheckBox3.TabIndex = 2
-		CheckBox3.Text = "CheckBox3"
-		CheckBox3.UseVisualStyleBackColor = True
+		CheckBox5.AutoSize = True
+		CheckBox5.Location = New Point(696, 84)
+		CheckBox5.Name = "CheckBox5"
+		CheckBox5.Size = New Size(84, 19)
+		CheckBox5.TabIndex = 4
+		CheckBox5.Text = "CheckBox5"
+		CheckBox5.UseVisualStyleBackColor = True
 		' 
 		' CheckBox4
 		' 
@@ -169,15 +158,35 @@ Partial Class Admin_Inv
 		CheckBox4.Text = "CheckBox4"
 		CheckBox4.UseVisualStyleBackColor = True
 		' 
-		' CheckBox5
+		' CheckBox3
 		' 
-		CheckBox5.AutoSize = True
-		CheckBox5.Location = New Point(696, 84)
-		CheckBox5.Name = "CheckBox5"
-		CheckBox5.Size = New Size(84, 19)
-		CheckBox5.TabIndex = 4
-		CheckBox5.Text = "CheckBox5"
-		CheckBox5.UseVisualStyleBackColor = True
+		CheckBox3.AutoSize = True
+		CheckBox3.Location = New Point(323, 84)
+		CheckBox3.Name = "CheckBox3"
+		CheckBox3.Size = New Size(84, 19)
+		CheckBox3.TabIndex = 2
+		CheckBox3.Text = "CheckBox3"
+		CheckBox3.UseVisualStyleBackColor = True
+		' 
+		' CheckBox2
+		' 
+		CheckBox2.AutoSize = True
+		CheckBox2.Location = New Point(173, 84)
+		CheckBox2.Name = "CheckBox2"
+		CheckBox2.Size = New Size(84, 19)
+		CheckBox2.TabIndex = 1
+		CheckBox2.Text = "CheckBox2"
+		CheckBox2.UseVisualStyleBackColor = True
+		' 
+		' CheckBox1
+		' 
+		CheckBox1.AutoSize = True
+		CheckBox1.Location = New Point(20, 84)
+		CheckBox1.Name = "CheckBox1"
+		CheckBox1.Size = New Size(84, 19)
+		CheckBox1.TabIndex = 0
+		CheckBox1.Text = "CheckBox1"
+		CheckBox1.UseVisualStyleBackColor = True
 		' 
 		' Panel2
 		' 
@@ -196,85 +205,6 @@ Partial Class Admin_Inv
 		Panel2.Size = New Size(328, 737)
 		Panel2.TabIndex = 18
 		' 
-		' Label1
-		' 
-		Label1.AutoSize = True
-		Label1.Location = New Point(20, 30)
-		Label1.Name = "Label1"
-		Label1.Size = New Size(41, 15)
-		Label1.TabIndex = 5
-		Label1.Text = "Label1"
-		' 
-		' Label2
-		' 
-		Label2.AutoSize = True
-		Label2.Location = New Point(24, 30)
-		Label2.Name = "Label2"
-		Label2.Size = New Size(41, 15)
-		Label2.TabIndex = 6
-		Label2.Text = "Label2"
-		' 
-		' Label3
-		' 
-		Label3.AutoSize = True
-		Label3.Location = New Point(24, 360)
-		Label3.Name = "Label3"
-		Label3.Size = New Size(41, 15)
-		Label3.TabIndex = 7
-		Label3.Text = "Label3"
-		' 
-		' RadioButton1
-		' 
-		RadioButton1.AutoSize = True
-		RadioButton1.Location = New Point(34, 87)
-		RadioButton1.Name = "RadioButton1"
-		RadioButton1.Size = New Size(97, 19)
-		RadioButton1.TabIndex = 8
-		RadioButton1.TabStop = True
-		RadioButton1.Text = "RadioButton1"
-		RadioButton1.UseVisualStyleBackColor = True
-		' 
-		' RadioButton2
-		' 
-		RadioButton2.AutoSize = True
-		RadioButton2.Location = New Point(34, 151)
-		RadioButton2.Name = "RadioButton2"
-		RadioButton2.Size = New Size(97, 19)
-		RadioButton2.TabIndex = 9
-		RadioButton2.TabStop = True
-		RadioButton2.Text = "RadioButton2"
-		RadioButton2.UseVisualStyleBackColor = True
-		' 
-		' NumericUpDown1
-		' 
-		NumericUpDown1.Location = New Point(34, 212)
-		NumericUpDown1.Name = "NumericUpDown1"
-		NumericUpDown1.Size = New Size(120, 23)
-		NumericUpDown1.TabIndex = 10
-		' 
-		' Panel3
-		' 
-		Panel3.Location = New Point(24, 319)
-		Panel3.Name = "Panel3"
-		Panel3.Size = New Size(270, 2)
-		Panel3.TabIndex = 11
-		' 
-		' Label4
-		' 
-		Label4.AutoSize = True
-		Label4.Location = New Point(32, 425)
-		Label4.Name = "Label4"
-		Label4.Size = New Size(41, 15)
-		Label4.TabIndex = 12
-		Label4.Text = "Label4"
-		' 
-		' TextBox1
-		' 
-		TextBox1.Location = New Point(34, 462)
-		TextBox1.Name = "TextBox1"
-		TextBox1.Size = New Size(100, 23)
-		TextBox1.TabIndex = 13
-		' 
 		' TextBox2
 		' 
 		TextBox2.Location = New Point(34, 579)
@@ -291,6 +221,76 @@ Partial Class Admin_Inv
 		Label5.TabIndex = 14
 		Label5.Text = "Label5"
 		' 
+		' TextBox1
+		' 
+		TextBox1.Location = New Point(34, 462)
+		TextBox1.Name = "TextBox1"
+		TextBox1.Size = New Size(100, 23)
+		TextBox1.TabIndex = 13
+		' 
+		' Label4
+		' 
+		Label4.AutoSize = True
+		Label4.Location = New Point(32, 425)
+		Label4.Name = "Label4"
+		Label4.Size = New Size(41, 15)
+		Label4.TabIndex = 12
+		Label4.Text = "Label4"
+		' 
+		' Panel3
+		' 
+		Panel3.Location = New Point(24, 319)
+		Panel3.Name = "Panel3"
+		Panel3.Size = New Size(270, 2)
+		Panel3.TabIndex = 11
+		' 
+		' NumericUpDown1
+		' 
+		NumericUpDown1.Location = New Point(34, 212)
+		NumericUpDown1.Name = "NumericUpDown1"
+		NumericUpDown1.Size = New Size(120, 23)
+		NumericUpDown1.TabIndex = 10
+		' 
+		' RadioButton2
+		' 
+		RadioButton2.AutoSize = True
+		RadioButton2.Location = New Point(34, 151)
+		RadioButton2.Name = "RadioButton2"
+		RadioButton2.Size = New Size(97, 19)
+		RadioButton2.TabIndex = 9
+		RadioButton2.TabStop = True
+		RadioButton2.Text = "RadioButton2"
+		RadioButton2.UseVisualStyleBackColor = True
+		' 
+		' RadioButton1
+		' 
+		RadioButton1.AutoSize = True
+		RadioButton1.Location = New Point(34, 87)
+		RadioButton1.Name = "RadioButton1"
+		RadioButton1.Size = New Size(97, 19)
+		RadioButton1.TabIndex = 8
+		RadioButton1.TabStop = True
+		RadioButton1.Text = "RadioButton1"
+		RadioButton1.UseVisualStyleBackColor = True
+		' 
+		' Label3
+		' 
+		Label3.AutoSize = True
+		Label3.Location = New Point(24, 360)
+		Label3.Name = "Label3"
+		Label3.Size = New Size(41, 15)
+		Label3.TabIndex = 7
+		Label3.Text = "Label3"
+		' 
+		' Label2
+		' 
+		Label2.AutoSize = True
+		Label2.Location = New Point(24, 30)
+		Label2.Name = "Label2"
+		Label2.Size = New Size(41, 15)
+		Label2.TabIndex = 6
+		Label2.Text = "Label2"
+		' 
 		' Panel4
 		' 
 		Panel4.Controls.Add(FlowLayoutPanel1)
@@ -305,21 +305,38 @@ Partial Class Admin_Inv
 		Panel4.Size = New Size(1349, 140)
 		Panel4.TabIndex = 19
 		' 
-		' Label6
+		' FlowLayoutPanel1
 		' 
-		Label6.AutoSize = True
-		Label6.Location = New Point(20, 30)
-		Label6.Name = "Label6"
-		Label6.Size = New Size(41, 15)
-		Label6.TabIndex = 5
-		Label6.Text = "Label6"
+		FlowLayoutPanel1.Location = New Point(778, 31)
+		FlowLayoutPanel1.Name = "FlowLayoutPanel1"
+		FlowLayoutPanel1.Size = New Size(2, 79)
+		FlowLayoutPanel1.TabIndex = 12
 		' 
-		' TextBox3
+		' Button4
 		' 
-		TextBox3.Location = New Point(20, 75)
-		TextBox3.Name = "TextBox3"
-		TextBox3.Size = New Size(100, 23)
-		TextBox3.TabIndex = 6
+		Button4.Location = New Point(822, 31)
+		Button4.Name = "Button4"
+		Button4.Size = New Size(87, 79)
+		Button4.TabIndex = 11
+		Button4.Text = "Button4"
+		Button4.UseVisualStyleBackColor = True
+		' 
+		' Button2
+		' 
+		Button2.Location = New Point(652, 31)
+		Button2.Name = "Button2"
+		Button2.Size = New Size(87, 79)
+		Button2.TabIndex = 10
+		Button2.Text = "Button2"
+		Button2.UseVisualStyleBackColor = True
+		' 
+		' ComboBox1
+		' 
+		ComboBox1.FormattingEnabled = True
+		ComboBox1.Location = New Point(278, 75)
+		ComboBox1.Name = "ComboBox1"
+		ComboBox1.Size = New Size(155, 23)
+		ComboBox1.TabIndex = 8
 		' 
 		' Button1
 		' 
@@ -331,38 +348,21 @@ Partial Class Admin_Inv
 		Button1.Text = "DI KO LAM BUTTON PAGATTACH NG IMG"
 		Button1.UseVisualStyleBackColor = True
 		' 
-		' ComboBox1
+		' TextBox3
 		' 
-		ComboBox1.FormattingEnabled = True
-		ComboBox1.Location = New Point(278, 75)
-		ComboBox1.Name = "ComboBox1"
-		ComboBox1.Size = New Size(155, 23)
-		ComboBox1.TabIndex = 8
+		TextBox3.Location = New Point(20, 75)
+		TextBox3.Name = "TextBox3"
+		TextBox3.Size = New Size(100, 23)
+		TextBox3.TabIndex = 6
 		' 
-		' Button2
+		' Label6
 		' 
-		Button2.Location = New Point(652, 31)
-		Button2.Name = "Button2"
-		Button2.Size = New Size(87, 79)
-		Button2.TabIndex = 10
-		Button2.Text = "Button2"
-		Button2.UseVisualStyleBackColor = True
-		' 
-		' Button4
-		' 
-		Button4.Location = New Point(822, 31)
-		Button4.Name = "Button4"
-		Button4.Size = New Size(87, 79)
-		Button4.TabIndex = 11
-		Button4.Text = "Button4"
-		Button4.UseVisualStyleBackColor = True
-		' 
-		' FlowLayoutPanel1
-		' 
-		FlowLayoutPanel1.Location = New Point(778, 31)
-		FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-		FlowLayoutPanel1.Size = New Size(2, 79)
-		FlowLayoutPanel1.TabIndex = 12
+		Label6.AutoSize = True
+		Label6.Location = New Point(20, 30)
+		Label6.Name = "Label6"
+		Label6.Size = New Size(41, 15)
+		Label6.TabIndex = 5
+		Label6.Text = "Label6"
 		' 
 		' Admin_Inv
 		' 

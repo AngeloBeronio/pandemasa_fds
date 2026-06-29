@@ -148,7 +148,7 @@ Public Class Cart
         Dim vat As Decimal = subtotal * 0.12
         Dim total As Decimal = subtotal + vat
 
-        lblSubtotal.Text = "Subtotal: ₱" & subtotal.ToString("0.00")
+        lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
     End Sub
 
     '==================================================

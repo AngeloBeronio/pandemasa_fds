@@ -27,6 +27,9 @@ Partial Class Admin_InvLogs
 		TextBox1 = New TextBox()
 		Button1 = New Button()
 		Button2 = New Button()
+		Button3 = New Button()
+		Button5 = New Button()
+		Button6 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -68,12 +71,63 @@ Partial Class Admin_InvLogs
 		Button2.Text = ">"
 		Button2.UseVisualStyleBackColor = False
 		' 
+		' Button3
+		' 
+		Button3.BackColor = Color.Transparent
+		Button3.Cursor = Cursors.Hand
+		Button3.FlatAppearance.BorderColor = Color.White
+		Button3.FlatAppearance.BorderSize = 0
+		Button3.FlatStyle = FlatStyle.Flat
+		Button3.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button3.Location = New Point(116, 469)
+		Button3.Name = "Button3"
+		Button3.Size = New Size(196, 60)
+		Button3.TabIndex = 18
+		Button3.Text = "ORDER LOGS"
+		Button3.TextAlign = ContentAlignment.MiddleLeft
+		Button3.UseVisualStyleBackColor = False
+		' 
+		' Button5
+		' 
+		Button5.BackColor = Color.Transparent
+		Button5.Cursor = Cursors.Hand
+		Button5.FlatAppearance.BorderColor = Color.White
+		Button5.FlatAppearance.BorderSize = 0
+		Button5.FlatStyle = FlatStyle.Flat
+		Button5.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button5.Location = New Point(116, 337)
+		Button5.Name = "Button5"
+		Button5.Size = New Size(196, 60)
+		Button5.TabIndex = 17
+		Button5.Text = "HOME"
+		Button5.TextAlign = ContentAlignment.MiddleLeft
+		Button5.UseVisualStyleBackColor = False
+		' 
+		' Button6
+		' 
+		Button6.BackColor = Color.Transparent
+		Button6.Cursor = Cursors.Hand
+		Button6.FlatAppearance.BorderColor = Color.White
+		Button6.FlatAppearance.BorderSize = 0
+		Button6.FlatStyle = FlatStyle.Flat
+		Button6.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button6.Location = New Point(116, 403)
+		Button6.Name = "Button6"
+		Button6.Size = New Size(196, 60)
+		Button6.TabIndex = 16
+		Button6.Text = "MANAGE INVENTORY"
+		Button6.TextAlign = ContentAlignment.MiddleLeft
+		Button6.UseVisualStyleBackColor = False
+		' 
 		' Admin_InvLogs
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button3)
+		Controls.Add(Button5)
+		Controls.Add(Button6)
 		Controls.Add(Button2)
 		Controls.Add(Button1)
 		Controls.Add(TextBox1)
@@ -89,4 +143,7 @@ Partial Class Admin_InvLogs
 	Friend WithEvents TextBox1 As TextBox
 	Friend WithEvents Button1 As Button
 	Friend WithEvents Button2 As Button
+	Friend WithEvents Button3 As Button
+	Friend WithEvents Button5 As Button
+	Friend WithEvents Button6 As Button
 End Class

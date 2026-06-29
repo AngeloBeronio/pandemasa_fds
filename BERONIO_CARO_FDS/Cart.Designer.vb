@@ -22,6 +22,8 @@ Partial Class Cart
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
+		Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+		Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Cart))
 		Button4 = New Button()
 		Button3 = New Button()
@@ -133,9 +135,28 @@ Partial Class Cart
 		' 
 		' cartMenu
 		' 
+		cartMenu.BackgroundColor = Color.White
+		DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle1.BackColor = Color.White
+		DataGridViewCellStyle1.Font = New Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
+		DataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+		cartMenu.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
 		cartMenu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle2.BackColor = Color.White
+		DataGridViewCellStyle2.Font = New Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+		DataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+		cartMenu.DefaultCellStyle = DataGridViewCellStyle2
+		cartMenu.GridColor = Color.Black
 		cartMenu.Location = New Point(472, 129)
 		cartMenu.Name = "cartMenu"
+		cartMenu.RowTemplate.Height = 40
 		cartMenu.Size = New Size(1238, 566)
 		cartMenu.TabIndex = 19
 		' 

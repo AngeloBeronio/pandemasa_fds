@@ -60,6 +60,7 @@ Public Class Payment
         dgvOrder.Columns.Add("colQty", "Qty")
         dgvOrder.Columns.Add("colPrice", "Unit Price")
         dgvOrder.Columns.Add("colTotal", "Total")
+        dgvOrder.Columns("colName").Width = 150
 
         dgvOrder.Columns("colProductId").Visible = False
     End Sub
@@ -137,23 +138,26 @@ Public Class Payment
         AppendCash("6")
     End Sub
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
-        AppendCash("1")
+        AppendCash("3")
     End Sub
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
         AppendCash("2")
     End Sub
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
-        AppendCash("3")
+        AppendCash("1")
     End Sub
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
-        AppendCash("0")
+        AppendCash(".")
     End Sub
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        AppendCash("0")
+    End Sub
+    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
         AppendCash("00")
     End Sub
 
     ' Backspace button
-    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         If amoTendered.Text.Length > 1 Then
             amoTendered.Text = amoTendered.Text.Substring(0, amoTendered.Text.Length - 1)
         Else
@@ -176,9 +180,9 @@ Public Class Payment
     End Sub
 
     '==================================================
-    ' PWD / SENIOR DISCOUNT TOGGLE (Button19)
+    ' PWD / SENIOR DISCOUNT TOGGLE (Button18)
     '==================================================
-    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
         If Not isDiscounted Then
             ' Ask which type
             Dim result = MessageBox.Show(
@@ -189,13 +193,14 @@ Public Class Payment
 
             isDiscounted = True
             discountType = If(result = DialogResult.Yes, "Senior Citizen", "PWD")
-            Button19.Text = "REMOVE DISCOUNT"
-            Button19.BackColor = Color.Green
+            Button18.Text = "REMOVE DISCOUNT"
+            Panel1.BackColor = Color.Green
         Else
+            Panel1.BackColor = Color.Red
             isDiscounted = False
             discountType = "None"
-            Button19.Text = "PWD / SENIOR"
-            Button19.BackColor = Color.Orange
+            Button18.Text = "PWD / SENIOR"
+            Button18.BackColor = Color.Orange
         End If
 
         UpdateTotals()
@@ -297,8 +302,8 @@ Public Class Payment
             amoTendered.Text = "0"
             isDiscounted = False
             discountType = "None"
-            Button19.Text = "PWD / SENIOR"
-            Button19.BackColor = Color.Orange
+            Button18.Text = "PWD / SENIOR"
+            Button18.BackColor = Color.Orange
         End If
     End Sub
 

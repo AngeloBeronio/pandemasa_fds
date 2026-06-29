@@ -51,6 +51,7 @@ Partial Class Payment
 		lblChange = New Label()
 		Button19 = New Button()
 		Button20 = New Button()
+		Button6 = New Button()
 		CType(dgvOrder, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -263,7 +264,7 @@ Partial Class Payment
 		Button18.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
 		Button18.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Button18.ForeColor = Color.White
-		Button18.Location = New Point(1048, 642)
+		Button18.Location = New Point(1048, 340)
 		Button18.Name = "Button18"
 		Button18.Size = New Size(195, 108)
 		Button18.TabIndex = 34
@@ -282,10 +283,12 @@ Partial Class Payment
 		' 
 		' dgvOrder
 		' 
+		dgvOrder.BackgroundColor = Color.White
 		dgvOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-		dgvOrder.Location = New Point(1361, 207)
+		dgvOrder.GridColor = Color.Black
+		dgvOrder.Location = New Point(1351, 148)
 		dgvOrder.Name = "dgvOrder"
-		dgvOrder.Size = New Size(390, 374)
+		dgvOrder.Size = New Size(413, 461)
 		dgvOrder.TabIndex = 39
 		' 
 		' Label1
@@ -303,7 +306,7 @@ Partial Class Payment
 		' Panel1
 		' 
 		Panel1.BackColor = Color.Red
-		Panel1.Location = New Point(1010, 683)
+		Panel1.Location = New Point(1010, 381)
 		Panel1.Name = "Panel1"
 		Panel1.Size = New Size(21, 23)
 		Panel1.TabIndex = 41
@@ -314,11 +317,11 @@ Partial Class Payment
 		lblSubtotal.BackColor = Color.Transparent
 		lblSubtotal.Font = New Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		lblSubtotal.ForeColor = Color.White
-		lblSubtotal.Location = New Point(1473, 642)
+		lblSubtotal.Location = New Point(1482, 620)
 		lblSubtotal.Name = "lblSubtotal"
-		lblSubtotal.Size = New Size(68, 25)
+		lblSubtotal.Size = New Size(53, 25)
 		lblSubtotal.TabIndex = 42
-		lblSubtotal.Text = "Label2"
+		lblSubtotal.Text = "STlbl"
 		' 
 		' lblTotal
 		' 
@@ -326,11 +329,11 @@ Partial Class Payment
 		lblTotal.BackColor = Color.Transparent
 		lblTotal.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		lblTotal.ForeColor = Color.White
-		lblTotal.Location = New Point(1493, 763)
+		lblTotal.Location = New Point(1534, 724)
 		lblTotal.Name = "lblTotal"
-		lblTotal.Size = New Size(123, 45)
+		lblTotal.Size = New Size(97, 45)
 		lblTotal.TabIndex = 43
-		lblTotal.Text = "Label2"
+		lblTotal.Text = "ttllbl"
 		' 
 		' lblDiscount
 		' 
@@ -338,11 +341,11 @@ Partial Class Payment
 		lblDiscount.BackColor = Color.Transparent
 		lblDiscount.Font = New Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		lblDiscount.ForeColor = Color.White
-		lblDiscount.Location = New Point(1473, 691)
+		lblDiscount.Location = New Point(1482, 668)
 		lblDiscount.Name = "lblDiscount"
-		lblDiscount.Size = New Size(68, 25)
+		lblDiscount.Size = New Size(57, 25)
 		lblDiscount.TabIndex = 44
-		lblDiscount.Text = "Label2"
+		lblDiscount.Text = "dislbl"
 		' 
 		' lblChange
 		' 
@@ -350,11 +353,11 @@ Partial Class Payment
 		lblChange.BackColor = Color.Transparent
 		lblChange.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		lblChange.ForeColor = Color.White
-		lblChange.Location = New Point(1639, 763)
+		lblChange.Location = New Point(1534, 785)
 		lblChange.Name = "lblChange"
-		lblChange.Size = New Size(123, 45)
+		lblChange.Size = New Size(174, 45)
 		lblChange.TabIndex = 45
-		lblChange.Text = "Label2"
+		lblChange.Text = "changelbl"
 		' 
 		' Button19
 		' 
@@ -363,7 +366,7 @@ Partial Class Payment
 		Button19.Name = "Button19"
 		Button19.Size = New Size(110, 108)
 		Button19.TabIndex = 46
-		Button19.Text = "X"
+		Button19.Text = "00"
 		Button19.UseVisualStyleBackColor = True
 		' 
 		' Button20
@@ -378,6 +381,18 @@ Partial Class Payment
 		Button20.Text = "Clear"
 		Button20.UseVisualStyleBackColor = False
 		' 
+		' Button6
+		' 
+		Button6.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
+		Button6.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Button6.ForeColor = Color.White
+		Button6.Location = New Point(1048, 642)
+		Button6.Name = "Button6"
+		Button6.Size = New Size(195, 108)
+		Button6.TabIndex = 48
+		Button6.Text = "X"
+		Button6.UseVisualStyleBackColor = False
+		' 
 		' Payment
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
@@ -385,6 +400,7 @@ Partial Class Payment
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		BackgroundImageLayout = ImageLayout.Stretch
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button6)
 		Controls.Add(Button20)
 		Controls.Add(Button19)
 		Controls.Add(lblChange)
@@ -449,4 +465,5 @@ Partial Class Payment
 	Friend WithEvents lblChange As Label
 	Friend WithEvents Button19 As Button
 	Friend WithEvents Button20 As Button
+	Friend WithEvents Button6 As Button
 End Class
