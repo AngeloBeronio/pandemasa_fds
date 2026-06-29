@@ -30,6 +30,7 @@ Partial Class Admin_InvLogs
 		Button3 = New Button()
 		Button5 = New Button()
 		Button6 = New Button()
+		TextBox2 = New TextBox()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -119,12 +120,20 @@ Partial Class Admin_InvLogs
 		Button6.TextAlign = ContentAlignment.MiddleLeft
 		Button6.UseVisualStyleBackColor = False
 		' 
+		' TextBox2
+		' 
+		TextBox2.Location = New Point(491, 102)
+		TextBox2.Name = "TextBox2"
+		TextBox2.Size = New Size(232, 23)
+		TextBox2.TabIndex = 19
+		' 
 		' Admin_InvLogs
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(TextBox2)
 		Controls.Add(Button3)
 		Controls.Add(Button5)
 		Controls.Add(Button6)
@@ -146,4 +155,5 @@ Partial Class Admin_InvLogs
 	Friend WithEvents Button3 As Button
 	Friend WithEvents Button5 As Button
 	Friend WithEvents Button6 As Button
+	Friend WithEvents TextBox2 As TextBox
 End Class

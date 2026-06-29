@@ -22,6 +22,7 @@ Partial Class Admin_Homevb
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
+		components = New ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Admin_Homevb))
 		Label1 = New Label()
 		Label2 = New Label()
@@ -37,6 +38,7 @@ Partial Class Admin_Homevb
 		Button6 = New Button()
 		Button4 = New Button()
 		MonthCalendar1 = New MonthCalendar()
+		Timer1 = New Timer(components)
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -123,20 +125,22 @@ Partial Class Admin_Homevb
 		' 
 		' Button1
 		' 
+		Button1.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Button1.Location = New Point(1341, 870)
 		Button1.Name = "Button1"
-		Button1.Size = New Size(304, 54)
+		Button1.Size = New Size(372, 54)
 		Button1.TabIndex = 8
-		Button1.Text = "Button1"
+		Button1.Text = "SET LOW STOCK THRESHOLD"
 		Button1.UseVisualStyleBackColor = True
 		' 
 		' Button2
 		' 
+		Button2.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Button2.Location = New Point(1341, 961)
 		Button2.Name = "Button2"
-		Button2.Size = New Size(304, 54)
+		Button2.Size = New Size(372, 54)
 		Button2.TabIndex = 9
-		Button2.Text = "Button2"
+		Button2.Text = "SET TIME UNTIL ALERT "
 		Button2.UseVisualStyleBackColor = True
 		' 
 		' Button3
@@ -189,16 +193,17 @@ Partial Class Admin_Homevb
 		' 
 		' Button4
 		' 
+		Button4.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Button4.Location = New Point(1321, 141)
 		Button4.Name = "Button4"
 		Button4.Size = New Size(304, 54)
 		Button4.TabIndex = 13
-		Button4.Text = "Button4"
+		Button4.Text = "DOWNLOAD REPORT"
 		Button4.UseVisualStyleBackColor = True
 		' 
 		' MonthCalendar1
 		' 
-		MonthCalendar1.Location = New Point(503, 43)
+		MonthCalendar1.Location = New Point(532, 46)
 		MonthCalendar1.Name = "MonthCalendar1"
 		MonthCalendar1.TabIndex = 14
 		' 
@@ -243,4 +248,5 @@ Partial Class Admin_Homevb
 	Friend WithEvents Button6 As Button
 	Friend WithEvents Button4 As Button
 	Friend WithEvents MonthCalendar1 As MonthCalendar
+	Friend WithEvents Timer1 As Timer
 End Class
