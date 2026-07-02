@@ -1,8 +1,6 @@
 ﻿Public Class Select_Device
 
-    '==================================================
-    ' ADMIN BUTTONS (1, 2, 3)
-    '==================================================
+    ' ADMIN BUTTONS
     Private Sub btnAdmin1_Click(sender As Object, e As EventArgs) Handles btnAdmin1.Click
         LoggedInUserId = 1
         Me.Hide()
@@ -21,9 +19,8 @@
         Admin_SignIn.Show()
     End Sub
 
-    '==================================================
-    ' CASHIER BUTTONS (1, 2, 3, 4, 5)
-    '==================================================
+
+    ' CASHIER BUTTONS
     Private Sub btnCashier1_Click(sender As Object, e As EventArgs) Handles btnCashier1.Click
         LoggedInUserId = 4
         Me.Hide()

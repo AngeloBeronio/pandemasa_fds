@@ -39,6 +39,7 @@ Partial Class Admin_Homevb
 		Button4 = New Button()
 		MonthCalendar1 = New MonthCalendar()
 		Timer1 = New Timer(components)
+		Button7 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -207,12 +208,29 @@ Partial Class Admin_Homevb
 		MonthCalendar1.Name = "MonthCalendar1"
 		MonthCalendar1.TabIndex = 14
 		' 
+		' Button7
+		' 
+		Button7.BackColor = Color.Transparent
+		Button7.Cursor = Cursors.Hand
+		Button7.FlatAppearance.BorderColor = Color.White
+		Button7.FlatAppearance.BorderSize = 0
+		Button7.FlatStyle = FlatStyle.Flat
+		Button7.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button7.Location = New Point(111, 709)
+		Button7.Name = "Button7"
+		Button7.Size = New Size(196, 60)
+		Button7.TabIndex = 15
+		Button7.Text = "INVENTORY LOGS"
+		Button7.TextAlign = ContentAlignment.MiddleLeft
+		Button7.UseVisualStyleBackColor = False
+		' 
 		' Admin_Homevb
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button7)
 		Controls.Add(MonthCalendar1)
 		Controls.Add(Button4)
 		Controls.Add(Button3)
@@ -249,4 +267,5 @@ Partial Class Admin_Homevb
 	Friend WithEvents Button4 As Button
 	Friend WithEvents MonthCalendar1 As MonthCalendar
 	Friend WithEvents Timer1 As Timer
+	Friend WithEvents Button7 As Button
 End Class

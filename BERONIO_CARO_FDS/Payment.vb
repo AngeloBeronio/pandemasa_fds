@@ -5,17 +5,13 @@ Public Class Payment
     Private isDiscounted As Boolean = False
     Private discountType As String = "None"
 
-    '==================================================
     ' FORM LOAD
-    '==================================================
     Private Sub Payment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetupOrderGrid()
         LoadCartSummary()
     End Sub
 
-    '==================================================
     ' NAVIGATION BUTTONS
-    '==================================================
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Hide()
         Menu_2_.Show()
@@ -41,19 +37,10 @@ Public Class Payment
         Menu_5_.Show()
     End Sub
 
-    '==================================================
-    ' SETUP ORDER SUMMARY DATAGRIDVIEW
-    '==================================================
+    ' SETUP DATAGRIDVIEW
     Private Sub SetupOrderGrid()
         dgvOrder.Columns.Clear()
-        dgvOrder.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvOrder.AllowUserToAddRows = False
-        dgvOrder.ReadOnly = True
-        dgvOrder.RowHeadersVisible = False
-        dgvOrder.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         dgvOrder.RowTemplate.Height = 35
-        dgvOrder.DefaultCellStyle.Font = New Font("Arial", 11)
-        dgvOrder.ColumnHeadersDefaultCellStyle.Font = New Font("Arial", 11, FontStyle.Bold)
 
         dgvOrder.Columns.Add("colProductId", "ID")
         dgvOrder.Columns.Add("colName", "Product")
@@ -64,9 +51,7 @@ Public Class Payment
         dgvOrder.Columns("colProductId").Visible = False
     End Sub
 
-    '==================================================
     ' LOAD CART INTO GRID + CALCULATE TOTALS
-    '==================================================
     Private Sub LoadCartSummary()
         dgvOrder.Rows.Clear()
 
@@ -83,19 +68,16 @@ Public Class Payment
         UpdateTotals()
     End Sub
 
-    '==================================================
-    ' UPDATE SUBTOTAL / VAT / DISCOUNT / TOTAL LABELS
-    '==================================================
+    ' UPDATE SUBTOTAL & VAT & DISCOUNT & TOTAL
     Private Sub UpdateTotals()
         Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
-        Dim vat As Decimal = subtotal * 0.12
         Dim discount As Decimal = 0
 
         If isDiscounted Then
             discount = subtotal * 0.2
         End If
 
-        Dim total As Decimal = subtotal + vat - discount
+        Dim total As Decimal = subtotal - discount
         Dim cash As Decimal = 0
         Decimal.TryParse(amoTendered.Text, cash)
         Dim change As Decimal = cash - total
@@ -106,9 +88,7 @@ Public Class Payment
         lblChange.Text = If(cash > 0, "₱" & change.ToString("0.00"), "₱0.00")
     End Sub
 
-    '==================================================
     ' CASH INPUT BUTTONS
-    '==================================================
     Private Sub AppendCash(value As String)
         If amoTendered.Text = "0" Then
             amoTendered.Text = value
@@ -155,7 +135,6 @@ Public Class Payment
         AppendCash("00")
     End Sub
 
-    ' Backspace
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         If amoTendered.Text.Length > 1 Then
             amoTendered.Text = amoTendered.Text.Substring(0, amoTendered.Text.Length - 1)
@@ -165,22 +144,16 @@ Public Class Payment
         UpdateTotals()
     End Sub
 
-    ' Clear
     Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
         amoTendered.Text = "0"
         UpdateTotals()
     End Sub
 
-    '==================================================
-    ' CASH TEXTBOX
-    '==================================================
     Private Sub amoTendered_TextChanged(sender As Object, e As EventArgs) Handles amoTendered.TextChanged
         UpdateTotals()
     End Sub
 
-    '==================================================
-    ' PWD / SENIOR DISCOUNT TOGGLE
-    '==================================================
+    ' DISCOUNT TOGGLE
     Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
         If Not isDiscounted Then
             isDiscounted = True
@@ -198,9 +171,7 @@ Public Class Payment
         UpdateTotals()
     End Sub
 
-    '==================================================
-    ' CONFIRM PAYMENT + SAVE ORDER
-    '==================================================
+    ' CONFIRM PAYMENT
     Private Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
         If CartItems.Count = 0 Then
             MessageBox.Show("Cart is empty.", "Nothing to Pay")
@@ -208,9 +179,8 @@ Public Class Payment
         End If
 
         Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
-        Dim vat As Decimal = subtotal * 0.12
         Dim discount As Decimal = If(isDiscounted, subtotal * 0.2, 0)
-        Dim total As Decimal = subtotal + vat - discount
+        Dim total As Decimal = subtotal + discount
         Dim cash As Decimal = 0
 
         If Not Decimal.TryParse(amoTendered.Text, cash) OrElse cash < total Then
@@ -225,12 +195,11 @@ Public Class Payment
 
             Try
                 Dim orderCmd As New MySqlCommand(
-                "INSERT INTO orders (user_id, subtotal, vat_amount, discount_amount, total_amount)
-                 VALUES (@uid, @sub, @vat, @disc, @total)", conn, transaction)
+                "INSERT INTO orders (user_id, subtotal, discount_amount, total_amount)
+                 VALUES (@uid, @sub, @disc, @total)", conn, transaction)
 
                 orderCmd.Parameters.AddWithValue("@uid", LoggedInUserId)
                 orderCmd.Parameters.AddWithValue("@sub", subtotal)
-                orderCmd.Parameters.AddWithValue("@vat", vat)
                 orderCmd.Parameters.AddWithValue("@disc", discount)
                 orderCmd.Parameters.AddWithValue("@total", total)
                 orderCmd.ExecuteNonQuery()
@@ -278,9 +247,7 @@ Public Class Payment
         End Try
     End Sub
 
-    '==================================================
-    ' REFRESH WHEN FORM SHOWN
-    '==================================================
+    ' REFRESH
     Private Sub Payment_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         If Me.Visible Then
             LoadCartSummary()

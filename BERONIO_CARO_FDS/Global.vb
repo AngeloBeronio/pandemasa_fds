@@ -7,6 +7,7 @@ Module [Global]
     Public LoggedInUserId As Integer
     Public CartItems As New List(Of CartItem)
 
+    ' CONNECTION
     Public Sub OpenConnection()
         conn = New MySqlConnection(connStr)
         If conn.State = ConnectionState.Closed Then conn.Open()
@@ -16,6 +17,7 @@ Module [Global]
         If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then conn.Close()
     End Sub
 
+    ' DATE FUNCTION
     Public Function GetGreeting() As String
         Dim hour As Integer = DateTime.Now.Hour
         Dim greeting As String
@@ -31,6 +33,7 @@ Module [Global]
         Return greeting
     End Function
 
+    ' DEFAULT MENU DGV
     Public Sub SetupMenuGrid(dgv As DataGridView)
         dgv.Columns.Clear()
         dgv.RowTemplate.Height = 110
@@ -74,6 +77,7 @@ Module [Global]
         End If
     End Sub
 
+    ' ADD ITEMS TO CART
     Public Sub AddToCart(productId As Integer, productName As String,
                          price As Decimal, qty As Integer)
         Dim existing As CartItem = CartItems.FirstOrDefault(
@@ -91,8 +95,7 @@ Module [Global]
                 .Total = price * qty
             })
         End If
-
-        MessageBox.Show(qty & "x " & productName & " added to cart!",
+        MessageBox.Show(qty & "x " & productName & " added to cart",
                         "Added to Cart", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 End Module

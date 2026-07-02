@@ -2,17 +2,14 @@
 
 Public Class Cart
 
-    '==================================================
     ' FORM LOAD
-    '==================================================
     Private Sub Cart_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetupCartGrid()
         LoadCartItems()
+        NumericUpDown1.Value = CInt(cartMenu.Rows(0).Cells("colQty").Value)
     End Sub
 
-    '==================================================
     ' NAVIGATION BUTTONS
-    '==================================================
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Hide()
         Menu_2_.Show()
@@ -48,17 +45,9 @@ Public Class Cart
         Payment.Show()
     End Sub
 
-    '==================================================
     ' SETUP DATAGRIDVIEW
-    '==================================================
     Private Sub SetupCartGrid()
         cartMenu.Columns.Clear()
-        cartMenu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
-        cartMenu.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        cartMenu.MultiSelect = False
-        cartMenu.ReadOnly = True
-        cartMenu.AllowUserToAddRows = False
-        cartMenu.RowHeadersVisible = False
 
         cartMenu.Columns.Add("colProductId", "ID")
         cartMenu.Columns.Add("colName", "Product")
@@ -73,9 +62,7 @@ Public Class Cart
         cartMenu.Columns("colTotal").Width = 200
     End Sub
 
-    '==================================================
-    ' LOAD FROM SHARED CARTITEMS LIST
-    '==================================================
+    ' LOAD CART
     Private Sub LoadCartItems()
         cartMenu.Rows.Clear()
 
@@ -88,22 +75,16 @@ Public Class Cart
                 "₱" & item.Total.ToString("0.00")
             )
         Next
-
-        NumericUpDown1.Value = 0
         UpdateSummary()
     End Sub
 
-    '==================================================
     ' ROW CLICK 
-    '==================================================
     Private Sub cartMenu_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles cartMenu.CellClick
         If e.RowIndex < 0 Then Return
         NumericUpDown1.Value = CInt(cartMenu.Rows(e.RowIndex).Cells("colQty").Value)
     End Sub
 
-    '==================================================
-    ' NUMERICUPDOWN
-    '==================================================
+    ' QUANTITY
     Private Sub NumericUpDown1_ValueChanged(sender As Object, e As EventArgs) Handles NumericUpDown1.ValueChanged
         If cartMenu.SelectedRows.Count = 0 Then Return
 
@@ -141,9 +122,7 @@ Public Class Cart
         UpdateSummary()
     End Sub
 
-    '==================================================
-    ' UPDATE SUBTOTAL LABEL
-    '==================================================
+    ' UPDATE SUBTOTAL
     Private Sub UpdateSummary()
         Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
         Dim vat As Decimal = subtotal * 0.12
@@ -152,9 +131,7 @@ Public Class Cart
         lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
     End Sub
 
-    '==================================================
     ' REFRESH CART WHEN FORM IS SHOWN
-    '==================================================
     Private Sub Cart_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         If Me.Visible Then
             LoadCartItems()

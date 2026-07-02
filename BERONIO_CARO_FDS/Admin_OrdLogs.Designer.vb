@@ -30,6 +30,7 @@ Partial Class Admin_OrdLogs
 		Button1 = New Button()
 		TextBox1 = New TextBox()
 		DataGridView1 = New DataGridView()
+		TextBox2 = New TextBox()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -113,11 +114,23 @@ Partial Class Admin_OrdLogs
 		' 
 		' DataGridView1
 		' 
+		DataGridView1.AllowUserToAddRows = False
+		DataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
 		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		DataGridView1.Location = New Point(506, 120)
 		DataGridView1.Name = "DataGridView1"
+		DataGridView1.ReadOnly = True
+		DataGridView1.RowHeadersVisible = False
+		DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 		DataGridView1.Size = New Size(1260, 613)
 		DataGridView1.TabIndex = 16
+		' 
+		' TextBox2
+		' 
+		TextBox2.Location = New Point(506, 62)
+		TextBox2.Name = "TextBox2"
+		TextBox2.Size = New Size(382, 23)
+		TextBox2.TabIndex = 20
 		' 
 		' Admin_OrdLogs
 		' 
@@ -125,6 +138,7 @@ Partial Class Admin_OrdLogs
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(TextBox2)
 		Controls.Add(Button2)
 		Controls.Add(Button1)
 		Controls.Add(TextBox1)
@@ -146,4 +160,5 @@ Partial Class Admin_OrdLogs
 	Friend WithEvents Button1 As Button
 	Friend WithEvents TextBox1 As TextBox
 	Friend WithEvents DataGridView1 As DataGridView
+	Friend WithEvents TextBox2 As TextBox
 End Class

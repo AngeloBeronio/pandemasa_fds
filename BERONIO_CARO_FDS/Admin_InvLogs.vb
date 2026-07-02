@@ -3,7 +3,7 @@ Imports System.Data
 
 Public Class Admin_InvLogs
     Private currentPage As Integer = 1
-    Private Const pageSize As Integer = 10 ' Items per page
+    Private Const pageSize As Integer = 10
 
     Private Sub Admin_InvLogs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetupLogsGrid()
@@ -20,7 +20,6 @@ Public Class Admin_InvLogs
         DataGridView1.AllowUserToAddRows = False
         DataGridView1.RowHeadersVisible = False
 
-        ' Match the columns from your UI layout screenshot
         DataGridView1.Columns.Add("colLogId", "LOGS ID")
         DataGridView1.Columns.Add("colProductId", "PRODUCT ID")
         DataGridView1.Columns.Add("colUserId", "USER ID")
@@ -28,7 +27,6 @@ Public Class Admin_InvLogs
         DataGridView1.Columns.Add("colUnit", "ADJ UNIT")
         DataGridView1.Columns.Add("colDate", "DATE")
 
-        ' Design adjustments
         DataGridView1.Columns("colDate").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
     End Sub
 
@@ -41,12 +39,10 @@ Public Class Admin_InvLogs
             Dim offset As Integer = (currentPage - 1) * pageSize
             Dim searchKeyword As String = TextBox2.Text.Trim()
 
-            ' Base query pulling from inventory_logs schema
             Dim query As String = "
                 SELECT log_id, product_id, user_id, adjustment_quantity, adjustment_unit, timestamp 
                 FROM inventory_logs"
 
-            ' Dynamically insert filters if searching
             If Not String.IsNullOrEmpty(searchKeyword) Then
                 query &= " WHERE product_id LIKE @search OR log_id LIKE @search"
             End If
@@ -86,15 +82,14 @@ Public Class Admin_InvLogs
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If currentPage > 1 Then
             currentPage -= 1
-            TextBox1.Text = currentPage.ToString() ' Triggers TextChanged to refresh grid
+            TextBox1.Text = currentPage.ToString()
         End If
     End Sub
 
     ' ---------- PAGINATION: NEXT PAGE BUTTON ----------
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        ' Increment page and refresh
         currentPage += 1
-        TextBox1.Text = currentPage.ToString() ' Triggers TextChanged to refresh grid
+        TextBox1.Text = currentPage.ToString()
     End Sub
 
     ' ---------- PAGE NUMBER DISPLAY CHANGED ----------
@@ -108,7 +103,6 @@ Public Class Admin_InvLogs
 
     ' ---------- SEARCH FUNCTIONALITY ----------
     Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
-        ' Whenever the user types inside the search bar, reset page to 1 and query
         currentPage = 1
         TextBox1.Text = "1"
         LoadLogs()
@@ -128,9 +122,5 @@ Public Class Admin_InvLogs
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Me.Hide()
         Admin_OrdLogs.Show()
-    End Sub
-
-    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
-        ' Leave empty unless specialized individual logs inspection is required
     End Sub
 End Class

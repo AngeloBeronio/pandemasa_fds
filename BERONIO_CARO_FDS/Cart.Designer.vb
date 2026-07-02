@@ -135,6 +135,8 @@ Partial Class Cart
 		' 
 		' cartMenu
 		' 
+		cartMenu.AllowUserToAddRows = False
+		cartMenu.AllowUserToDeleteRows = False
 		cartMenu.BackgroundColor = Color.White
 		DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
 		DataGridViewCellStyle1.BackColor = Color.White
@@ -155,8 +157,12 @@ Partial Class Cart
 		cartMenu.DefaultCellStyle = DataGridViewCellStyle2
 		cartMenu.GridColor = Color.Black
 		cartMenu.Location = New Point(472, 129)
+		cartMenu.MultiSelect = False
 		cartMenu.Name = "cartMenu"
+		cartMenu.ReadOnly = True
+		cartMenu.RowHeadersVisible = False
 		cartMenu.RowTemplate.Height = 40
+		cartMenu.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 		cartMenu.Size = New Size(1238, 566)
 		cartMenu.TabIndex = 19
 		' 

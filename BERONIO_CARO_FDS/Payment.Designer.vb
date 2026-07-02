@@ -22,6 +22,8 @@ Partial Class Payment
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
+		Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+		Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Payment))
 		Button5 = New Button()
 		Button4 = New Button()
@@ -283,11 +285,35 @@ Partial Class Payment
 		' 
 		' dgvOrder
 		' 
+		dgvOrder.AllowUserToAddRows = False
+		dgvOrder.AllowUserToDeleteRows = False
+		dgvOrder.AllowUserToResizeColumns = False
+		dgvOrder.AllowUserToResizeRows = False
+		dgvOrder.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
 		dgvOrder.BackgroundColor = Color.White
+		DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle1.BackColor = SystemColors.Control
+		DataGridViewCellStyle1.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		DataGridViewCellStyle1.ForeColor = SystemColors.WindowText
+		DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
+		DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle1.WrapMode = DataGridViewTriState.True
+		dgvOrder.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
 		dgvOrder.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+		DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle2.BackColor = SystemColors.Window
+		DataGridViewCellStyle2.Font = New Font("Segoe UI", 11F)
+		DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
+		DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
+		DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
+		dgvOrder.DefaultCellStyle = DataGridViewCellStyle2
 		dgvOrder.GridColor = Color.Black
 		dgvOrder.Location = New Point(1351, 148)
 		dgvOrder.Name = "dgvOrder"
+		dgvOrder.ReadOnly = True
+		dgvOrder.RowHeadersVisible = False
+		dgvOrder.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 		dgvOrder.Size = New Size(413, 461)
 		dgvOrder.TabIndex = 39
 		' 

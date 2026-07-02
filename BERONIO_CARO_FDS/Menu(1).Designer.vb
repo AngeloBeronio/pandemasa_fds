@@ -39,6 +39,7 @@ Partial Class Menu__1_
 		Button6 = New Button()
 		Label2 = New Label()
 		Timer1 = New Timer(components)
+		btnClose = New Button()
 		CType(itemMenu, ComponentModel.ISupportInitialize).BeginInit()
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).BeginInit()
 		CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
@@ -110,6 +111,10 @@ Partial Class Menu__1_
 		' 
 		' itemMenu
 		' 
+		itemMenu.AllowUserToAddRows = False
+		itemMenu.AllowUserToDeleteRows = False
+		itemMenu.AllowUserToResizeColumns = False
+		itemMenu.AllowUserToResizeRows = False
 		DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
 		DataGridViewCellStyle1.BackColor = SystemColors.Control
 		DataGridViewCellStyle1.Font = New Font("Segoe UI", 27.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -209,12 +214,28 @@ Partial Class Menu__1_
 		Label2.TabIndex = 10
 		Label2.Text = "Label2"
 		' 
+		' Timer1
+		' 
+		' 
+		' btnClose
+		' 
+		btnClose.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnClose.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnClose.ForeColor = Color.White
+		btnClose.Location = New Point(413, 177)
+		btnClose.Name = "btnClose"
+		btnClose.Size = New Size(93, 43)
+		btnClose.TabIndex = 13
+		btnClose.Text = "Back"
+		btnClose.UseVisualStyleBackColor = False
+		' 
 		' Menu__1_
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(btnClose)
 		Controls.Add(Label2)
 		Controls.Add(Button6)
 		Controls.Add(Label1)
@@ -247,4 +268,5 @@ Partial Class Menu__1_
 	Friend WithEvents Button6 As Button
 	Friend WithEvents Label2 As Label
 	Friend WithEvents Timer1 As Timer
+	Friend WithEvents btnClose As Button
 End Class

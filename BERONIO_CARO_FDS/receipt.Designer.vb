@@ -22,7 +22,7 @@ Partial Class receipt
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
-		Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+		Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
 		dgvReceipt = New DataGridView()
 		lblOrderId = New Label()
 		lblDate = New Label()
@@ -44,14 +44,14 @@ Partial Class receipt
 		' dgvReceipt
 		' 
 		dgvReceipt.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-		DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
-		DataGridViewCellStyle2.BackColor = SystemColors.Window
-		DataGridViewCellStyle2.Font = New Font("Segoe UI", 3F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		DataGridViewCellStyle2.ForeColor = SystemColors.ControlText
-		DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
-		DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
-		DataGridViewCellStyle2.WrapMode = DataGridViewTriState.False
-		dgvReceipt.DefaultCellStyle = DataGridViewCellStyle2
+		DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+		DataGridViewCellStyle1.BackColor = SystemColors.Window
+		DataGridViewCellStyle1.Font = New Font("Segoe UI", 10F)
+		DataGridViewCellStyle1.ForeColor = SystemColors.ControlText
+		DataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight
+		DataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText
+		DataGridViewCellStyle1.WrapMode = DataGridViewTriState.False
+		dgvReceipt.DefaultCellStyle = DataGridViewCellStyle1
 		dgvReceipt.Location = New Point(24, 46)
 		dgvReceipt.Name = "dgvReceipt"
 		dgvReceipt.Size = New Size(540, 244)

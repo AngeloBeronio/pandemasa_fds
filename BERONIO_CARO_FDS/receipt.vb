@@ -10,17 +10,13 @@ Public Class receipt
 	<System.ComponentModel.DefaultValue(0D)>
 	Public Property ChangeAmount As Decimal
 
-	'==================================================
 	' FORM LOAD
-	'==================================================
 	Private Sub Receipt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupReceiptGrid()
 		LoadReceiptData()
 	End Sub
 
-	'==================================================
 	' SETUP DATAGRIDVIEW
-	'==================================================
 	Private Sub SetupReceiptGrid()
 		dgvReceipt.Columns.Clear()
 		dgvReceipt.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
@@ -29,8 +25,6 @@ Public Class receipt
 		dgvReceipt.RowHeadersVisible = False
 		dgvReceipt.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 		dgvReceipt.RowTemplate.Height = 30
-		dgvReceipt.DefaultCellStyle.Font = New Font("Courier New", 10)
-		dgvReceipt.ColumnHeadersDefaultCellStyle.Font = New Font("Courier New", 10, FontStyle.Bold)
 
 		dgvReceipt.Columns.Add("colName", "Product")
 		dgvReceipt.Columns.Add("colQty", "Qty")
@@ -43,14 +37,12 @@ Public Class receipt
 		dgvReceipt.Columns("colTotal").Width = 80
 	End Sub
 
-	'==================================================
-	' LOAD ORDER DATA FROM DATABASE
-	'==================================================
+	' LOAD ORDER
 	Private Sub LoadReceiptData()
 		Try
 			OpenConnection()
 			Dim orderCmd As New MySqlCommand(
-				"SELECT subtotal, vat_amount, discount_amount, total_amount,
+				"SELECT subtotal, discount_amount, total_amount,
                         order_date
                  FROM orders WHERE order_id = @oid", conn)
 			orderCmd.Parameters.AddWithValue("@oid", OrderId)
@@ -58,14 +50,12 @@ Public Class receipt
 			Dim reader As MySqlDataReader = orderCmd.ExecuteReader()
 
 			Dim subtotal As Decimal = 0
-			Dim vat As Decimal = 0
 			Dim discount As Decimal = 0
 			Dim total As Decimal = 0
 			Dim orderDate As String = ""
 
 			If reader.Read() Then
 				subtotal = reader.GetDecimal("subtotal")
-				vat = reader.GetDecimal("vat_amount")
 				discount = reader.GetDecimal("discount_amount")
 				total = reader.GetDecimal("total_amount")
 				orderDate = reader.GetDateTime("order_date").ToString("MM/dd/yyyy hh:mm tt")
@@ -96,7 +86,6 @@ Public Class receipt
 			lblOrderId.Text = "Order #: " & OrderId.ToString()
 			lblDate.Text = "Date: " & orderDate
 			lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
-			lblVat.Text = "₱" & vat.ToString("0.00")
 			lblDiscount.Text = "₱" & discount.ToString("0.00")
 			lblTotal.Text = "₱" & total.ToString("0.00")
 			lblChange.Text = "₱" & ChangeAmount.ToString("0.00")
@@ -109,9 +98,7 @@ Public Class receipt
 		End Try
 	End Sub
 
-	'==================================================
-	' NEW TRANSACTION / CLOSE BUTTON
-	'==================================================
+	' CLOSE
 	Private Sub btnNewTransaction_Click(sender As Object, e As EventArgs)
 		Hide()
 		Menu__1_.Show()
