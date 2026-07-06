@@ -1,262 +1,337 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
+Imports System.IO
 
 Public Class Payment
 
-    Private isDiscounted As Boolean = False
-    Private discountType As String = "None"
+	Private isDiscounted As Boolean = False
+	Private discountType As String = "None"
+	Private isOnlinePayment As Boolean = False
+	Private selectedPaymentMethod As String = "Cash"
+	Private FEE_RATE As Decimal = 0.0
 
-    ' FORM LOAD
-    Private Sub Payment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SetupOrderGrid()
-        LoadCartSummary()
-    End Sub
+	' FORM LOAD
+	Private Sub Payment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+		SetupOrderGrid()
+		LoadCartSummary()
+	End Sub
 
-    ' NAVIGATION BUTTONS
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Me.Hide()
-        Menu_2_.Show()
-    End Sub
+	' NAVIGATION BUTTONS
+	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+		Me.Hide()
+		Menu_2_.Show()
+	End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        Me.Hide()
-        Menu_3_.Show()
-    End Sub
+	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+		Me.Hide()
+		Menu_3_.Show()
+	End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Me.Hide()
-        Menu_4_.Show()
-    End Sub
+	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+		Me.Hide()
+		Menu_4_.Show()
+	End Sub
 
-    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Me.Hide()
-        Menu__1_.Show()
-    End Sub
+	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+		Me.Hide()
+		Menu__1_.Show()
+	End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        Me.Hide()
-        Menu_5_.Show()
-    End Sub
+	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+		Me.Hide()
+		Menu_5_.Show()
+	End Sub
 
-    ' SETUP DATAGRIDVIEW
-    Private Sub SetupOrderGrid()
-        dgvOrder.Columns.Clear()
-        dgvOrder.RowTemplate.Height = 35
+	' SETUP DATAGRIDVIEW
+	Private Sub SetupOrderGrid()
+		dgvOrder.Columns.Clear()
+		dgvOrder.RowTemplate.Height = 35
 
-        dgvOrder.Columns.Add("colProductId", "ID")
-        dgvOrder.Columns.Add("colName", "Product")
-        dgvOrder.Columns.Add("colQty", "Qty")
-        dgvOrder.Columns.Add("colPrice", "Unit Price")
-        dgvOrder.Columns.Add("colTotal", "Total")
+		dgvOrder.Columns.Add("colProductId", "ID")
+		dgvOrder.Columns.Add("colName", "Product")
+		dgvOrder.Columns.Add("colQty", "Qty")
+		dgvOrder.Columns.Add("colPrice", "Unit Price")
+		dgvOrder.Columns.Add("colTotal", "Total")
 
-        dgvOrder.Columns("colProductId").Visible = False
-    End Sub
+		dgvOrder.Columns("colProductId").Visible = False
+	End Sub
 
-    ' LOAD CART INTO GRID + CALCULATE TOTALS
-    Private Sub LoadCartSummary()
-        dgvOrder.Rows.Clear()
+	' LOAD CART INTO GRID + CALCULATE TOTALS
+	Private Sub LoadCartSummary()
+		dgvOrder.Rows.Clear()
 
-        For Each item As CartItem In CartItems
-            dgvOrder.Rows.Add(
-                item.ProductId,
-                item.ProductName,
-                item.Quantity,
-                "₱" & item.UnitPrice.ToString("0.00"),
-                "₱" & item.Total.ToString("0.00")
-            )
-        Next
+		For Each item As CartItem In CartItems
+			dgvOrder.Rows.Add(
+				item.ProductId,
+				item.ProductName,
+				item.Quantity,
+				"₱" & item.UnitPrice.ToString("0.00"),
+				"₱" & item.Total.ToString("0.00")
+			)
+		Next
 
-        UpdateTotals()
-    End Sub
+		UpdateTotals()
+	End Sub
 
-    ' UPDATE SUBTOTAL & VAT & DISCOUNT & TOTAL
-    Private Sub UpdateTotals()
-        Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
-        Dim discount As Decimal = 0
+	' UPDATE SUBTOTAL, DISCOUNT, FEE, TOTAL
+	Private Sub UpdateTotals()
+		Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
+		Dim discount As Decimal = 0
 
-        If isDiscounted Then
-            discount = subtotal * 0.2
-        End If
+		If isDiscounted Then
+			discount = subtotal * 0.2
+		End If
 
-        Dim total As Decimal = subtotal - discount
-        Dim cash As Decimal = 0
-        Decimal.TryParse(amoTendered.Text, cash)
-        Dim change As Decimal = cash - total
+		Dim afterDiscount As Decimal = subtotal - discount
+		Dim fee As Decimal = Math.Round(afterDiscount * FEE_RATE, 2)
+		Dim total As Decimal = afterDiscount + fee
 
-        lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
-        lblDiscount.Text = "₱" & discount.ToString("0.00")
-        lblTotal.Text = "₱" & total.ToString("0.00")
-        lblChange.Text = If(cash > 0, "₱" & change.ToString("0.00"), "₱0.00")
-    End Sub
+		lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
+		lblDiscount.Text = "₱" & discount.ToString("0.00")
+		lblTotal.Text = "₱" & total.ToString("0.00")
 
-    ' CASH INPUT BUTTONS
-    Private Sub AppendCash(value As String)
-        If amoTendered.Text = "0" Then
-            amoTendered.Text = value
-        Else
-            amoTendered.Text &= value
-        End If
-        UpdateTotals()
-    End Sub
+		If isOnlinePayment Then
+			' GCash / Maya — show fee
+			lblchange.Text = "Fee (" & (FEE_RATE * 100).ToString("0.#") & "%): ₱" & fee.ToString("0.00")
+		ElseIf selectedPaymentMethod = "Card" Then
+			' Card — show fee
+			lblchange.Text = "Fee (" & (FEE_RATE * 100).ToString("0.#") & "%): ₱" & fee.ToString("0.00")
+		Else
+			' Cash — show change
+			Dim cash As Decimal = 0
+			Decimal.TryParse(amoTendered.Text, cash)
+			lblchange.Text = If(cash > 0, "₱" & (cash - total).ToString("0.00"), "₱0.00")
+		End If
+	End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        AppendCash("7")
-    End Sub
-    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
-        AppendCash("8")
-    End Sub
-    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
-        AppendCash("9")
-    End Sub
-    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
-        AppendCash("4")
-    End Sub
-    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
-        AppendCash("5")
-    End Sub
-    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
-        AppendCash("6")
-    End Sub
-    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
-        AppendCash("3")
-    End Sub
-    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
-        AppendCash("2")
-    End Sub
-    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
-        AppendCash("1")
-    End Sub
-    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
-        AppendCash(".")
-    End Sub
-    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
-        AppendCash("0")
-    End Sub
-    Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
-        AppendCash("00")
-    End Sub
+	Public Sub ApplyPaymentMethod(method As String)
+		selectedPaymentMethod = method
+		amoTendered.Text = "0"
 
-    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        If amoTendered.Text.Length > 1 Then
-            amoTendered.Text = amoTendered.Text.Substring(0, amoTendered.Text.Length - 1)
-        Else
-            amoTendered.Text = "0"
-        End If
-        UpdateTotals()
-    End Sub
+		Select Case method
+			Case "Cash"
+				FEE_RATE = 0.0
+				isOnlinePayment = False
+				Button18.Text = "CASH"
+				Button18.BackColor = Color.Orange
+				Label2.Text = "Tendered Amount"
 
-    Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
-        amoTendered.Text = "0"
-        UpdateTotals()
-    End Sub
+			Case "Card"
+				FEE_RATE = 0.015
+				isOnlinePayment = False
+				Button18.Text = "CARD"
+				Button18.BackColor = Color.Gray
+				Label2.Text = "Card Payment"
 
-    Private Sub amoTendered_TextChanged(sender As Object, e As EventArgs) Handles amoTendered.TextChanged
-        UpdateTotals()
-    End Sub
+			Case "GCash"
+				FEE_RATE = 0
+				isOnlinePayment = True
+				Button18.Text = "GCASH"
+				Button18.BackColor = Color.Blue
+				Label2.Text = "GCash Reference No."
 
-    ' DISCOUNT TOGGLE
-    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
-        If Not isDiscounted Then
-            isDiscounted = True
-            discountType = "PWD/Senior"
-            Button18.Text = "REMOVE DISCOUNT"
-            Panel1.BackColor = Color.Green
-        Else
-            isDiscounted = False
-            discountType = "None"
-            Button18.Text = "PWD / SENIOR"
-            Button18.BackColor = Color.Orange
-            Panel1.BackColor = Color.Red
-        End If
+			Case "Maya"
+				FEE_RATE = 0.01
+				isOnlinePayment = True
+				Button18.Text = "MAYA"
+				Button18.BackColor = Color.Green
+				Label2.Text = "Maya Reference No."
+		End Select
 
-        UpdateTotals()
-    End Sub
+		UpdateTotals()
+	End Sub
 
-    ' CONFIRM PAYMENT
-    Private Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
-        If CartItems.Count = 0 Then
-            MessageBox.Show("Cart is empty.", "Nothing to Pay")
-            Return
-        End If
+	' NUMPAD INPUT
+	Private Sub AppendInput(value As String)
+		If amoTendered.Text = "0" Then
+			amoTendered.Text = value
+		Else
+			amoTendered.Text &= value
+		End If
+		If Not isOnlinePayment Then UpdateTotals()
+	End Sub
 
-        Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
-        Dim discount As Decimal = If(isDiscounted, subtotal * 0.2, 0)
-        Dim total As Decimal = subtotal + discount
-        Dim cash As Decimal = 0
+	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+		AppendInput("7")
+	End Sub
+	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+		AppendInput("8")
+	End Sub
+	Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+		AppendInput("9")
+	End Sub
+	Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
+		AppendInput("4")
+	End Sub
+	Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+		AppendInput("5")
+	End Sub
+	Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+		AppendInput("6")
+	End Sub
+	Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+		AppendInput("3")
+	End Sub
+	Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+		AppendInput("2")
+	End Sub
+	Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
+		AppendInput("1")
+	End Sub
+	Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+		If Not isOnlinePayment Then AppendInput(".")
+	End Sub
+	Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+		AppendInput("0")
+	End Sub
+	Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
+		If Not isOnlinePayment Then AppendInput("00")
+	End Sub
 
-        If Not Decimal.TryParse(amoTendered.Text, cash) OrElse cash < total Then
-            MessageBox.Show("Insufficient cash amount.", "Payment Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
+	' BACKSPACE
+	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+		If amoTendered.Text.Length > 1 Then
+			amoTendered.Text = amoTendered.Text.Substring(0, amoTendered.Text.Length - 1)
+		Else
+			amoTendered.Text = "0"
+		End If
+		If Not isOnlinePayment Then UpdateTotals()
+	End Sub
 
-        Try
-            OpenConnection()
-            Dim transaction As MySqlTransaction = conn.BeginTransaction()
+	' CLEAR
+	Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+		amoTendered.Text = "0"
+		If Not isOnlinePayment Then UpdateTotals()
+	End Sub
 
-            Try
-                Dim orderCmd As New MySqlCommand(
-                "INSERT INTO orders (user_id, subtotal, discount_amount, total_amount)
-                 VALUES (@uid, @sub, @disc, @total)", conn, transaction)
+	Private Sub amoTendered_TextChanged(sender As Object, e As EventArgs) Handles amoTendered.TextChanged
+		If Not isOnlinePayment Then UpdateTotals()
+	End Sub
 
-                orderCmd.Parameters.AddWithValue("@uid", LoggedInUserId)
-                orderCmd.Parameters.AddWithValue("@sub", subtotal)
-                orderCmd.Parameters.AddWithValue("@disc", discount)
-                orderCmd.Parameters.AddWithValue("@total", total)
-                orderCmd.ExecuteNonQuery()
+	' DISCOUNT TOGGLE
+	Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
+		If Not isDiscounted Then
+			isDiscounted = True
+			discountType = "PWD/Senior"
+			Button21.Text = "REMOVE DISCOUNT"
+			Panel2.BackColor = Color.Green
+		Else
+			isDiscounted = False
+			discountType = "None"
+			Button21.Text = "PWD / SENIOR"
+			Panel2.BackColor = Color.Red
+		End If
+		UpdateTotals()
+	End Sub
 
-                Dim newOrderId As Integer = orderCmd.LastInsertedId
+	' CONFIRM PAYMENT
+	Private Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
+		If CartItems.Count = 0 Then
+			MessageBox.Show("Cart is empty.", "Nothing to Pay")
+			Return
+		End If
 
-                For Each item As CartItem In CartItems
-                    Dim itemCmd As New MySqlCommand(
-                    "INSERT INTO order_items (order_id, product_id, quantity, price_at_sale)
+		Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
+		Dim discount As Decimal = If(isDiscounted, subtotal * 0.2, 0)
+		Dim afterDiscount As Decimal = subtotal - discount
+		Dim fee As Decimal = Math.Round(afterDiscount * FEE_RATE, 2)
+		Dim total As Decimal = afterDiscount + fee
+		Dim cash As Decimal = 0
+		Dim refNumber As String = ""
+
+		Select Case selectedPaymentMethod
+			Case "Cash"
+				If Not Decimal.TryParse(amoTendered.Text, cash) OrElse cash < total Then
+					MessageBox.Show("Insufficient cash amount.", "Payment Error",
+								MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Return
+				End If
+
+			Case "GCash", "Maya"
+				refNumber = amoTendered.Text.Trim()
+				If refNumber = "" OrElse refNumber = "0" Then
+					MessageBox.Show("Please enter the reference number.", "Missing Reference",
+								MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Return
+				End If
+
+			Case "Card"
+				Dim cardResult As DialogResult = MessageBox.Show(
+					"Was the card payment approved on the terminal?",
+					"Confirm Card Payment",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question)
+				If cardResult = DialogResult.No Then
+					MessageBox.Show("Card declined. Please try another payment method.",
+									"Payment Declined",
+									MessageBoxButtons.OK,
+									MessageBoxIcon.Warning)
+					Return
+				End If
+		End Select
+
+		Try
+			OpenConnection()
+			Dim transaction As MySqlTransaction = conn.BeginTransaction()
+
+			Try
+				Dim orderCmd As New MySqlCommand(
+				"INSERT INTO orders (user_id, subtotal, discount_amount, total_amount, payment_method, reference_number, transaction_fee)
+                 VALUES (@uid, @sub, @disc, @total, @method, @ref, @fee)", conn, transaction)
+
+				orderCmd.Parameters.AddWithValue("@uid", LoggedInUserId)
+				orderCmd.Parameters.AddWithValue("@sub", subtotal)
+				orderCmd.Parameters.AddWithValue("@disc", discount)
+				orderCmd.Parameters.AddWithValue("@total", total)
+				orderCmd.Parameters.AddWithValue("@method", selectedPaymentMethod)
+				orderCmd.Parameters.AddWithValue("@ref", If(refNumber = "", DBNull.Value, refNumber))
+				orderCmd.Parameters.AddWithValue("@fee", fee)
+				orderCmd.ExecuteNonQuery()
+
+				Dim newOrderId As Integer = orderCmd.LastInsertedId
+
+				For Each item As CartItem In CartItems
+					Dim itemCmd As New MySqlCommand(
+					"INSERT INTO order_items (order_id, product_id, quantity, price_at_sale)
                      VALUES (@oid, @pid, @qty, @price)", conn, transaction)
 
-                    itemCmd.Parameters.AddWithValue("@oid", newOrderId)
-                    itemCmd.Parameters.AddWithValue("@pid", item.ProductId)
-                    itemCmd.Parameters.AddWithValue("@qty", item.Quantity)
-                    itemCmd.Parameters.AddWithValue("@price", item.UnitPrice)
-                    itemCmd.ExecuteNonQuery()
+					itemCmd.Parameters.AddWithValue("@oid", newOrderId)
+					itemCmd.Parameters.AddWithValue("@pid", item.ProductId)
+					itemCmd.Parameters.AddWithValue("@qty", item.Quantity)
+					itemCmd.Parameters.AddWithValue("@price", item.UnitPrice)
+					itemCmd.ExecuteNonQuery()
 
-                    Dim stockCmd As New MySqlCommand(
-                    "UPDATE products SET stock_quantity = stock_quantity - @qty
+					Dim stockCmd As New MySqlCommand(
+					"UPDATE products SET stock_quantity = stock_quantity - @qty
                      WHERE product_id = @pid", conn, transaction)
-                    stockCmd.Parameters.AddWithValue("@qty", item.Quantity)
-                    stockCmd.Parameters.AddWithValue("@pid", item.ProductId)
-                    stockCmd.ExecuteNonQuery()
-                Next
+					stockCmd.Parameters.AddWithValue("@qty", item.Quantity)
+					stockCmd.Parameters.AddWithValue("@pid", item.ProductId)
+					stockCmd.ExecuteNonQuery()
+				Next
 
-                transaction.Commit()
+				transaction.Commit()
 
-                receipt.OrderId = newOrderId
-                receipt.CashAmount = cash
-                receipt.ChangeAmount = cash - total
+				' Generate PDF before clearing cart
+				GenerateReceipt(newOrderId, subtotal, discount, fee, FEE_RATE, total,
+				cash, cash - total, selectedPaymentMethod, refNumber)
 
-                CartItems.Clear()
+				CartItems.Clear()
+				Me.Hide()
+				Start.Show()
 
-                Me.Hide()
-                receipt.Show()
+			Catch ex As Exception
+				transaction.Rollback()
+				MessageBox.Show("Transaction failed: " & ex.Message, "Error",
+							MessageBoxButtons.OK, MessageBoxIcon.Error)
+			End Try
 
-            Catch ex As Exception
-                transaction.Rollback()
-                MessageBox.Show("Transaction failed: " & ex.Message, "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+		Finally
+			CloseConnection()
+		End Try
+	End Sub
 
-        Finally
-            CloseConnection()
-        End Try
-    End Sub
-
-    ' REFRESH
-    Private Sub Payment_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
-        If Me.Visible Then
-            LoadCartSummary()
-            amoTendered.Text = "0"
-            isDiscounted = False
-            discountType = "None"
-            Button18.Text = "PWD / SENIOR"
-            Button18.BackColor = Color.Orange
-        End If
-    End Sub
-
+	Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+		PaymentMethod.Show()
+	End Sub
 End Class
