@@ -1,111 +1,183 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports iTextSharp.text
+Imports iTextSharp.text.pdf
+Imports System.IO
 
-Public Class receipt
-	<System.ComponentModel.DefaultValue(0)>
-	Public Property OrderId As Integer
+Module receipt
 
-	<System.ComponentModel.DefaultValue(0D)>
-	Public Property CashAmount As Decimal
+    Public OrderId As Integer
+    Public CashAmount As Decimal
+    Public ChangeAmount As Decimal
+    Public FeeAmount As Decimal
+    Public PaymentMethod As String = "Cash"
+    Public RefNumber As String = ""
 
-	<System.ComponentModel.DefaultValue(0D)>
-	Public Property ChangeAmount As Decimal
+    Public Sub GenerateReceipt(orderId As Integer, subtotal As Decimal, discount As Decimal,
+                                fee As Decimal, feeRate As Decimal, total As Decimal,
+                                cash As Decimal, change As Decimal,
+                                paymentMethod As String, refNumber As String)
+        Try
+            Dim orderDate As String = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+            Dim receiptsFolder As String = "C:\Users\anthn\Downloads\pen_de_masa_order_receipts"
+            If Not Directory.Exists(receiptsFolder) Then
+                Directory.CreateDirectory(receiptsFolder)
+            End If
+            Dim savePath As String = Path.Combine(receiptsFolder, "Receipt_Order" & orderId & ".pdf")
 
-	' FORM LOAD
-	Private Sub Receipt_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		SetupReceiptGrid()
-		LoadReceiptData()
-	End Sub
+            Dim doc As New Document(New Rectangle(227, 700), 10, 10, 10, 10)
+            Dim writer As PdfWriter = PdfWriter.GetInstance(doc, New FileStream(savePath, FileMode.Create))
+            doc.Open()
 
-	' SETUP DATAGRIDVIEW
-	Private Sub SetupReceiptGrid()
-		dgvReceipt.Columns.Clear()
-		dgvReceipt.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
-		dgvReceipt.AllowUserToAddRows = False
-		dgvReceipt.ReadOnly = True
-		dgvReceipt.RowHeadersVisible = False
-		dgvReceipt.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-		dgvReceipt.RowTemplate.Height = 30
+            Dim fontTitle As Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12)
+            Dim fontNormal As Font = FontFactory.GetFont(FontFactory.HELVETICA, 8)
+            Dim fontBold As Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8)
+            Dim fontSmall As Font = FontFactory.GetFont(FontFactory.HELVETICA, 7)
 
-		dgvReceipt.Columns.Add("colName", "Product")
-		dgvReceipt.Columns.Add("colQty", "Qty")
-		dgvReceipt.Columns.Add("colPrice", "Unit Price")
-		dgvReceipt.Columns.Add("colTotal", "Total")
+            ' Header
+            Dim title As New Paragraph("Pan de Masa", fontTitle)
+            title.Alignment = Element.ALIGN_CENTER
+            doc.Add(title)
 
-		dgvReceipt.Columns("colName").Width = 300
-		dgvReceipt.Columns("colQty").Width = 80
-		dgvReceipt.Columns("colPrice").Width = 80
-		dgvReceipt.Columns("colTotal").Width = 80
-	End Sub
+            Dim subtitle As New Paragraph("Official Receipt", fontNormal)
+            subtitle.Alignment = Element.ALIGN_CENTER
+            doc.Add(subtitle)
 
-	' LOAD ORDER
-	Private Sub LoadReceiptData()
-		Try
-			OpenConnection()
-			Dim orderCmd As New MySqlCommand(
-				"SELECT subtotal, discount_amount, total_amount,
-                        order_date
-                 FROM orders WHERE order_id = @oid", conn)
-			orderCmd.Parameters.AddWithValue("@oid", OrderId)
+            doc.Add(New Paragraph(" ", fontSmall))
+            doc.Add(New Paragraph("Order #: " & orderId.ToString(), fontNormal))
+            doc.Add(New Paragraph("Date: " & orderDate, fontNormal))
+            doc.Add(New Paragraph("Payment: " & paymentMethod, fontNormal))
 
-			Dim reader As MySqlDataReader = orderCmd.ExecuteReader()
+            If refNumber <> "" Then
+                doc.Add(New Paragraph("Ref #: " & refNumber, fontNormal))
+            End If
 
-			Dim subtotal As Decimal = 0
-			Dim discount As Decimal = 0
-			Dim total As Decimal = 0
-			Dim orderDate As String = ""
+            doc.Add(New Paragraph("--------------------------------", fontSmall))
 
-			If reader.Read() Then
-				subtotal = reader.GetDecimal("subtotal")
-				discount = reader.GetDecimal("discount_amount")
-				total = reader.GetDecimal("total_amount")
-				orderDate = reader.GetDateTime("order_date").ToString("MM/dd/yyyy hh:mm tt")
-			End If
-			reader.Close()
+            ' Items table
+            Dim itemTable As New PdfPTable(4)
+            itemTable.WidthPercentage = 100
+            itemTable.SetWidths(New Single() {40, 15, 22, 23})
 
-			Dim itemCmd As New MySqlCommand(
-				"SELECT p.product_name, oi.quantity, oi.price_at_sale,
-                        (oi.quantity * oi.price_at_sale) AS line_total
-                 FROM order_items oi
-                 INNER JOIN products p ON oi.product_id = p.product_id
-                 WHERE oi.order_id = @oid", conn)
-			itemCmd.Parameters.AddWithValue("@oid", OrderId)
+            For Each header As String In {"Product", "Qty", "Price", "Total"}
+                Dim cell As New PdfPCell(New Phrase(header, fontBold))
+                cell.Border = Rectangle.NO_BORDER
+                itemTable.AddCell(cell)
+            Next
 
-			Dim itemReader As MySqlDataReader = itemCmd.ExecuteReader()
-			dgvReceipt.Rows.Clear()
+            For Each item As CartItem In CartItems
+                Dim c1 As New PdfPCell(New Phrase(item.ProductName, fontNormal))
+                c1.Border = Rectangle.NO_BORDER
+                itemTable.AddCell(c1)
 
-			While itemReader.Read()
-				dgvReceipt.Rows.Add(
-					itemReader.GetString("product_name"),
-					itemReader.GetInt32("quantity"),
-					"₱" & itemReader.GetDecimal("price_at_sale").ToString("0.00"),
-					"₱" & itemReader.GetDecimal("line_total").ToString("0.00")
-				)
-			End While
-			itemReader.Close()
+                Dim c2 As New PdfPCell(New Phrase(item.Quantity.ToString(), fontNormal))
+                c2.Border = Rectangle.NO_BORDER
+                itemTable.AddCell(c2)
 
-			lblOrderId.Text = "Order #: " & OrderId.ToString()
-			lblDate.Text = "Date: " & orderDate
-			lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
-			lblDiscount.Text = "₱" & discount.ToString("0.00")
-			lblTotal.Text = "₱" & total.ToString("0.00")
-			lblChange.Text = "₱" & ChangeAmount.ToString("0.00")
+                Dim c3 As New PdfPCell(New Phrase("P" & item.UnitPrice.ToString("0.00"), fontNormal))
+                c3.Border = Rectangle.NO_BORDER
+                itemTable.AddCell(c3)
 
-		Catch ex As Exception
-			MessageBox.Show("Error loading receipt: " & ex.Message, "Error",
-							MessageBoxButtons.OK, MessageBoxIcon.Error)
-		Finally
-			CloseConnection()
-		End Try
-	End Sub
+                Dim c4 As New PdfPCell(New Phrase("P" & item.Total.ToString("0.00"), fontNormal))
+                c4.Border = Rectangle.NO_BORDER
+                itemTable.AddCell(c4)
+            Next
 
-	' CLOSE
-	Private Sub btnNewTransaction_Click(sender As Object, e As EventArgs)
-		Hide()
-		Menu__1_.Show()
-	End Sub
+            doc.Add(itemTable)
+            doc.Add(New Paragraph("--------------------------------", fontSmall))
 
-	Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-		Hide()
-		Start.Show()
-	End Sub
-End Class
+            ' Totals table
+            Dim totalsTable As New PdfPTable(2)
+            totalsTable.WidthPercentage = 100
+            totalsTable.SetWidths(New Single() {55, 45})
+
+            ' Subtotal
+            Dim r1l As New PdfPCell(New Phrase("Subtotal:", fontNormal))
+            r1l.Border = Rectangle.NO_BORDER
+            totalsTable.AddCell(r1l)
+            Dim r1r As New PdfPCell(New Phrase("P" & subtotal.ToString("0.00"), fontNormal))
+            r1r.Border = Rectangle.NO_BORDER
+            r1r.HorizontalAlignment = Element.ALIGN_RIGHT
+            totalsTable.AddCell(r1r)
+
+            ' Discount
+            If discount > 0 Then
+                Dim r2l As New PdfPCell(New Phrase("Discount (20%):", fontNormal))
+                r2l.Border = Rectangle.NO_BORDER
+                totalsTable.AddCell(r2l)
+                Dim r2r As New PdfPCell(New Phrase("- P" & discount.ToString("0.00"), fontNormal))
+                r2r.Border = Rectangle.NO_BORDER
+                r2r.HorizontalAlignment = Element.ALIGN_RIGHT
+                totalsTable.AddCell(r2r)
+            End If
+
+            ' Fee
+            If fee > 0 Then
+                Dim r3l As New PdfPCell(New Phrase("Fee (" & (feeRate * 100).ToString("0.#") & "%):", fontNormal))
+                r3l.Border = Rectangle.NO_BORDER
+                totalsTable.AddCell(r3l)
+                Dim r3r As New PdfPCell(New Phrase("P" & fee.ToString("0.00"), fontNormal))
+                r3r.Border = Rectangle.NO_BORDER
+                r3r.HorizontalAlignment = Element.ALIGN_RIGHT
+                totalsTable.AddCell(r3r)
+            End If
+
+            ' Total
+            Dim r4l As New PdfPCell(New Phrase("TOTAL:", fontBold))
+            r4l.Border = Rectangle.NO_BORDER
+            totalsTable.AddCell(r4l)
+            Dim r4r As New PdfPCell(New Phrase("P" & total.ToString("0.00"), fontBold))
+            r4r.Border = Rectangle.NO_BORDER
+            r4r.HorizontalAlignment = Element.ALIGN_RIGHT
+            totalsTable.AddCell(r4r)
+
+            ' Cash / Change / Card
+            If paymentMethod = "Cash" Then
+                Dim r5l As New PdfPCell(New Phrase("Cash:", fontNormal))
+                r5l.Border = Rectangle.NO_BORDER
+                totalsTable.AddCell(r5l)
+                Dim r5r As New PdfPCell(New Phrase("P" & cash.ToString("0.00"), fontNormal))
+                r5r.Border = Rectangle.NO_BORDER
+                r5r.HorizontalAlignment = Element.ALIGN_RIGHT
+                totalsTable.AddCell(r5r)
+
+                Dim r6l As New PdfPCell(New Phrase("Change:", fontNormal))
+                r6l.Border = Rectangle.NO_BORDER
+                totalsTable.AddCell(r6l)
+                Dim r6r As New PdfPCell(New Phrase("P" & change.ToString("0.00"), fontNormal))
+                r6r.Border = Rectangle.NO_BORDER
+                r6r.HorizontalAlignment = Element.ALIGN_RIGHT
+                totalsTable.AddCell(r6r)
+
+            ElseIf paymentMethod = "Card" Then
+                Dim r5l As New PdfPCell(New Phrase("Card Payment:", fontNormal))
+                r5l.Border = Rectangle.NO_BORDER
+                totalsTable.AddCell(r5l)
+                Dim r5r As New PdfPCell(New Phrase("Approved", fontNormal))
+                r5r.Border = Rectangle.NO_BORDER
+                r5r.HorizontalAlignment = Element.ALIGN_RIGHT
+                totalsTable.AddCell(r5r)
+            End If
+
+            doc.Add(totalsTable)
+            doc.Add(New Paragraph("--------------------------------", fontSmall))
+
+            ' Footer
+            Dim footer As New Paragraph("Thank you for your purchase!", fontNormal)
+            footer.Alignment = Element.ALIGN_CENTER
+            doc.Add(footer)
+
+            Dim footer2 As New Paragraph("Pan de Masa - Fresh Baked Daily", fontSmall)
+            footer2.Alignment = Element.ALIGN_CENTER
+            doc.Add(footer2)
+
+            doc.Close()
+
+            MessageBox.Show("Receipt saved as Receipt_Order" & orderId & ".pdf",
+                            "Receipt Saved", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            MessageBox.Show("PDF Error: " & ex.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+End Module

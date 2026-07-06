@@ -35,6 +35,8 @@ Partial Class Admin_Inv
 		CheckBox2 = New CheckBox()
 		CheckBox1 = New CheckBox()
 		Panel2 = New Panel()
+		Button8 = New Button()
+		Button7 = New Button()
 		TextBox2 = New TextBox()
 		Label5 = New Label()
 		TextBox1 = New TextBox()
@@ -46,6 +48,9 @@ Partial Class Admin_Inv
 		Label3 = New Label()
 		Label2 = New Label()
 		Panel4 = New Panel()
+		Label9 = New Label()
+		Label8 = New Label()
+		Label7 = New Label()
 		FlowLayoutPanel1 = New FlowLayoutPanel()
 		Button4 = New Button()
 		Button2 = New Button()
@@ -53,11 +58,7 @@ Partial Class Admin_Inv
 		Button1 = New Button()
 		TextBox3 = New TextBox()
 		Label6 = New Label()
-		Label7 = New Label()
-		Label8 = New Label()
-		Label9 = New Label()
-		Button7 = New Button()
-		Button8 = New Button()
+		Button9 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		Panel1.SuspendLayout()
 		Panel2.SuspendLayout()
@@ -212,6 +213,24 @@ Partial Class Admin_Inv
 		Panel2.Size = New Size(328, 737)
 		Panel2.TabIndex = 18
 		' 
+		' Button8
+		' 
+		Button8.Location = New Point(34, 627)
+		Button8.Name = "Button8"
+		Button8.Size = New Size(130, 31)
+		Button8.TabIndex = 17
+		Button8.Text = "SET"
+		Button8.UseVisualStyleBackColor = True
+		' 
+		' Button7
+		' 
+		Button7.Location = New Point(34, 260)
+		Button7.Name = "Button7"
+		Button7.Size = New Size(130, 31)
+		Button7.TabIndex = 16
+		Button7.Text = "SET"
+		Button7.UseVisualStyleBackColor = True
+		' 
 		' TextBox2
 		' 
 		TextBox2.Location = New Point(34, 557)
@@ -317,6 +336,33 @@ Partial Class Admin_Inv
 		Panel4.Size = New Size(1349, 140)
 		Panel4.TabIndex = 19
 		' 
+		' Label9
+		' 
+		Label9.AutoSize = True
+		Label9.Location = New Point(143, 44)
+		Label9.Name = "Label9"
+		Label9.Size = New Size(43, 15)
+		Label9.TabIndex = 15
+		Label9.Text = "IMAGE"
+		' 
+		' Label8
+		' 
+		Label8.AutoSize = True
+		Label8.Location = New Point(20, 15)
+		Label8.Name = "Label8"
+		Label8.Size = New Size(97, 15)
+		Label8.TabIndex = 14
+		Label8.Text = "EDIT INVENTORY"
+		' 
+		' Label7
+		' 
+		Label7.AutoSize = True
+		Label7.Location = New Point(272, 44)
+		Label7.Name = "Label7"
+		Label7.Size = New Size(66, 15)
+		Label7.TabIndex = 13
+		Label7.Text = "CATEGORY"
+		' 
 		' FlowLayoutPanel1
 		' 
 		FlowLayoutPanel1.Location = New Point(1001, 31)
@@ -376,50 +422,21 @@ Partial Class Admin_Inv
 		Label6.TabIndex = 5
 		Label6.Text = "PRODUCT NAME"
 		' 
-		' Label7
+		' Button9
 		' 
-		Label7.AutoSize = True
-		Label7.Location = New Point(272, 44)
-		Label7.Name = "Label7"
-		Label7.Size = New Size(66, 15)
-		Label7.TabIndex = 13
-		Label7.Text = "CATEGORY"
-		' 
-		' Label8
-		' 
-		Label8.AutoSize = True
-		Label8.Location = New Point(20, 15)
-		Label8.Name = "Label8"
-		Label8.Size = New Size(97, 15)
-		Label8.TabIndex = 14
-		Label8.Text = "EDIT INVENTORY"
-		' 
-		' Label9
-		' 
-		Label9.AutoSize = True
-		Label9.Location = New Point(143, 44)
-		Label9.Name = "Label9"
-		Label9.Size = New Size(43, 15)
-		Label9.TabIndex = 15
-		Label9.Text = "IMAGE"
-		' 
-		' Button7
-		' 
-		Button7.Location = New Point(34, 260)
-		Button7.Name = "Button7"
-		Button7.Size = New Size(130, 31)
-		Button7.TabIndex = 16
-		Button7.Text = "SET"
-		Button7.UseVisualStyleBackColor = True
-		' 
-		' Button8
-		' 
-		Button8.Location = New Point(34, 627)
-		Button8.Name = "Button8"
-		Button8.Size = New Size(130, 31)
-		Button8.TabIndex = 17
-		Button8.Text = "SET"
-		Button8.UseVisualStyleBackColor = True
+		Button9.BackColor = Color.Transparent
+		Button9.Cursor = Cursors.Hand
+		Button9.FlatAppearance.BorderColor = Color.White
+		Button9.FlatAppearance.BorderSize = 0
+		Button9.FlatStyle = FlatStyle.Flat
+		Button9.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button9.Location = New Point(108, 609)
+		Button9.Name = "Button9"
+		Button9.Size = New Size(196, 60)
+		Button9.TabIndex = 20
+		Button9.Text = "GROSS PROFIT"
+		Button9.TextAlign = ContentAlignment.MiddleLeft
+		Button9.UseVisualStyleBackColor = False
 		' 
 		' Admin_Inv
 		' 
@@ -427,6 +444,7 @@ Partial Class Admin_Inv
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button9)
 		Controls.Add(Panel4)
 		Controls.Add(Panel2)
 		Controls.Add(Panel1)
@@ -482,4 +500,5 @@ Partial Class Admin_Inv
 	Friend WithEvents Label8 As Label
 	Friend WithEvents Button8 As Button
 	Friend WithEvents Button7 As Button
+	Friend WithEvents Button9 As Button
 End Class
