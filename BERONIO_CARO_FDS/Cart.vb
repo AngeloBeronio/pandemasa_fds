@@ -1,15 +1,13 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Public Class Cart
-
-    ' FORM LOAD
     Private Sub Cart_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetupCartGrid()
         LoadCartItems()
         NumericUpDown1.Value = CInt(cartMenu.Rows(0).Cells("colQty").Value)
     End Sub
 
-    ' NAVIGATION BUTTONS
+    ' NAVIGATION
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Hide()
         Menu_2_.Show()
@@ -45,7 +43,6 @@ Public Class Cart
         Payment.Show()
     End Sub
 
-    ' SETUP DATAGRIDVIEW
     Private Sub SetupCartGrid()
         cartMenu.Columns.Clear()
 
@@ -62,7 +59,6 @@ Public Class Cart
         cartMenu.Columns("colTotal").Width = 200
     End Sub
 
-    ' LOAD CART
     Private Sub LoadCartItems()
         cartMenu.Rows.Clear()
 
@@ -78,7 +74,6 @@ Public Class Cart
         UpdateSummary()
     End Sub
 
-    ' ROW CLICK 
     Private Sub cartMenu_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles cartMenu.CellClick
         If e.RowIndex < 0 Then Return
         NumericUpDown1.Value = CInt(cartMenu.Rows(e.RowIndex).Cells("colQty").Value)
@@ -131,7 +126,7 @@ Public Class Cart
         lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
     End Sub
 
-    ' REFRESH CART WHEN FORM IS SHOWN
+    ' REFRESH CART
     Private Sub Cart_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         If Me.Visible Then
             LoadCartItems()

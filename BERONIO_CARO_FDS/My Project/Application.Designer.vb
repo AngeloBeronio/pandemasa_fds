@@ -33,7 +33,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.BERONIO_CARO_FDS.Select_Device
+            Me.MainForm = Global.BERONIO_CARO_FDS.Start
         End Sub
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _

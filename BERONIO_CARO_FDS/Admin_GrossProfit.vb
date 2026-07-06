@@ -59,7 +59,7 @@ Public Class Admin_GrossProfit
 
             Dim query As String = "
                 SELECT p.product_name, p.estimated_cost,
-                       SUM((oi.price_at_sale - p.estimated_cost) * oi.quantity) AS total_profit
+                       SUM((oi.net_price_sale - p.estimated_cost) * oi.quantity) AS total_profit
                 FROM order_items oi
                 INNER JOIN orders o ON oi.order_id = o.order_id
                 INNER JOIN products p ON oi.product_id = p.product_id"

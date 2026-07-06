@@ -31,6 +31,7 @@ Partial Class Admin_OrdLogs
 		TextBox1 = New TextBox()
 		DataGridView1 = New DataGridView()
 		TextBox2 = New TextBox()
+		Button7 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -132,12 +133,29 @@ Partial Class Admin_OrdLogs
 		TextBox2.Size = New Size(382, 23)
 		TextBox2.TabIndex = 20
 		' 
+		' Button7
+		' 
+		Button7.BackColor = Color.Transparent
+		Button7.Cursor = Cursors.Hand
+		Button7.FlatAppearance.BorderColor = Color.White
+		Button7.FlatAppearance.BorderSize = 0
+		Button7.FlatStyle = FlatStyle.Flat
+		Button7.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button7.Location = New Point(112, 602)
+		Button7.Name = "Button7"
+		Button7.Size = New Size(196, 60)
+		Button7.TabIndex = 21
+		Button7.Text = "GROSS PROFIT"
+		Button7.TextAlign = ContentAlignment.MiddleLeft
+		Button7.UseVisualStyleBackColor = False
+		' 
 		' Admin_OrdLogs
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button7)
 		Controls.Add(TextBox2)
 		Controls.Add(Button2)
 		Controls.Add(Button1)
@@ -161,4 +179,5 @@ Partial Class Admin_OrdLogs
 	Friend WithEvents TextBox1 As TextBox
 	Friend WithEvents DataGridView1 As DataGridView
 	Friend WithEvents TextBox2 As TextBox
+	Friend WithEvents Button7 As Button
 End Class

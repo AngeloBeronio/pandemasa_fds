@@ -7,7 +7,6 @@ Public Class Menu_3_
 	Private selectedProductName As String = ""
 	Private selectedPrice As Decimal = 0
 
-	' FORM LOAD
 	Private Sub Menu_3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupMenuGrid(itemMenu)
 		LoadHouseSpecials()
@@ -16,6 +15,8 @@ Public Class Menu_3_
 		Timer1.Interval = 1000
 		Timer1.Start()
 	End Sub
+
+	' NAVIGATION
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Me.Hide()
 		Menu_2_.Show()
@@ -46,7 +47,6 @@ Public Class Menu_3_
 		Label1.Text = GetGreeting()
 	End Sub
 
-	' LOAD GRIDVIEW WITH PRODUCTS FROM DATABASE
 	Private Sub LoadHouseSpecials()
 		itemMenu.Rows.Clear()
 
@@ -85,7 +85,7 @@ Public Class Menu_3_
 
 			reader.Close()
 
-			' Auto select on load
+			' AUTO SELECT WHEN LOADED
 			For i As Integer = 0 To itemMenu.Rows.Count - 1
 				reader.Close()
 				If itemMenu.Rows.Count > 0 Then
@@ -108,7 +108,6 @@ Public Class Menu_3_
 		End Try
 	End Sub
 
-	' ROW CLICK — SHOW IMAGE + SELECT PRODUCT
 	Private Sub itemMenu_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles itemMenu.CellClick
 		If e.RowIndex < 0 Then Return
 
@@ -144,7 +143,7 @@ Public Class Menu_3_
 		NumericUpDown1.Value = 1
 	End Sub
 
-	' DISPOSE IMAGE ON CLOSE TO PREVENT CRASHING
+	' DISPOSE IMAGE TO PREVENT CRASHING
 	Private Sub Menu__1__FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
 		If PictureBox1.Image IsNot Nothing Then
 			PictureBox1.Image.Dispose()

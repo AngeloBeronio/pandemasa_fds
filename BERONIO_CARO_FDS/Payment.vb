@@ -8,16 +8,20 @@ Public Class Payment
 	Private isDiscounted As Boolean = False
 	Private discountType As String = "None"
 	Private isOnlinePayment As Boolean = False
-	Private selectedPaymentMethod As String = "Cash"
+	Public selectedPaymentMethod As String = "Cash"
 	Private FEE_RATE As Decimal = 0.0
 
-	' FORM LOAD
 	Private Sub Payment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupOrderGrid()
 		LoadCartSummary()
+		hchangelbl.Text = "Change"
 	End Sub
 
-	' NAVIGATION BUTTONS
+	Private Sub Payment_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+		LoadCartSummary()
+	End Sub
+
+	' NAVIGATION
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Me.Hide()
 		Menu_2_.Show()
@@ -43,7 +47,11 @@ Public Class Payment
 		Menu_5_.Show()
 	End Sub
 
-	' SETUP DATAGRIDVIEW
+	' sub-nav
+	Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+		PaymentMethod.Show()
+	End Sub
+
 	Private Sub SetupOrderGrid()
 		dgvOrder.Columns.Clear()
 		dgvOrder.RowTemplate.Height = 35
@@ -54,10 +62,10 @@ Public Class Payment
 		dgvOrder.Columns.Add("colPrice", "Unit Price")
 		dgvOrder.Columns.Add("colTotal", "Total")
 
+		dgvOrder.Columns("colName").Width = 180
 		dgvOrder.Columns("colProductId").Visible = False
 	End Sub
 
-	' LOAD CART INTO GRID + CALCULATE TOTALS
 	Private Sub LoadCartSummary()
 		dgvOrder.Rows.Clear()
 
@@ -92,13 +100,10 @@ Public Class Payment
 		lblTotal.Text = "₱" & total.ToString("0.00")
 
 		If isOnlinePayment Then
-			' GCash / Maya — show fee
-			lblchange.Text = "Fee (" & (FEE_RATE * 100).ToString("0.#") & "%): ₱" & fee.ToString("0.00")
+			lblchange.Text = "₱" & fee.ToString("0.00")
 		ElseIf selectedPaymentMethod = "Card" Then
-			' Card — show fee
-			lblchange.Text = "Fee (" & (FEE_RATE * 100).ToString("0.#") & "%): ₱" & fee.ToString("0.00")
+			lblchange.Text = "₱" & fee.ToString("0.00")
 		Else
-			' Cash — show change
 			Dim cash As Decimal = 0
 			Decimal.TryParse(amoTendered.Text, cash)
 			lblchange.Text = If(cash > 0, "₱" & (cash - total).ToString("0.00"), "₱0.00")
@@ -116,33 +121,34 @@ Public Class Payment
 				Button18.Text = "CASH"
 				Button18.BackColor = Color.Orange
 				Label2.Text = "Tendered Amount"
-
+				hchangelbl.Text = "Change"
 			Case "Card"
 				FEE_RATE = 0.015
 				isOnlinePayment = False
 				Button18.Text = "CARD"
 				Button18.BackColor = Color.Gray
 				Label2.Text = "Card Payment"
-
+				hchangelbl.Text = "Fee"
 			Case "GCash"
 				FEE_RATE = 0
 				isOnlinePayment = True
 				Button18.Text = "GCASH"
 				Button18.BackColor = Color.Blue
 				Label2.Text = "GCash Reference No."
-
+				hchangelbl.Text = "Fee"
 			Case "Maya"
 				FEE_RATE = 0.01
 				isOnlinePayment = True
 				Button18.Text = "MAYA"
 				Button18.BackColor = Color.Green
 				Label2.Text = "Maya Reference No."
+				hchangelbl.Text = "Fee"
 		End Select
 
 		UpdateTotals()
 	End Sub
 
-	' NUMPAD INPUT
+	' NUMPAD
 	Private Sub AppendInput(value As String)
 		If amoTendered.Text = "0" Then
 			amoTendered.Text = value
@@ -205,11 +211,7 @@ Public Class Payment
 		If Not isOnlinePayment Then UpdateTotals()
 	End Sub
 
-	Private Sub amoTendered_TextChanged(sender As Object, e As EventArgs) Handles amoTendered.TextChanged
-		If Not isOnlinePayment Then UpdateTotals()
-	End Sub
-
-	' DISCOUNT TOGGLE
+	' DISCOUNT
 	Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
 		If Not isDiscounted Then
 			isDiscounted = True
@@ -225,7 +227,10 @@ Public Class Payment
 		UpdateTotals()
 	End Sub
 
-	' CONFIRM PAYMENT
+	Private Sub amoTendered_TextChanged(sender As Object, e As EventArgs) Handles amoTendered.TextChanged
+		If Not isOnlinePayment Then UpdateTotals()
+	End Sub
+
 	Private Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
 		If CartItems.Count = 0 Then
 			MessageBox.Show("Cart is empty.", "Nothing to Pay")
@@ -271,6 +276,7 @@ Public Class Payment
 				End If
 		End Select
 
+		' PUT TO ORDER_LOGS
 		Try
 			OpenConnection()
 			Dim transaction As MySqlTransaction = conn.BeginTransaction()
@@ -293,13 +299,14 @@ Public Class Payment
 
 				For Each item As CartItem In CartItems
 					Dim itemCmd As New MySqlCommand(
-					"INSERT INTO order_items (order_id, product_id, quantity, price_at_sale)
-                     VALUES (@oid, @pid, @qty, @price)", conn, transaction)
+					"INSERT INTO order_items (order_id, product_id, quantity, price_at_sale, net_price_sale)
+                     VALUES (@oid, @pid, @qty, @price, @netprice)", conn, transaction)
 
 					itemCmd.Parameters.AddWithValue("@oid", newOrderId)
 					itemCmd.Parameters.AddWithValue("@pid", item.ProductId)
 					itemCmd.Parameters.AddWithValue("@qty", item.Quantity)
 					itemCmd.Parameters.AddWithValue("@price", item.UnitPrice)
+					itemCmd.Parameters.AddWithValue("@netprice", item.UnitPrice - (item.UnitPrice * 0.12))
 					itemCmd.ExecuteNonQuery()
 
 					Dim stockCmd As New MySqlCommand(
@@ -311,10 +318,6 @@ Public Class Payment
 				Next
 
 				transaction.Commit()
-
-				' Generate PDF before clearing cart
-				GenerateReceipt(newOrderId, subtotal, discount, fee, FEE_RATE, total,
-				cash, cash - total, selectedPaymentMethod, refNumber)
 
 				CartItems.Clear()
 				Me.Hide()
@@ -331,7 +334,6 @@ Public Class Payment
 		End Try
 	End Sub
 
-	Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
-		PaymentMethod.Show()
-	End Sub
+	' WALA PA RECEIPTS WIT LANG GAGAWING REPORT
+
 End Class

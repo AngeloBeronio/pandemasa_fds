@@ -57,6 +57,7 @@ Partial Class Payment
 		Panel2 = New Panel()
 		Button21 = New Button()
 		Label3 = New Label()
+		hchangelbl = New Label()
 		CType(dgvOrder, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -374,7 +375,7 @@ Partial Class Payment
 		lblchange.BackColor = Color.Transparent
 		lblchange.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		lblchange.ForeColor = Color.White
-		lblchange.Location = New Point(1337, 783)
+		lblchange.Location = New Point(1568, 787)
 		lblchange.Name = "lblchange"
 		lblchange.Size = New Size(174, 45)
 		lblchange.TabIndex = 45
@@ -454,6 +455,18 @@ Partial Class Payment
 		Label3.Size = New Size(0, 15)
 		Label3.TabIndex = 52
 		' 
+		' hchangelbl
+		' 
+		hchangelbl.AutoSize = True
+		hchangelbl.BackColor = Color.Transparent
+		hchangelbl.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		hchangelbl.ForeColor = Color.White
+		hchangelbl.Location = New Point(1342, 787)
+		hchangelbl.Name = "hchangelbl"
+		hchangelbl.Size = New Size(194, 45)
+		hchangelbl.TabIndex = 53
+		hchangelbl.Text = "hchangelbl"
+		' 
 		' Payment
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
@@ -461,6 +474,7 @@ Partial Class Payment
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		BackgroundImageLayout = ImageLayout.Stretch
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(hchangelbl)
 		Controls.Add(Label3)
 		Controls.Add(Panel2)
 		Controls.Add(Button21)
@@ -533,4 +547,5 @@ Partial Class Payment
 	Friend WithEvents Panel2 As Panel
 	Friend WithEvents Button21 As Button
 	Friend WithEvents Label3 As Label
+	Friend WithEvents hchangelbl As Label
 End Class

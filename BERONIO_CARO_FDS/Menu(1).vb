@@ -21,6 +21,7 @@ Public Class Menu__1_
         Label2.Text = DateTime.Now.ToString("hh:mm tt")
     End Sub
 
+    ' NAVIGATION
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Hide()
         Menu_2_.Show()
@@ -95,6 +96,7 @@ Public Class Menu__1_
 
             reader.Close()
 
+            ' AUTO SELECT WHEN LOADED
             If itemMenu.Rows.Count > 0 Then
                 Dim firstRow As DataGridViewRow = itemMenu.Rows(0)
                 firstRow.Selected = True
@@ -145,6 +147,7 @@ Public Class Menu__1_
         NumericUpDown1.Value = 1
     End Sub
 
+    ' DISPOSE IMAGE TO PREVENT CRASHING
     Private Sub Menu__1__FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If PictureBox1.Image IsNot Nothing Then
             PictureBox1.Image.Dispose()

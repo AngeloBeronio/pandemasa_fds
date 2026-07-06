@@ -5,7 +5,6 @@ Public Class EmpManage
 
     Private selectedEmployeeId As Integer = -1
 
-    ' LOAD
     Private Sub Admin_Emp_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetupGrid()
         LoadRoles()
@@ -33,7 +32,6 @@ Public Class EmpManage
         End With
     End Sub
 
-    ' ROLES
     Private Sub LoadRoles()
         Try
             OpenConnection()
@@ -109,7 +107,6 @@ Public Class EmpManage
         End Try
     End Sub
 
-    ' EMPLOYEES
     Private Sub LoadEmployees(Optional filterId As String = "", Optional filterRoleId As Integer = -1)
         Try
             OpenConnection()
@@ -156,7 +153,6 @@ Public Class EmpManage
         End Try
     End Sub
 
-    ' FILTER
     Private Sub btn_Find_Click(sender As Object, e As EventArgs) Handles btn_Find.Click
         LoadEmployees(txt_FilterId.Text, GetSelectedRoleId(cmb_FilterRole))
     End Sub
@@ -181,7 +177,6 @@ Public Class EmpManage
         End If
     End Sub
 
-    ' ADD & DELETE
     Private Sub btn_AddEmployee_Click(sender As Object, e As EventArgs) Handles btn_AddEmployee.Click
         Dim username As String = txt_Username.Text.Trim()
         Dim passcode As String = txt_Passcode.Text.Trim()
@@ -238,7 +233,6 @@ Public Class EmpManage
         End Try
     End Sub
 
-    ' UPDATE
     Private Sub btn_Set_Click(sender As Object, e As EventArgs) Handles btn_Set.Click
         If selectedEmployeeId = -1 Then MsgWarn("Select an employee first.") : Return
 
@@ -264,7 +258,6 @@ Public Class EmpManage
         End Try
     End Sub
 
-    ' HELPERS
     Private Function NullStr(val As Object) As String
         Return If(IsDBNull(val), "", val.ToString())
     End Function
@@ -294,19 +287,23 @@ Public Class EmpManage
 
     ' NAVIGATION
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-        Me.Hide() : Admin_Homevb.Show()
+        Me.Hide()
+        Admin_Homevb.Show()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Me.Hide() : Admin_Inv.Show()
+        Me.Hide()
+        Admin_Inv.Show()
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        Me.Hide() : Admin_OrdLogs.Show()
+        Me.Hide()
+        Admin_OrdLogs.Show()
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Me.Hide() : Admin_InvLogs.Show()
+        Me.Hide()
+        Admin_InvLogs.Show()
     End Sub
 
 End Class

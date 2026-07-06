@@ -11,21 +11,6 @@ Public Class Admin_OrdLogs
 		LoadLogs()
 	End Sub
 
-	' NAVIGATION
-	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-		Me.Hide()
-		Admin_Inv.Show()
-	End Sub
-
-	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-		Me.Hide()
-		Admin_Homevb.Show()
-	End Sub
-
-	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-		Me.Hide()
-		Admin_InvLogs.Show()
-	End Sub
 	Private Sub SetupLogsGrid()
 		DataGridView1.Columns.Clear()
 		DataGridView1.AutoGenerateColumns = False
@@ -110,5 +95,26 @@ Public Class Admin_OrdLogs
 		currentPage = 1
 		TextBox1.Text = "1"
 		LoadLogs()
+	End Sub
+
+	' NAVIGATION
+	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+		Me.Hide()
+		Admin_Inv.Show()
+	End Sub
+
+	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+		Me.Hide()
+		Admin_Homevb.Show()
+	End Sub
+
+	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+		Me.Hide()
+		Admin_InvLogs.Show()
+	End Sub
+
+	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+		Me.Hide()
+		Admin_GrossProfit.Show()
 	End Sub
 End Class

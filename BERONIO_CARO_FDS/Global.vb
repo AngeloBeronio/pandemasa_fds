@@ -6,6 +6,9 @@ Module [Global]
     Public connStr As String = "Server=localhost;Database=pan_de_masa_db;Uid=root;Pwd=;"
     Public LoggedInUserId As Integer
     Public CartItems As New List(Of CartItem)
+    Public EmployeeID As Integer
+    Public EmployeeName As String
+    Public RoleID As Integer
 
     ' CONNECTION
     Public Sub OpenConnection()

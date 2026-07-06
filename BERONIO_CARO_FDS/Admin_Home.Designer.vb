@@ -97,7 +97,7 @@ Partial Class Admin_Homevb
 		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		DataGridView1.Location = New Point(1070, 500)
 		DataGridView1.Name = "DataGridView1"
-		DataGridView1.Size = New Size(502, 270)
+		DataGridView1.Size = New Size(502, 121)
 		DataGridView1.TabIndex = 4
 		' 
 		' Label5
@@ -127,7 +127,7 @@ Partial Class Admin_Homevb
 		' Button1
 		' 
 		Button1.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Button1.Location = New Point(1341, 870)
+		Button1.Location = New Point(1126, 872)
 		Button1.Name = "Button1"
 		Button1.Size = New Size(372, 54)
 		Button1.TabIndex = 8
@@ -137,7 +137,7 @@ Partial Class Admin_Homevb
 		' Button2
 		' 
 		Button2.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Button2.Location = New Point(1341, 961)
+		Button2.Location = New Point(1126, 953)
 		Button2.Name = "Button2"
 		Button2.Size = New Size(372, 54)
 		Button2.TabIndex = 9
@@ -216,11 +216,11 @@ Partial Class Admin_Homevb
 		Button7.FlatAppearance.BorderSize = 0
 		Button7.FlatStyle = FlatStyle.Flat
 		Button7.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button7.Location = New Point(111, 709)
+		Button7.Location = New Point(111, 617)
 		Button7.Name = "Button7"
 		Button7.Size = New Size(196, 60)
 		Button7.TabIndex = 15
-		Button7.Text = "INVENTORY LOGS"
+		Button7.Text = "GROSS PROFIT"
 		Button7.TextAlign = ContentAlignment.MiddleLeft
 		Button7.UseVisualStyleBackColor = False
 		' 
