@@ -288,11 +288,11 @@ Public Class Admin_Homevb
             Dim totalSalary As Decimal = Convert.ToDecimal(cmdSalary.ExecuteScalar())
             Dim netProfit As Decimal = grossProfit - totalSalary
 
-            Dim revText As New Paragraph("Total Revenue: PHP " & totalRev.ToString("N2"))
+            Dim revText As New Paragraph("Total Revenue : PHP " & totalRev.ToString("N2"))
             revText.SetFont(boldFont)
             doc.Add(revText)
 
-            Dim grossText As New Paragraph("Gross Profit: PHP " & grossProfit.ToString("N2"))
+            Dim grossText As New Paragraph("Gross Profit : PHP " & grossProfit.ToString("N2"))
             grossText.SetFont(boldFont)
             doc.Add(grossText)
 
