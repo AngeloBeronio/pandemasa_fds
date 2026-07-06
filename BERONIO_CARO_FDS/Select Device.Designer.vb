@@ -25,18 +25,15 @@ Partial Class Select_Device
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Select_Device))
 		btnAdmin1 = New Button()
 		btnAdmin2 = New Button()
-		btnAdmin3 = New Button()
-		Me.btnCashier1 = New Button()
-		Me.btnCashier2 = New Button()
-		Me.btnCashier3 = New Button()
-		Me.btnCashier4 = New Button()
-		btnCashier5 = New Button()
+		btnCashier1 = New Button()
+		btnCashier2 = New Button()
+		btnCashier3 = New Button()
 		SuspendLayout()
 		' 
 		' btnAdmin1
 		' 
 		btnAdmin1.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		btnAdmin1.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnAdmin1.Font = New Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		btnAdmin1.ForeColor = Color.White
 		btnAdmin1.Location = New Point(184, 257)
 		btnAdmin1.Name = "btnAdmin1"
@@ -48,7 +45,7 @@ Partial Class Select_Device
 		' btnAdmin2
 		' 
 		btnAdmin2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		btnAdmin2.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnAdmin2.Font = New Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		btnAdmin2.ForeColor = Color.White
 		btnAdmin2.Location = New Point(541, 257)
 		btnAdmin2.Name = "btnAdmin2"
@@ -57,90 +54,51 @@ Partial Class Select_Device
 		btnAdmin2.Text = "2"
 		btnAdmin2.UseVisualStyleBackColor = False
 		' 
-		' btnAdmin3
-		' 
-		btnAdmin3.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		btnAdmin3.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		btnAdmin3.ForeColor = Color.White
-		btnAdmin3.Location = New Point(912, 257)
-		btnAdmin3.Name = "btnAdmin3"
-		btnAdmin3.Size = New Size(166, 156)
-		btnAdmin3.TabIndex = 2
-		btnAdmin3.Text = "3"
-		btnAdmin3.UseVisualStyleBackColor = False
-		' 
 		' btnCashier1
 		' 
-		Me.btnCashier1.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		Me.btnCashier1.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Me.btnCashier1.ForeColor = Color.White
-		Me.btnCashier1.Location = New Point(184, 809)
-		Me.btnCashier1.Name = "btnCashier1"
-		Me.btnCashier1.Size = New Size(166, 156)
-		Me.btnCashier1.TabIndex = 3
-		Me.btnCashier1.Text = "1"
-		Me.btnCashier1.UseVisualStyleBackColor = False
+		btnCashier1.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnCashier1.Font = New Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnCashier1.ForeColor = Color.White
+		btnCashier1.Location = New Point(184, 809)
+		btnCashier1.Name = "btnCashier1"
+		btnCashier1.Size = New Size(166, 156)
+		btnCashier1.TabIndex = 3
+		btnCashier1.Text = "1"
+		btnCashier1.UseVisualStyleBackColor = False
 		' 
 		' btnCashier2
 		' 
-		Me.btnCashier2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		Me.btnCashier2.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Me.btnCashier2.ForeColor = Color.White
-		Me.btnCashier2.Location = New Point(541, 809)
-		Me.btnCashier2.Name = "btnCashier2"
-		Me.btnCashier2.Size = New Size(166, 156)
-		Me.btnCashier2.TabIndex = 4
-		Me.btnCashier2.Text = "2"
-		Me.btnCashier2.UseVisualStyleBackColor = False
+		btnCashier2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnCashier2.Font = New Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnCashier2.ForeColor = Color.White
+		btnCashier2.Location = New Point(541, 809)
+		btnCashier2.Name = "btnCashier2"
+		btnCashier2.Size = New Size(166, 156)
+		btnCashier2.TabIndex = 4
+		btnCashier2.Text = "2"
+		btnCashier2.UseVisualStyleBackColor = False
 		' 
 		' btnCashier3
 		' 
-		Me.btnCashier3.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		Me.btnCashier3.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Me.btnCashier3.ForeColor = Color.White
-		Me.btnCashier3.Location = New Point(912, 809)
-		Me.btnCashier3.Name = "btnCashier3"
-		Me.btnCashier3.Size = New Size(166, 156)
-		Me.btnCashier3.TabIndex = 5
-		Me.btnCashier3.Text = "3"
-		Me.btnCashier3.UseVisualStyleBackColor = False
-		' 
-		' btnCashier4
-		' 
-		Me.btnCashier4.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		Me.btnCashier4.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Me.btnCashier4.ForeColor = Color.White
-		Me.btnCashier4.Location = New Point(1277, 809)
-		Me.btnCashier4.Name = "btnCashier4"
-		Me.btnCashier4.Size = New Size(166, 156)
-		Me.btnCashier4.TabIndex = 6
-		Me.btnCashier4.Text = "4"
-		Me.btnCashier4.UseVisualStyleBackColor = False
-		' 
-		' btnCashier5
-		' 
-		btnCashier5.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
-		btnCashier5.Font = New Font("Segoe UI", 36.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		btnCashier5.ForeColor = Color.White
-		btnCashier5.Location = New Point(1638, 809)
-		btnCashier5.Name = "btnCashier5"
-		btnCashier5.Size = New Size(166, 156)
-		btnCashier5.TabIndex = 7
-		btnCashier5.Text = "5"
-		btnCashier5.UseVisualStyleBackColor = False
+		btnCashier3.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnCashier3.Font = New Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnCashier3.ForeColor = Color.White
+		btnCashier3.Location = New Point(912, 809)
+		btnCashier3.Name = "btnCashier3"
+		btnCashier3.Size = New Size(166, 156)
+		btnCashier3.TabIndex = 5
+		btnCashier3.Text = "3"
+		btnCashier3.UseVisualStyleBackColor = False
 		' 
 		' Select_Device
 		' 
-		AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
-		Controls.Add(btnCashier5)
-		Controls.Add(Me.btnCashier4)
-		Controls.Add(Me.btnCashier3)
-		Controls.Add(Me.btnCashier2)
-		Controls.Add(Me.btnCashier1)
-		Controls.Add(btnAdmin3)
+		Controls.Add(btnCashier3)
+		Controls.Add(btnCashier2)
+		Controls.Add(btnCashier1)
 		Controls.Add(btnAdmin2)
 		Controls.Add(btnAdmin1)
 		Name = "Select_Device"
@@ -150,10 +108,7 @@ Partial Class Select_Device
 
 	Friend WithEvents btnAdmin1 As Button
 	Friend WithEvents btnAdmin2 As Button
-	Friend WithEvents btnAdmin3 As Button
 	Friend WithEvents btnCashier1 As Button
 	Friend WithEvents btnCashier2 As Button
 	Friend WithEvents btnCashier3 As Button
-	Friend WithEvents btnCashier4 As Button
-	Friend WithEvents btnCashier5 As Button
 End Class

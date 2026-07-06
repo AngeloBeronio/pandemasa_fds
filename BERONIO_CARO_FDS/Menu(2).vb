@@ -35,6 +35,11 @@ Public Class Menu_2_
 		Menu_5_.Show()
 	End Sub
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+		If CartItems.Count = 0 Then
+			MessageBox.Show("Your cart is empty. Please add items first.",
+						"Empty Cart", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Return
+		End If
 		Me.Hide()
 		Cart.Show()
 	End Sub

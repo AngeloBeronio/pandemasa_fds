@@ -46,14 +46,17 @@ Partial Class Payment
 		Button16 = New Button()
 		dgvOrder = New DataGridView()
 		Label1 = New Label()
-		Panel1 = New Panel()
 		lblSubtotal = New Label()
 		lblTotal = New Label()
 		lblDiscount = New Label()
-		lblChange = New Label()
+		lblchange = New Label()
 		Button19 = New Button()
 		Button20 = New Button()
 		Button6 = New Button()
+		Label2 = New Label()
+		Panel2 = New Panel()
+		Button21 = New Button()
+		Label3 = New Label()
 		CType(dgvOrder, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -264,13 +267,13 @@ Partial Class Payment
 		' Button18
 		' 
 		Button18.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
-		Button18.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Button18.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Button18.ForeColor = Color.White
-		Button18.Location = New Point(1048, 340)
+		Button18.Location = New Point(1048, 484)
 		Button18.Name = "Button18"
 		Button18.Size = New Size(195, 108)
 		Button18.TabIndex = 34
-		Button18.Text = "PWD/SENIOR"
+		Button18.Text = "Other Methods"
 		Button18.UseVisualStyleBackColor = False
 		' 
 		' Button16
@@ -329,14 +332,6 @@ Partial Class Payment
 		Label1.TabIndex = 40
 		Label1.Text = "ORDER LIST"
 		' 
-		' Panel1
-		' 
-		Panel1.BackColor = Color.Red
-		Panel1.Location = New Point(1010, 381)
-		Panel1.Name = "Panel1"
-		Panel1.Size = New Size(21, 23)
-		Panel1.TabIndex = 41
-		' 
 		' lblSubtotal
 		' 
 		lblSubtotal.AutoSize = True
@@ -373,17 +368,17 @@ Partial Class Payment
 		lblDiscount.TabIndex = 44
 		lblDiscount.Text = "dislbl"
 		' 
-		' lblChange
+		' lblchange
 		' 
-		lblChange.AutoSize = True
-		lblChange.BackColor = Color.Transparent
-		lblChange.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		lblChange.ForeColor = Color.White
-		lblChange.Location = New Point(1534, 785)
-		lblChange.Name = "lblChange"
-		lblChange.Size = New Size(174, 45)
-		lblChange.TabIndex = 45
-		lblChange.Text = "changelbl"
+		lblchange.AutoSize = True
+		lblchange.BackColor = Color.Transparent
+		lblchange.Font = New Font("Segoe UI Black", 24F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		lblchange.ForeColor = Color.White
+		lblchange.Location = New Point(1337, 783)
+		lblchange.Name = "lblchange"
+		lblchange.Size = New Size(174, 45)
+		lblchange.TabIndex = 45
+		lblchange.Text = "changelbl"
 		' 
 		' Button19
 		' 
@@ -419,6 +414,46 @@ Partial Class Payment
 		Button6.Text = "X"
 		Button6.UseVisualStyleBackColor = False
 		' 
+		' Label2
+		' 
+		Label2.AutoSize = True
+		Label2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Label2.Font = New Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Label2.ForeColor = Color.White
+		Label2.Location = New Point(535, 88)
+		Label2.Name = "Label2"
+		Label2.Size = New Size(371, 47)
+		Label2.TabIndex = 49
+		Label2.Text = "AMOUNT TENDERED"
+		' 
+		' Panel2
+		' 
+		Panel2.BackColor = Color.Red
+		Panel2.Location = New Point(1010, 381)
+		Panel2.Name = "Panel2"
+		Panel2.Size = New Size(21, 23)
+		Panel2.TabIndex = 51
+		' 
+		' Button21
+		' 
+		Button21.BackColor = Color.FromArgb(CByte(253), CByte(136), CByte(18))
+		Button21.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Button21.ForeColor = Color.White
+		Button21.Location = New Point(1048, 340)
+		Button21.Name = "Button21"
+		Button21.Size = New Size(195, 108)
+		Button21.TabIndex = 50
+		Button21.Text = "PWD/SENIOR"
+		Button21.UseVisualStyleBackColor = False
+		' 
+		' Label3
+		' 
+		Label3.AutoSize = True
+		Label3.Location = New Point(675, 28)
+		Label3.Name = "Label3"
+		Label3.Size = New Size(0, 15)
+		Label3.TabIndex = 52
+		' 
 		' Payment
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
@@ -426,14 +461,17 @@ Partial Class Payment
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		BackgroundImageLayout = ImageLayout.Stretch
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Label3)
+		Controls.Add(Panel2)
+		Controls.Add(Button21)
+		Controls.Add(Label2)
 		Controls.Add(Button6)
 		Controls.Add(Button20)
 		Controls.Add(Button19)
-		Controls.Add(lblChange)
+		Controls.Add(lblchange)
 		Controls.Add(lblDiscount)
 		Controls.Add(lblTotal)
 		Controls.Add(lblSubtotal)
-		Controls.Add(Panel1)
 		Controls.Add(Label1)
 		Controls.Add(dgvOrder)
 		Controls.Add(Button16)
@@ -484,12 +522,15 @@ Partial Class Payment
 	Friend WithEvents Button16 As Button
 	Friend WithEvents dgvOrder As DataGridView
 	Friend WithEvents Label1 As Label
-	Friend WithEvents Panel1 As Panel
 	Friend WithEvents lblSubtotal As Label
 	Friend WithEvents lblTotal As Label
 	Friend WithEvents lblDiscount As Label
-	Friend WithEvents lblChange As Label
+	Friend WithEvents lblchange As Label
 	Friend WithEvents Button19 As Button
 	Friend WithEvents Button20 As Button
 	Friend WithEvents Button6 As Button
+	Friend WithEvents Label2 As Label
+	Friend WithEvents Panel2 As Panel
+	Friend WithEvents Button21 As Button
+	Friend WithEvents Label3 As Label
 End Class
