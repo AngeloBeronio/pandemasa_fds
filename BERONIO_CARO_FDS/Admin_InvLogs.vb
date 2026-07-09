@@ -15,9 +15,9 @@ Public Class Admin_InvLogs
 		With DataGridView1
 			.Columns.Clear()
 			.AutoGenerateColumns = False
-
 			.Columns.Add("colLogId", "LOGS ID")
-			.Columns.Add("colProductId", "PRODUCT ID")
+			.Columns.Add("colType", "TYPE")
+			.Columns.Add("colItemId", "ITEM ID")
 			.Columns.Add("colUserId", "USER ID")
 			.Columns.Add("colQty", "ADJ QUANTITY")
 			.Columns.Add("colUnit", "ADJ UNIT")
@@ -30,16 +30,21 @@ Public Class Admin_InvLogs
 		Try
 			OpenConnection()
 			DataGridView1.Rows.Clear()
-
 			Dim offset As Integer = (currentPage - 1) * pageSize
 			Dim searchKeyword As String = TextBox2.Text.Trim()
 
 			Dim query As String = "
-                SELECT log_id, product_id, user_id, adjustment_quantity, adjustment_unit, timestamp 
-                FROM inventory_logs"
+                SELECT log_id, item_type, item_id, user_id, adjustment_quantity, adjustment_unit, timestamp
+                FROM (
+                    SELECT log_id, 'Product' AS item_type, product_id AS item_id, user_id, adjustment_quantity, adjustment_unit, timestamp
+                    FROM productinv_logs
+                    UNION ALL
+                    SELECT log_id, 'Ingredient' AS item_type, ingredient_id AS item_id, user_id, adjustment_quantity, adjustment_unit, timestamp
+                    FROM ingredientinv_logs
+                ) AS combined_logs"
 
 			If Not String.IsNullOrEmpty(searchKeyword) Then
-				query &= " WHERE product_id LIKE @search OR log_id LIKE @search"
+				query &= " WHERE item_id LIKE @search OR log_id LIKE @search OR item_type LIKE @search"
 			End If
 
 			query &= " ORDER BY timestamp DESC LIMIT @limit OFFSET @offset"
@@ -47,7 +52,6 @@ Public Class Admin_InvLogs
 			Dim cmd As New MySqlCommand(query, conn)
 			cmd.Parameters.AddWithValue("@limit", pageSize)
 			cmd.Parameters.AddWithValue("@offset", offset)
-
 			If Not String.IsNullOrEmpty(searchKeyword) Then
 				cmd.Parameters.AddWithValue("@search", $"%{searchKeyword}%")
 			End If
@@ -56,9 +60,9 @@ Public Class Admin_InvLogs
 				While reader.Read()
 					Dim index As Integer = DataGridView1.Rows.Add()
 					Dim row As DataGridViewRow = DataGridView1.Rows(index)
-
 					row.Cells("colLogId").Value = reader("log_id")
-					row.Cells("colProductId").Value = reader("product_id")
+					row.Cells("colType").Value = reader("item_type").ToString()
+					row.Cells("colItemId").Value = reader("item_id")
 					row.Cells("colUserId").Value = If(IsDBNull(reader("user_id")), "N/A", reader("user_id"))
 					row.Cells("colQty").Value = reader("adjustment_quantity")
 					row.Cells("colUnit").Value = reader("adjustment_unit").ToString()
@@ -100,7 +104,7 @@ Public Class Admin_InvLogs
 
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 		Me.Hide()
-		Admin_Inv.Show()
+		Admin_ManageProducts.Show()
 	End Sub
 
 	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -115,6 +119,11 @@ Public Class Admin_InvLogs
 
 	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
 		Me.Hide()
-		Admin_GrossProfit.Show()
+		Admin_ManageIngredients.Show()
+	End Sub
+
+	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+		Me.Hide()
+		Admin_ManageEmp.Show()
 	End Sub
 End Class

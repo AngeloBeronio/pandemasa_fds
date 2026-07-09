@@ -51,10 +51,10 @@ Public Class Start
                         Case "2"
                             Menu__1_.Show()
                         Case "3"
-                            MessageBox.Show("You do not have access.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Successfully logged in for the day ", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Me.Show()
                         Case Else
-                            MessageBox.Show("Unknown role. Contact your administrator.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            MessageBox.Show("Unknown role.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             Me.Show()
                     End Select
                 Else

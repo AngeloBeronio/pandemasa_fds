@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class EmpManage
+Partial Class Admin_ManageEmp
 	Inherits System.Windows.Forms.Form
 
 	'Form overrides dispose to clean up the component list.
@@ -22,6 +22,7 @@ Partial Class EmpManage
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
+		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Admin_ManageEmp))
 		Panel2 = New Panel()
 		cmb_EditRole = New ComboBox()
 		btn_Set = New Button()
@@ -45,12 +46,10 @@ Partial Class EmpManage
 		Panel4 = New Panel()
 		Label14 = New Label()
 		Label13 = New Label()
-		Label12 = New Label()
 		Label11 = New Label()
 		Label10 = New Label()
 		Label9 = New Label()
 		txt_Passcode = New TextBox()
-		txt_Username = New TextBox()
 		btn_RemoveRole = New Button()
 		btn_AddRole = New Button()
 		txt_RoleName = New TextBox()
@@ -135,8 +134,8 @@ Partial Class EmpManage
 		' Label2
 		' 
 		Label2.AutoSize = True
-		Label2.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-		Label2.Location = New Point(24, 30)
+		Label2.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Label2.Location = New Point(24, 192)
 		Label2.Name = "Label2"
 		Label2.Size = New Size(106, 32)
 		Label2.TabIndex = 6
@@ -186,7 +185,7 @@ Partial Class EmpManage
 		' Label6
 		' 
 		Label6.AutoSize = True
-		Label6.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Label6.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Label6.Location = New Point(21, 13)
 		Label6.Name = "Label6"
 		Label6.Size = New Size(87, 32)
@@ -236,12 +235,12 @@ Partial Class EmpManage
 		Button3.FlatAppearance.BorderColor = Color.White
 		Button3.FlatAppearance.BorderSize = 0
 		Button3.FlatStyle = FlatStyle.Flat
-		Button3.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button3.Location = New Point(48, 479)
+		Button3.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button3.Location = New Point(108, 617)
 		Button3.Name = "Button3"
 		Button3.Size = New Size(196, 60)
 		Button3.TabIndex = 21
-		Button3.Text = "INVENTORY LOGS"
+		Button3.Text = "ORDER LOGS"
 		Button3.TextAlign = ContentAlignment.MiddleLeft
 		Button3.UseVisualStyleBackColor = False
 		' 
@@ -252,12 +251,12 @@ Partial Class EmpManage
 		Button5.FlatAppearance.BorderColor = Color.White
 		Button5.FlatAppearance.BorderSize = 0
 		Button5.FlatStyle = FlatStyle.Flat
-		Button5.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button5.Location = New Point(48, 413)
+		Button5.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button5.Location = New Point(108, 468)
 		Button5.Name = "Button5"
 		Button5.Size = New Size(196, 60)
 		Button5.TabIndex = 20
-		Button5.Text = "ORDER LOGS"
+		Button5.Text = "MANAGE INGREDIENTS"
 		Button5.TextAlign = ContentAlignment.MiddleLeft
 		Button5.UseVisualStyleBackColor = False
 		' 
@@ -268,8 +267,8 @@ Partial Class EmpManage
 		Button6.FlatAppearance.BorderColor = Color.White
 		Button6.FlatAppearance.BorderSize = 0
 		Button6.FlatStyle = FlatStyle.Flat
-		Button6.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button6.Location = New Point(48, 282)
+		Button6.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button6.Location = New Point(108, 337)
 		Button6.Name = "Button6"
 		Button6.Size = New Size(196, 60)
 		Button6.TabIndex = 19
@@ -281,12 +280,10 @@ Partial Class EmpManage
 		' 
 		Panel4.Controls.Add(Label14)
 		Panel4.Controls.Add(Label13)
-		Panel4.Controls.Add(Label12)
 		Panel4.Controls.Add(Label11)
 		Panel4.Controls.Add(Label10)
 		Panel4.Controls.Add(Label9)
 		Panel4.Controls.Add(txt_Passcode)
-		Panel4.Controls.Add(txt_Username)
 		Panel4.Controls.Add(btn_RemoveRole)
 		Panel4.Controls.Add(btn_AddRole)
 		Panel4.Controls.Add(txt_RoleName)
@@ -299,13 +296,13 @@ Partial Class EmpManage
 		Panel4.Controls.Add(btn_AddEmployee)
 		Panel4.Location = New Point(386, 782)
 		Panel4.Name = "Panel4"
-		Panel4.Size = New Size(1349, 247)
+		Panel4.Size = New Size(1349, 199)
 		Panel4.TabIndex = 25
 		' 
 		' Label14
 		' 
 		Label14.AutoSize = True
-		Label14.Location = New Point(854, 132)
+		Label14.Location = New Point(853, 94)
 		Label14.Name = "Label14"
 		Label14.Size = New Size(35, 15)
 		Label14.TabIndex = 35
@@ -314,20 +311,11 @@ Partial Class EmpManage
 		' Label13
 		' 
 		Label13.AutoSize = True
-		Label13.Location = New Point(237, 164)
+		Label13.Location = New Point(367, 136)
 		Label13.Name = "Label13"
 		Label13.Size = New Size(56, 15)
 		Label13.TabIndex = 34
 		Label13.Text = "Passcode"
-		' 
-		' Label12
-		' 
-		Label12.AutoSize = True
-		Label12.Location = New Point(21, 166)
-		Label12.Name = "Label12"
-		Label12.Size = New Size(60, 15)
-		Label12.TabIndex = 33
-		Label12.Text = "Username"
 		' 
 		' Label11
 		' 
@@ -350,7 +338,7 @@ Partial Class EmpManage
 		' Label9
 		' 
 		Label9.AutoSize = True
-		Label9.Font = New Font("Segoe UI", 18.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		Label9.Font = New Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Label9.Location = New Point(21, 25)
 		Label9.Name = "Label9"
 		Label9.Size = New Size(218, 32)
@@ -359,21 +347,14 @@ Partial Class EmpManage
 		' 
 		' txt_Passcode
 		' 
-		txt_Passcode.Location = New Point(237, 184)
+		txt_Passcode.Location = New Point(367, 156)
 		txt_Passcode.Name = "txt_Passcode"
 		txt_Passcode.Size = New Size(168, 23)
 		txt_Passcode.TabIndex = 29
 		' 
-		' txt_Username
-		' 
-		txt_Username.Location = New Point(21, 184)
-		txt_Username.Name = "txt_Username"
-		txt_Username.Size = New Size(168, 23)
-		txt_Username.TabIndex = 28
-		' 
 		' btn_RemoveRole
 		' 
-		btn_RemoveRole.Location = New Point(1228, 100)
+		btn_RemoveRole.Location = New Point(1228, 73)
 		btn_RemoveRole.Name = "btn_RemoveRole"
 		btn_RemoveRole.Size = New Size(87, 79)
 		btn_RemoveRole.TabIndex = 25
@@ -382,7 +363,7 @@ Partial Class EmpManage
 		' 
 		' btn_AddRole
 		' 
-		btn_AddRole.Location = New Point(1098, 100)
+		btn_AddRole.Location = New Point(1098, 72)
 		btn_AddRole.Name = "btn_AddRole"
 		btn_AddRole.Size = New Size(87, 79)
 		btn_AddRole.TabIndex = 24
@@ -391,7 +372,7 @@ Partial Class EmpManage
 		' 
 		' txt_RoleName
 		' 
-		txt_RoleName.Location = New Point(854, 156)
+		txt_RoleName.Location = New Point(853, 118)
 		txt_RoleName.Name = "txt_RoleName"
 		txt_RoleName.Size = New Size(206, 23)
 		txt_RoleName.TabIndex = 23
@@ -430,12 +411,12 @@ Partial Class EmpManage
 		' 
 		FlowLayoutPanel1.Location = New Point(807, 25)
 		FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-		FlowLayoutPanel1.Size = New Size(2, 200)
+		FlowLayoutPanel1.Size = New Size(2, 150)
 		FlowLayoutPanel1.TabIndex = 12
 		' 
 		' btn_RemoveEmployee
 		' 
-		btn_RemoveEmployee.Location = New Point(697, 100)
+		btn_RemoveEmployee.Location = New Point(696, 72)
 		btn_RemoveEmployee.Name = "btn_RemoveEmployee"
 		btn_RemoveEmployee.Size = New Size(87, 79)
 		btn_RemoveEmployee.TabIndex = 11
@@ -444,7 +425,7 @@ Partial Class EmpManage
 		' 
 		' btn_AddEmployee
 		' 
-		btn_AddEmployee.Location = New Point(593, 100)
+		btn_AddEmployee.Location = New Point(593, 73)
 		btn_AddEmployee.Name = "btn_AddEmployee"
 		btn_AddEmployee.Size = New Size(87, 79)
 		btn_AddEmployee.TabIndex = 10
@@ -458,12 +439,12 @@ Partial Class EmpManage
 		Button1.FlatAppearance.BorderColor = Color.White
 		Button1.FlatAppearance.BorderSize = 0
 		Button1.FlatStyle = FlatStyle.Flat
-		Button1.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button1.Location = New Point(48, 348)
+		Button1.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button1.Location = New Point(108, 403)
 		Button1.Name = "Button1"
 		Button1.Size = New Size(196, 60)
 		Button1.TabIndex = 26
-		Button1.Text = "INVENTORY"
+		Button1.Text = "MANAGE PRODUCTS"
 		Button1.TextAlign = ContentAlignment.MiddleLeft
 		Button1.UseVisualStyleBackColor = False
 		' 
@@ -474,19 +455,20 @@ Partial Class EmpManage
 		Button2.FlatAppearance.BorderColor = Color.White
 		Button2.FlatAppearance.BorderSize = 0
 		Button2.FlatStyle = FlatStyle.Flat
-		Button2.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button2.Location = New Point(48, 549)
+		Button2.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button2.Location = New Point(108, 687)
 		Button2.Name = "Button2"
 		Button2.Size = New Size(196, 60)
 		Button2.TabIndex = 27
-		Button2.Text = "GROSS PROFIT"
+		Button2.Text = "INVENTORY LOGS"
 		Button2.TextAlign = ContentAlignment.MiddleLeft
 		Button2.UseVisualStyleBackColor = False
 		' 
-		' EmpManage
+		' Admin_ManageEmp
 		' 
-		AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
+		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
 		Controls.Add(Button2)
 		Controls.Add(Button1)
@@ -497,7 +479,7 @@ Partial Class EmpManage
 		Controls.Add(Button3)
 		Controls.Add(Button5)
 		Controls.Add(Button6)
-		Name = "EmpManage"
+		Name = "Admin_ManageEmp"
 		Text = "EmpManage"
 		Panel2.ResumeLayout(False)
 		Panel2.PerformLayout()
@@ -541,12 +523,10 @@ Partial Class EmpManage
 	Friend WithEvents Button2 As Button
 	Friend WithEvents btn_Find As Button
 	Friend WithEvents txt_Passcode As TextBox
-	Friend WithEvents txt_Username As TextBox
 	Friend WithEvents Label7 As Label
 	Friend WithEvents Label3 As Label
 	Friend WithEvents Label14 As Label
 	Friend WithEvents Label13 As Label
-	Friend WithEvents Label12 As Label
 	Friend WithEvents Label11 As Label
 	Friend WithEvents Label10 As Label
 	Friend WithEvents Label9 As Label

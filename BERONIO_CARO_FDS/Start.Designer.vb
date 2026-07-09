@@ -39,7 +39,7 @@ Partial Class Start
 		Button1.Name = "Button1"
 		Button1.Size = New Size(380, 138)
 		Button1.TabIndex = 0
-		Button1.Text = "SIGN IN"
+		Button1.Text = "LOGIN"
 		Button1.UseVisualStyleBackColor = False
 		' 
 		' TextBox1

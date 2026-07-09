@@ -20,7 +20,7 @@ Module [Global]
         If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then conn.Close()
     End Sub
 
-    ' DATE FUNCTION
+    ' DATE
     Public Function GetGreeting() As String
         Dim hour As Integer = DateTime.Now.Hour
         Dim greeting As String
@@ -36,7 +36,7 @@ Module [Global]
         Return greeting
     End Function
 
-    ' DEFAULT MENU DGV
+    ' DEFAULT MENU
     Public Sub SetupMenuGrid(dgv As DataGridView)
         dgv.Columns.Clear()
         dgv.RowTemplate.Height = 110
@@ -101,12 +101,12 @@ Module [Global]
         MessageBox.Show(qty & "x " & productName & " added to cart",
                         "Added to Cart", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
-End Module
 
-Public Class CartItem
-    Public Property ProductId As Integer
-    Public Property ProductName As String
-    Public Property Quantity As Integer
-    Public Property UnitPrice As Decimal
-    Public Property Total As Decimal
-End Class
+    Public Class CartItem
+        Public Property ProductId As Integer
+        Public Property ProductName As String
+        Public Property Quantity As Integer
+        Public Property UnitPrice As Decimal
+        Public Property Total As Decimal
+    End Class
+End Module

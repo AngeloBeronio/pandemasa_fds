@@ -2,15 +2,31 @@
 Imports System.IO
 Imports System.Data
 
-Public Class Admin_Inv
+Public Class Admin_ManageProducts
 
 	Private selectedProductId As Integer = -1
 	Private selectedImagePath As String = ""
+	Private selectedIsBaked As Boolean = True
 
 	Private Sub Admin_Inv_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupInventoryGrid()
 		PopulateCategoryComboBox()
+		RadioButton3.Checked = True ' default new products to Baked
+		ApplyBakedFieldState()
 		LoadInventory()
+	End Sub
+
+	Private Sub ApplyBakedFieldState()
+		Dim isBaked As Boolean = RadioButton3.Checked
+
+		TextBox5.Enabled = Not isBaked ' Estimated Cost Price (baked products auto-compute cost from recipe)
+		TextBox5.BackColor = If(TextBox5.Enabled, SystemColors.Window, SystemColors.Control)
+
+		TextBox2.Enabled = isBaked ' Ingredient Name
+		TextBox4.Enabled = isBaked ' Gram/s
+		Button10.Enabled = isBaked ' SET
+		ComboBox2.Enabled = isBaked
+		Button10.Enabled = isBaked ' REMOVE
 	End Sub
 
 	Private Sub SetupInventoryGrid()
@@ -39,10 +55,12 @@ Public Class Admin_Inv
 		DataGridView1.Columns.Add("colStatus", "STATUS")
 		DataGridView1.Columns.Add("colCategoryId", "CategoryId")
 		DataGridView1.Columns.Add("colImagePath", "ImagePath")
+		DataGridView1.Columns.Add("colIsBaked", "IsBaked")
 
 		DataGridView1.Columns("colId").Visible = False
 		DataGridView1.Columns("colCategoryId").Visible = False
 		DataGridView1.Columns("colImagePath").Visible = False
+		DataGridView1.Columns("colIsBaked").Visible = False
 		DataGridView1.Columns("colName").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 	End Sub
 
@@ -51,7 +69,18 @@ Public Class Admin_Inv
 			OpenConnection()
 			DataGridView1.Rows.Clear()
 
-			Dim query As String = "SELECT p.product_id, p.product_name, c.category_name, p.stock_quantity, p.estimated_cost, p.selling_price, p.status, p.image_path, p.category_id FROM products p LEFT JOIN categories c ON p.category_id = c.category_id"
+			Dim query As String = "SELECT p.product_id, p.product_name, c.category_name, p.stock_quantity, " &
+				"p.is_baked, " &
+				"CASE WHEN p.is_baked = 1 THEN IFNULL(rc.recipe_cost, 0) ELSE p.estimated_cost_price END AS cost_per_piece, " &
+				"p.selling_price, p.status, p.image_path, p.category_id " &
+				"FROM products p " &
+				"LEFT JOIN categories c ON p.category_id = c.category_id " &
+				"LEFT JOIN (" &
+				"    SELECT pi.product_id, SUM(pi.qty_gram_per_piece * i.price_per_gram) AS recipe_cost " &
+				"    FROM product_ingredients pi " &
+				"    JOIN ingredients i ON pi.ingredient_id = i.ingredient_id " &
+				"    GROUP BY pi.product_id" &
+				") rc ON p.product_id = rc.product_id"
 
 			Dim hasFilter As Boolean = False
 
@@ -113,7 +142,10 @@ Public Class Admin_Inv
 
 				row.Cells("colQuantity").Value = reader("stock_quantity")
 
-				Dim costDec As Decimal = Convert.ToDecimal(reader("estimated_cost"))
+				Dim costDec As Decimal = 0D
+				If Not IsDBNull(reader("cost_per_piece")) Then
+					costDec = Convert.ToDecimal(reader("cost_per_piece"))
+				End If
 				row.Cells("colCost").Value = "₱" & costDec.ToString("N2")
 
 				Dim priceDec As Decimal = Convert.ToDecimal(reader("selling_price"))
@@ -132,6 +164,7 @@ Public Class Admin_Inv
 					imgPath = reader("image_path").ToString()
 				End If
 				row.Cells("colImagePath").Value = imgPath
+				row.Cells("colIsBaked").Value = Convert.ToBoolean(reader("is_baked"))
 
 				If imgPath <> "" Then
 					Dim fullPath As String = Path.Combine(Application.StartupPath, imgPath)
@@ -167,19 +200,18 @@ Public Class Admin_Inv
 		End If
 
 		selectedProductId = Convert.ToInt32(row.Cells("colId").Value)
-		TextBox3.Text = row.Cells("colName").Value.ToString()
 		TextBox1.Text = CleanCurrency(row.Cells("colPrice").Value.ToString())
-		TextBox2.Text = CleanCurrency(row.Cells("colCost").Value.ToString())
+		TextBox5.Text = CleanCurrency(row.Cells("colCost").Value.ToString())
 		selectedImagePath = row.Cells("colImagePath").Value.ToString()
+		selectedIsBaked = Convert.ToBoolean(row.Cells("colIsBaked").Value)
 
-		Dim catId As Object = row.Cells("colCategoryId").Value
-		If catId IsNot Nothing Then
-			If IsNumeric(catId) Then
-				If Convert.ToInt32(catId) > 0 Then
-					ComboBox1.SelectedValue = Convert.ToInt32(catId)
-				End If
-			End If
-		End If
+		RadioButton3.Checked = selectedIsBaked
+		RadioButton4.Checked = Not selectedIsBaked
+		ApplyBakedFieldState()
+
+		TextBox2.Clear()
+		TextBox4.Clear()
+		PopulateProductIngredientComboBox(selectedProductId)
 	End Sub
 
 	Private Function CleanCurrency(displayValue As String) As String
@@ -230,18 +262,21 @@ Public Class Admin_Inv
 	End Sub
 
 	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-		Dim productName As String = TextBox3.Text.Trim()
+		Dim productName = TextBox3.Text.Trim
 		If productName = "" Or ComboBox1.SelectedValue Is Nothing Then
 			MessageBox.Show("Please fill out Name and Category options.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
 		End If
 
+		Dim isBakedValue As Integer = If(RadioButton3.Checked, 1, 0)
+
 		Try
 			OpenConnection()
-			Dim cmd As New MySqlCommand("INSERT INTO products (category_id, product_name, image_path, selling_price, estimated_cost) VALUES (@cat, @name, @img, 0.00, 0.00)", conn)
+			Dim cmd As New MySqlCommand("INSERT INTO products (category_id, product_name, image_path, selling_price, estimated_cost_price, is_baked) VALUES (@cat, @name, @img, 0.00, 0.00, @baked)", conn)
 			cmd.Parameters.AddWithValue("@cat", ComboBox1.SelectedValue)
 			cmd.Parameters.AddWithValue("@name", productName)
 			cmd.Parameters.AddWithValue("@img", selectedImagePath)
+			cmd.Parameters.AddWithValue("@baked", isBakedValue)
 			cmd.ExecuteNonQuery()
 
 			MessageBox.Show("Product added! Set prices and quantities next.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -259,7 +294,7 @@ Public Class Admin_Inv
 			Exit Sub
 		End If
 
-		Dim result As DialogResult = MessageBox.Show("Remove this item permanently?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+		Dim result = MessageBox.Show("Remove this item permanently?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 		If result <> DialogResult.Yes Then
 			Exit Sub
 		End If
@@ -305,29 +340,72 @@ Public Class Admin_Inv
 			finalQtyToAdd = inputValue * piecesPerTray
 		End If
 
+		Dim trans As MySqlTransaction = Nothing
+
 		Try
 			OpenConnection()
+			trans = conn.BeginTransaction()
 
-			Dim upStock As New MySqlCommand("UPDATE products SET stock_quantity = stock_quantity + @qty WHERE product_id = @id", conn)
+			If selectedIsBaked Then
+				Dim recipe As List(Of Tuple(Of Integer, String, Decimal)) = GetProductIngredients(selectedProductId, conn, trans)
+
+				If recipe.Count = 0 Then
+					trans.Rollback()
+					MessageBox.Show("This product is marked as Baked but has no recipe set up yet. Please add ingredients first.", "Missing Recipe", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Exit Sub
+				End If
+
+				Dim shortages As New List(Of String)
+				For Each ing In recipe
+					Dim neededGrams As Decimal = ing.Item3 * finalQtyToAdd
+					Dim currentStock As Decimal = GetIngredientStock(ing.Item1, conn, trans)
+					If currentStock < neededGrams Then
+						shortages.Add(ing.Item2 & " (need " & neededGrams.ToString("N1") & "g, have " & currentStock.ToString("N1") & "g)")
+					End If
+				Next
+
+				If shortages.Count > 0 Then
+					trans.Rollback()
+					MessageBox.Show("Cannot add stock — not enough ingredient stock:" & Environment.NewLine &
+						String.Join(Environment.NewLine, shortages), "Insufficient Ingredients", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Exit Sub
+				End If
+
+				For Each ing In recipe
+					Dim neededGrams As Decimal = ing.Item3 * finalQtyToAdd
+					Dim deductCmd As New MySqlCommand("UPDATE ingredients SET stock_grams = stock_grams - @amt WHERE ingredient_id = @iid", conn, trans)
+					deductCmd.Parameters.AddWithValue("@amt", neededGrams)
+					deductCmd.Parameters.AddWithValue("@iid", ing.Item1)
+					deductCmd.ExecuteNonQuery()
+				Next
+			End If
+
+			Dim upStock As New MySqlCommand("UPDATE products SET stock_quantity = stock_quantity + @qty WHERE product_id = @id", conn, trans)
 			upStock.Parameters.AddWithValue("@qty", finalQtyToAdd)
 			upStock.Parameters.AddWithValue("@id", selectedProductId)
 			upStock.ExecuteNonQuery()
 
-			Dim upStatus As New MySqlCommand("UPDATE products SET status = CASE WHEN stock_quantity <= 0 THEN 'Unavailable' WHEN stock_quantity <= low_stock_threshold THEN 'Low in Stock' ELSE 'Available' END WHERE product_id = @id", conn)
+			Dim upStatus As New MySqlCommand("UPDATE products SET status = CASE WHEN stock_quantity <= 0 THEN 'Unavailable' WHEN stock_quantity <= low_stock_threshold THEN 'Low in Stock' ELSE 'Available' END WHERE product_id = @id", conn, trans)
 			upStatus.Parameters.AddWithValue("@id", selectedProductId)
 			upStatus.ExecuteNonQuery()
 
-			Dim logCmd As New MySqlCommand("INSERT INTO inventory_logs (product_id, user_id, adjustment_quantity, adjustment_unit) VALUES (@pid, @uid, @qty, @unit)", conn)
+			Dim logCmd As New MySqlCommand("INSERT INTO productinv_logs (product_id, user_id, adjustment_quantity, adjustment_unit) VALUES (@pid, @uid, @qty, @unit)", conn, trans)
 			logCmd.Parameters.AddWithValue("@pid", selectedProductId)
 			logCmd.Parameters.AddWithValue("@uid", LoggedInUserId)
 			logCmd.Parameters.AddWithValue("@qty", inputValue)
 			logCmd.Parameters.AddWithValue("@unit", unit)
 			logCmd.ExecuteNonQuery()
 
+			trans.Commit()
+
 			MessageBox.Show("Stock adjusted! Added " & finalQtyToAdd & " individual units.", "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information)
 			NumericUpDown1.Value = 0
 			LoadInventory()
 		Catch ex As Exception
+			Try
+				If trans IsNot Nothing Then trans.Rollback()
+			Catch
+			End Try
 			MessageBox.Show("Execution failed: " & ex.Message)
 		Finally
 			CloseConnection()
@@ -346,17 +424,31 @@ Public Class Admin_Inv
 			Exit Sub
 		End If
 
-		If Not Decimal.TryParse(TextBox2.Text, costPrice) Then
-			Exit Sub
+		Dim isBakedValue As Boolean = RadioButton3.Checked
+
+		If Not isBakedValue Then
+			If Not Decimal.TryParse(TextBox5.Text, costPrice) Then
+				Exit Sub
+			End If
 		End If
 
 		Try
 			OpenConnection()
-			Dim cmd As New MySqlCommand("UPDATE products SET selling_price = @sp, estimated_cost = @cp WHERE product_id = @id", conn)
+
+			Dim cmd As MySqlCommand
+			If isBakedValue Then
+				cmd = New MySqlCommand("UPDATE products SET selling_price = @sp, is_baked = @baked WHERE product_id = @id", conn)
+			Else
+				cmd = New MySqlCommand("UPDATE products SET selling_price = @sp, estimated_cost_price = @cp, is_baked = @baked WHERE product_id = @id", conn)
+				cmd.Parameters.AddWithValue("@cp", costPrice)
+			End If
 			cmd.Parameters.AddWithValue("@sp", sellingPrice)
-			cmd.Parameters.AddWithValue("@cp", costPrice)
+			cmd.Parameters.AddWithValue("@baked", If(isBakedValue, 1, 0))
 			cmd.Parameters.AddWithValue("@id", selectedProductId)
 			cmd.ExecuteNonQuery()
+
+			selectedIsBaked = isBakedValue
+			ApplyBakedFieldState()
 
 			MessageBox.Show("Price adjustments recorded.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 			LoadInventory()
@@ -367,12 +459,22 @@ Public Class Admin_Inv
 		End Try
 	End Sub
 
+	Private Sub BakedStatusChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged, RadioButton4.CheckedChanged
+		ApplyBakedFieldState()
+	End Sub
+
 	Private Sub ClearEditForm()
 		selectedProductId = -1
 		selectedImagePath = ""
+		selectedIsBaked = True
 		TextBox3.Clear()
 		TextBox1.Clear()
+		TextBox5.Clear()
 		TextBox2.Clear()
+		TextBox4.Clear()
+		RadioButton3.Checked = True
+		ApplyBakedFieldState()
+		ComboBox2.DataSource = Nothing
 		If ComboBox1.Items.Count > 0 Then
 			ComboBox1.SelectedIndex = -1
 		End If
@@ -399,6 +501,153 @@ Public Class Admin_Inv
 		End Select
 	End Function
 
+	Private Function GetProductIngredients(productId As Integer, conn As MySqlConnection, trans As MySqlTransaction) As List(Of Tuple(Of Integer, String, Decimal))
+		Dim result As New List(Of Tuple(Of Integer, String, Decimal))
+
+		Dim cmd As New MySqlCommand("SELECT pi.ingredient_id, i.ingredient_name, pi.qty_gram_per_piece " &
+			"FROM product_ingredients pi " &
+			"JOIN ingredients i ON pi.ingredient_id = i.ingredient_id " &
+			"WHERE pi.product_id = @pid", conn, trans)
+		cmd.Parameters.AddWithValue("@pid", productId)
+
+		Dim reader As MySqlDataReader = cmd.ExecuteReader()
+		While reader.Read()
+			result.Add(New Tuple(Of Integer, String, Decimal)(
+				Convert.ToInt32(reader("ingredient_id")),
+				reader("ingredient_name").ToString(),
+				Convert.ToDecimal(reader("qty_gram_per_piece"))
+			))
+		End While
+		reader.Close()
+
+		Return result
+	End Function
+
+	Private Function GetIngredientStock(ingredientId As Integer, conn As MySqlConnection, trans As MySqlTransaction) As Decimal
+		Dim cmd As New MySqlCommand("SELECT stock_grams FROM ingredients WHERE ingredient_id = @iid", conn, trans)
+		cmd.Parameters.AddWithValue("@iid", ingredientId)
+		Dim result As Object = cmd.ExecuteScalar()
+		If result Is Nothing OrElse IsDBNull(result) Then
+			Return 0D
+		End If
+		Return Convert.ToDecimal(result)
+	End Function
+
+	Private Sub PopulateProductIngredientComboBox(productId As Integer)
+		Try
+			OpenConnection()
+			Dim dt As New DataTable()
+			Dim da As New MySqlDataAdapter("SELECT i.ingredient_id, i.ingredient_name " &
+				"FROM product_ingredients pi " &
+				"JOIN ingredients i ON pi.ingredient_id = i.ingredient_id " &
+				"WHERE pi.product_id = @pid ORDER BY i.ingredient_name", conn)
+			da.SelectCommand.Parameters.AddWithValue("@pid", productId)
+			da.Fill(dt)
+
+			ComboBox2.DataSource = dt
+			ComboBox2.DisplayMember = "ingredient_name"
+			ComboBox2.ValueMember = "ingredient_id"
+		Catch ex As Exception
+			MessageBox.Show("Error loading recipe ingredients: " & ex.Message)
+		Finally
+			CloseConnection()
+		End Try
+	End Sub
+
+	Private Function GetIngredientIdByName(ingredientName As String, conn As MySqlConnection) As Object
+		Dim cmd As New MySqlCommand("SELECT ingredient_id FROM ingredients WHERE ingredient_name = @name LIMIT 1", conn)
+		cmd.Parameters.AddWithValue("@name", ingredientName)
+		Dim result As Object = cmd.ExecuteScalar()
+		If result Is Nothing OrElse IsDBNull(result) Then
+			Return Nothing
+		End If
+		Return result
+	End Function
+
+	Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+		If selectedProductId = -1 Then
+			MessageBox.Show("Please select a product first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End If
+
+		Dim ingName As String = TextBox2.Text.Trim()
+		Dim gramsPerPiece As Decimal
+
+		If ingName = "" Then
+			MessageBox.Show("Please enter an ingredient name.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End If
+
+		If Not Decimal.TryParse(TextBox4.Text, gramsPerPiece) Then
+			MessageBox.Show("Please enter a valid amount in grams.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End If
+
+		Try
+			OpenConnection()
+
+			Dim ingredientId As Object = GetIngredientIdByName(ingName, conn)
+			If ingredientId Is Nothing Then
+				MessageBox.Show("Ingredient '" & ingName & "' was not found in the ingredients list.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				Exit Sub
+			End If
+
+			Dim existsCmd As New MySqlCommand("SELECT COUNT(*) FROM product_ingredients WHERE product_id = @pid AND ingredient_id = @iid", conn)
+			existsCmd.Parameters.AddWithValue("@pid", selectedProductId)
+			existsCmd.Parameters.AddWithValue("@iid", ingredientId)
+			Dim alreadyExists As Long = Convert.ToInt64(existsCmd.ExecuteScalar())
+
+			If alreadyExists > 0 Then
+				Dim updateCmd As New MySqlCommand("UPDATE product_ingredients SET qty_gram_per_piece = @qty WHERE product_id = @pid AND ingredient_id = @iid", conn)
+				updateCmd.Parameters.AddWithValue("@qty", gramsPerPiece)
+				updateCmd.Parameters.AddWithValue("@pid", selectedProductId)
+				updateCmd.Parameters.AddWithValue("@iid", ingredientId)
+				updateCmd.ExecuteNonQuery()
+			Else
+				Dim insertCmd As New MySqlCommand("INSERT INTO product_ingredients (product_id, ingredient_id, qty_gram_per_piece) VALUES (@pid, @iid, @qty)", conn)
+				insertCmd.Parameters.AddWithValue("@pid", selectedProductId)
+				insertCmd.Parameters.AddWithValue("@iid", ingredientId)
+				insertCmd.Parameters.AddWithValue("@qty", gramsPerPiece)
+				insertCmd.ExecuteNonQuery()
+			End If
+
+			MessageBox.Show("Recipe ingredient saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			TextBox2.Clear()
+			TextBox4.Clear()
+			PopulateProductIngredientComboBox(selectedProductId)
+		Catch ex As Exception
+			MessageBox.Show("Error saving recipe ingredient: " & ex.Message)
+		Finally
+			CloseConnection()
+		End Try
+	End Sub
+
+	Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+		If selectedProductId = -1 Then
+			MessageBox.Show("Please select a product first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+			Exit Sub
+		End If
+
+		If ComboBox2.SelectedValue Is Nothing Then
+			Exit Sub
+		End If
+
+		Try
+			OpenConnection()
+			Dim cmd As New MySqlCommand("DELETE FROM product_ingredients WHERE product_id = @pid AND ingredient_id = @iid", conn)
+			cmd.Parameters.AddWithValue("@pid", selectedProductId)
+			cmd.Parameters.AddWithValue("@iid", ComboBox2.SelectedValue)
+			cmd.ExecuteNonQuery()
+
+			MessageBox.Show("Ingredient removed from recipe.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			PopulateProductIngredientComboBox(selectedProductId)
+		Catch ex As Exception
+			MessageBox.Show("Error removing recipe ingredient: " & ex.Message)
+		Finally
+			CloseConnection()
+		End Try
+	End Sub
+
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 		Me.Hide()
 		Admin_Homevb.Show()
@@ -411,11 +660,16 @@ Public Class Admin_Inv
 
 	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
 		Me.Hide()
-		Admin_InvLogs.Show()
+		Admin_ManageEmp.Show()
 	End Sub
 
 	Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
 		Me.Hide()
-		Admin_GrossProfit.Show()
+		Admin_OrdLogs.Show()
+	End Sub
+
+	Private Sub Button11_Click_1(sender As Object, e As EventArgs) Handles Button11.Click
+		Me.Hide()
+		Admin_ManageIngredients.Show()
 	End Sub
 End Class

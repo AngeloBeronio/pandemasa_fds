@@ -32,6 +32,7 @@ Partial Class Admin_OrdLogs
 		DataGridView1 = New DataGridView()
 		TextBox2 = New TextBox()
 		Button7 = New Button()
+		Button4 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -43,11 +44,11 @@ Partial Class Admin_OrdLogs
 		Button3.FlatAppearance.BorderSize = 0
 		Button3.FlatStyle = FlatStyle.Flat
 		Button3.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button3.Location = New Point(112, 536)
+		Button3.Location = New Point(105, 587)
 		Button3.Name = "Button3"
 		Button3.Size = New Size(196, 60)
 		Button3.TabIndex = 15
-		Button3.Text = "INVENTORY LOGS"
+		Button3.Text = "MANAGE EMPLOYEES"
 		Button3.TextAlign = ContentAlignment.MiddleLeft
 		Button3.UseVisualStyleBackColor = False
 		' 
@@ -59,7 +60,7 @@ Partial Class Admin_OrdLogs
 		Button5.FlatAppearance.BorderSize = 0
 		Button5.FlatStyle = FlatStyle.Flat
 		Button5.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button5.Location = New Point(112, 338)
+		Button5.Location = New Point(105, 389)
 		Button5.Name = "Button5"
 		Button5.Size = New Size(196, 60)
 		Button5.TabIndex = 14
@@ -75,11 +76,11 @@ Partial Class Admin_OrdLogs
 		Button6.FlatAppearance.BorderSize = 0
 		Button6.FlatStyle = FlatStyle.Flat
 		Button6.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button6.Location = New Point(112, 404)
+		Button6.Location = New Point(105, 455)
 		Button6.Name = "Button6"
 		Button6.Size = New Size(196, 60)
 		Button6.TabIndex = 13
-		Button6.Text = "MANAGE INVENTORY"
+		Button6.Text = "MANAGE PRODUCTS"
 		Button6.TextAlign = ContentAlignment.MiddleLeft
 		Button6.UseVisualStyleBackColor = False
 		' 
@@ -141,13 +142,29 @@ Partial Class Admin_OrdLogs
 		Button7.FlatAppearance.BorderSize = 0
 		Button7.FlatStyle = FlatStyle.Flat
 		Button7.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button7.Location = New Point(112, 602)
+		Button7.Location = New Point(105, 731)
 		Button7.Name = "Button7"
 		Button7.Size = New Size(196, 60)
 		Button7.TabIndex = 21
-		Button7.Text = "GROSS PROFIT"
+		Button7.Text = "INVENTORY LOGS"
 		Button7.TextAlign = ContentAlignment.MiddleLeft
 		Button7.UseVisualStyleBackColor = False
+		' 
+		' Button4
+		' 
+		Button4.BackColor = Color.Transparent
+		Button4.Cursor = Cursors.Hand
+		Button4.FlatAppearance.BorderColor = Color.White
+		Button4.FlatAppearance.BorderSize = 0
+		Button4.FlatStyle = FlatStyle.Flat
+		Button4.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button4.Location = New Point(105, 521)
+		Button4.Name = "Button4"
+		Button4.Size = New Size(196, 60)
+		Button4.TabIndex = 22
+		Button4.Text = "MANAGE INGREDIENTS"
+		Button4.TextAlign = ContentAlignment.MiddleLeft
+		Button4.UseVisualStyleBackColor = False
 		' 
 		' Admin_OrdLogs
 		' 
@@ -155,6 +172,7 @@ Partial Class Admin_OrdLogs
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button4)
 		Controls.Add(Button7)
 		Controls.Add(TextBox2)
 		Controls.Add(Button2)
@@ -180,4 +198,5 @@ Partial Class Admin_OrdLogs
 	Friend WithEvents DataGridView1 As DataGridView
 	Friend WithEvents TextBox2 As TextBox
 	Friend WithEvents Button7 As Button
+	Friend WithEvents Button4 As Button
 End Class

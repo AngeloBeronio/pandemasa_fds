@@ -118,7 +118,6 @@ Public Class Menu__1_
     End Sub
 
     Private Sub itemMenu_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles itemMenu.CellClick
-        If e.RowIndex < 0 Then Return
 
         Dim row As DataGridViewRow = itemMenu.Rows(e.RowIndex)
 

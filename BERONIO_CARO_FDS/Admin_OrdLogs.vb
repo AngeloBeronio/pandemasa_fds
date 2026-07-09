@@ -99,8 +99,8 @@ Public Class Admin_OrdLogs
 
 	' NAVIGATION
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
-		Me.Hide()
-		Admin_Inv.Show()
+		Hide()
+		Admin_ManageProducts.Show()
 	End Sub
 
 	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
@@ -110,11 +110,16 @@ Public Class Admin_OrdLogs
 
 	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
 		Me.Hide()
-		Admin_InvLogs.Show()
+		Admin_ManageEmp.Show()
 	End Sub
 
 	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
 		Me.Hide()
-		Admin_GrossProfit.Show()
+		Admin_InvLogs.Show()
+	End Sub
+
+	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+		Me.Hide()
+		Admin_ManageIngredients.Show()
 	End Sub
 End Class

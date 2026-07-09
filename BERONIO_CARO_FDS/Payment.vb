@@ -319,9 +319,25 @@ Public Class Payment
 
 				transaction.Commit()
 
+				Dim receiptPath As String = ""
+				Try
+					receiptPath = GenerateReceiptPdf(newOrderId, subtotal, discount, fee, total, cash, refNumber)
+				Catch exReceipt As Exception
+					MessageBox.Show("Order saved, but the receipt could not be generated: " & exReceipt.Message,
+								"Receipt Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				End Try
+
 				CartItems.Clear()
+
+				If receiptPath <> "" Then
+					Try
+						Process.Start(New ProcessStartInfo(receiptPath) With {.UseShellExecute = True})
+					Catch
+					End Try
+				End If
+
 				Me.Hide()
-				Start.Show()
+				Menu__1_.Show()
 
 			Catch ex As Exception
 				transaction.Rollback()
@@ -334,6 +350,128 @@ Public Class Payment
 		End Try
 	End Sub
 
-	' WALA PA RECEIPTS WIT LANG GAGAWING REPORT
+	Private Function GenerateReceiptPdf(orderId As Integer, subtotal As Decimal, discount As Decimal,
+										 fee As Decimal, total As Decimal, cash As Decimal,
+										 refNumber As String) As String
+
+		Dim receiptsFolder As String = Path.Combine(Application.StartupPath, "Receipts")
+		If Not Directory.Exists(receiptsFolder) Then
+			Directory.CreateDirectory(receiptsFolder)
+		End If
+
+		Dim fileName As String = "Receipt_" & orderId & "_" & DateTime.Now.ToString("yyyyMMdd_HHmmss") & ".pdf"
+		Dim filePath As String = Path.Combine(receiptsFolder, fileName)
+		Dim pageSize As New Rectangle(226.77F, 700.0F)
+		Dim doc As New Document(pageSize, 10, 10, 10, 10)
+
+		Dim fs As New FileStream(filePath, FileMode.Create)
+		Try
+			PdfWriter.GetInstance(doc, fs)
+			doc.Open()
+
+			Dim fontTitle As New iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 13, iTextSharp.text.Font.BOLD)
+			Dim fontHeader As New iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL)
+			Dim fontNormal As New iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.NORMAL)
+			Dim fontBold As New iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD)
+			Dim fontSmall As New iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL)
+
+			Dim titlePara As New Paragraph("PAN DE MASA", fontTitle)
+			titlePara.Alignment = Element.ALIGN_CENTER
+			doc.Add(titlePara)
+
+
+			doc.Add(New Paragraph(" "))
+			doc.Add(DividerLine(fontSmall))
+
+			doc.Add(New Paragraph("Order #: " & orderId, fontNormal))
+			doc.Add(New Paragraph("Date: " & DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"), fontNormal))
+			doc.Add(New Paragraph("Cashier ID: " & LoggedInUserId.ToString(), fontNormal))
+			doc.Add(New Paragraph("Payment Method: " & selectedPaymentMethod, fontNormal))
+			If refNumber <> "" Then
+				doc.Add(New Paragraph("Reference No: " & refNumber, fontNormal))
+			End If
+
+			doc.Add(DividerLine(fontSmall))
+
+			' ITEMS TABLE
+			Dim itemsTable As New PdfPTable(4)
+			itemsTable.WidthPercentage = 100
+			itemsTable.SetWidths(New Single() {40, 15, 20, 25})
+
+			AddCell(itemsTable, "Item", fontBold, Element.ALIGN_LEFT)
+			AddCell(itemsTable, "Qty", fontBold, Element.ALIGN_CENTER)
+			AddCell(itemsTable, "Price", fontBold, Element.ALIGN_RIGHT)
+			AddCell(itemsTable, "Total", fontBold, Element.ALIGN_RIGHT)
+
+			For Each item As CartItem In CartItems
+				AddCell(itemsTable, item.ProductName, fontSmall, Element.ALIGN_LEFT)
+				AddCell(itemsTable, item.Quantity.ToString(), fontSmall, Element.ALIGN_CENTER)
+				AddCell(itemsTable, item.UnitPrice.ToString("0.00"), fontSmall, Element.ALIGN_RIGHT)
+				AddCell(itemsTable, item.Total.ToString("0.00"), fontSmall, Element.ALIGN_RIGHT)
+			Next
+
+			doc.Add(itemsTable)
+			doc.Add(DividerLine(fontSmall))
+
+			' TOTALS
+			Dim totalsTable As New PdfPTable(2)
+			totalsTable.WidthPercentage = 100
+			totalsTable.SetWidths(New Single() {60, 40})
+
+			AddCell(totalsTable, "Subtotal:", fontNormal, Element.ALIGN_LEFT)
+			AddCell(totalsTable, "P" & subtotal.ToString("0.00"), fontNormal, Element.ALIGN_RIGHT)
+
+			If discount > 0 Then
+				AddCell(totalsTable, "Discount (" & discountType & "):", fontNormal, Element.ALIGN_LEFT)
+				AddCell(totalsTable, "-P" & discount.ToString("0.00"), fontNormal, Element.ALIGN_RIGHT)
+			End If
+
+			If fee > 0 Then
+				AddCell(totalsTable, "Transaction Fee:", fontNormal, Element.ALIGN_LEFT)
+				AddCell(totalsTable, "P" & fee.ToString("0.00"), fontNormal, Element.ALIGN_RIGHT)
+			End If
+
+			AddCell(totalsTable, "TOTAL:", fontBold, Element.ALIGN_LEFT)
+			AddCell(totalsTable, "P" & total.ToString("0.00"), fontBold, Element.ALIGN_RIGHT)
+
+			If selectedPaymentMethod = "Cash" Then
+				AddCell(totalsTable, "Cash Tendered:", fontNormal, Element.ALIGN_LEFT)
+				AddCell(totalsTable, "P" & cash.ToString("0.00"), fontNormal, Element.ALIGN_RIGHT)
+				AddCell(totalsTable, "Change:", fontNormal, Element.ALIGN_LEFT)
+				AddCell(totalsTable, "P" & (cash - total).ToString("0.00"), fontNormal, Element.ALIGN_RIGHT)
+			End If
+
+			doc.Add(totalsTable)
+			doc.Add(DividerLine(fontSmall))
+
+			doc.Add(New Paragraph(" "))
+			Dim thanksPara As New Paragraph("Thank you for your purchase!", fontNormal)
+			thanksPara.Alignment = Element.ALIGN_CENTER
+			doc.Add(thanksPara)
+
+			Dim keepPara As New Paragraph("This serves as your official receipt.", fontSmall)
+			keepPara.Alignment = Element.ALIGN_CENTER
+			doc.Add(keepPara)
+
+		Finally
+			doc.Close()
+			fs.Close()
+		End Try
+
+		Return filePath
+	End Function
+
+	Private Function DividerLine(font As iTextSharp.text.Font) As Paragraph
+		Return New Paragraph(New String("-"c, 34), font)
+	End Function
+
+	Private Sub AddCell(table As PdfPTable, text As String, font As iTextSharp.text.Font, alignment As Integer)
+		Dim cell As New PdfPCell(New Phrase(text, font))
+		cell.Border = PdfPCell.NO_BORDER
+		cell.HorizontalAlignment = alignment
+		cell.PaddingBottom = 3
+		cell.PaddingTop = 1
+		table.AddCell(cell)
+	End Sub
 
 End Class

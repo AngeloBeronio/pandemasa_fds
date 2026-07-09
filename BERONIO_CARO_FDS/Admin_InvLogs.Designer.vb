@@ -32,6 +32,7 @@ Partial Class Admin_InvLogs
 		Button6 = New Button()
 		TextBox2 = New TextBox()
 		Button7 = New Button()
+		Button4 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -85,7 +86,7 @@ Partial Class Admin_InvLogs
 		Button3.FlatAppearance.BorderSize = 0
 		Button3.FlatStyle = FlatStyle.Flat
 		Button3.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button3.Location = New Point(116, 469)
+		Button3.Location = New Point(105, 619)
 		Button3.Name = "Button3"
 		Button3.Size = New Size(196, 60)
 		Button3.TabIndex = 18
@@ -101,7 +102,7 @@ Partial Class Admin_InvLogs
 		Button5.FlatAppearance.BorderSize = 0
 		Button5.FlatStyle = FlatStyle.Flat
 		Button5.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button5.Location = New Point(116, 337)
+		Button5.Location = New Point(105, 357)
 		Button5.Name = "Button5"
 		Button5.Size = New Size(196, 60)
 		Button5.TabIndex = 17
@@ -117,11 +118,11 @@ Partial Class Admin_InvLogs
 		Button6.FlatAppearance.BorderSize = 0
 		Button6.FlatStyle = FlatStyle.Flat
 		Button6.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button6.Location = New Point(116, 403)
+		Button6.Location = New Point(105, 423)
 		Button6.Name = "Button6"
 		Button6.Size = New Size(196, 60)
 		Button6.TabIndex = 16
-		Button6.Text = "MANAGE INVENTORY"
+		Button6.Text = "MANAGE PRODUCTS"
 		Button6.TextAlign = ContentAlignment.MiddleLeft
 		Button6.UseVisualStyleBackColor = False
 		' 
@@ -140,13 +141,29 @@ Partial Class Admin_InvLogs
 		Button7.FlatAppearance.BorderSize = 0
 		Button7.FlatStyle = FlatStyle.Flat
 		Button7.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-		Button7.Location = New Point(116, 612)
+		Button7.Location = New Point(105, 489)
 		Button7.Name = "Button7"
 		Button7.Size = New Size(196, 60)
 		Button7.TabIndex = 20
-		Button7.Text = "GROSS PROFIT"
+		Button7.Text = "MANAGE INGREDIENTS"
 		Button7.TextAlign = ContentAlignment.MiddleLeft
 		Button7.UseVisualStyleBackColor = False
+		' 
+		' Button4
+		' 
+		Button4.BackColor = Color.Transparent
+		Button4.Cursor = Cursors.Hand
+		Button4.FlatAppearance.BorderColor = Color.White
+		Button4.FlatAppearance.BorderSize = 0
+		Button4.FlatStyle = FlatStyle.Flat
+		Button4.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button4.Location = New Point(105, 555)
+		Button4.Name = "Button4"
+		Button4.Size = New Size(196, 60)
+		Button4.TabIndex = 21
+		Button4.Text = "MANAGE EMPLOYEES"
+		Button4.TextAlign = ContentAlignment.MiddleLeft
+		Button4.UseVisualStyleBackColor = False
 		' 
 		' Admin_InvLogs
 		' 
@@ -154,6 +171,7 @@ Partial Class Admin_InvLogs
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(Button4)
 		Controls.Add(Button7)
 		Controls.Add(TextBox2)
 		Controls.Add(Button3)
@@ -179,4 +197,5 @@ Partial Class Admin_InvLogs
 	Friend WithEvents Button6 As Button
 	Friend WithEvents TextBox2 As TextBox
 	Friend WithEvents Button7 As Button
+	Friend WithEvents Button4 As Button
 End Class
