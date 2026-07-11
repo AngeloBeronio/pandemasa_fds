@@ -50,7 +50,7 @@ Partial Class SetThreshold
 		Button1.Name = "Button1"
 		Button1.Size = New Size(75, 23)
 		Button1.TabIndex = 2
-		Button1.Text = "Button1"
+		Button1.Text = "SET"
 		Button1.UseVisualStyleBackColor = True
 		' 
 		' Button2
@@ -59,10 +59,10 @@ Partial Class SetThreshold
 		Button2.Name = "Button2"
 		Button2.Size = New Size(75, 23)
 		Button2.TabIndex = 3
-		Button2.Text = "Button2"
+		Button2.Text = "Close"
 		Button2.UseVisualStyleBackColor = True
 		' 
-		' SetThresholdForm
+		' SetThreshold
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
@@ -71,7 +71,7 @@ Partial Class SetThreshold
 		Controls.Add(Button1)
 		Controls.Add(NumericUpDown1)
 		Controls.Add(ComboBox1)
-		Name = "SetThresholdForm"
+		Name = "SetThreshold"
 		Text = "SetThresholdForm"
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).EndInit()
 		ResumeLayout(False)
