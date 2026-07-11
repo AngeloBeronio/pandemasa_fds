@@ -1,7 +1,4 @@
 ﻿Imports MySql.Data.MySqlClient
-Imports iTextSharp.text
-Imports iTextSharp.text.pdf
-Imports System.IO
 
 Public Class Admin_Homevb
 	Private Sub Admin_Homevb_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
