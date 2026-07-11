@@ -7,6 +7,10 @@ Public Class Cart
         NumericUpDown1.Value = CInt(cartMenu.Rows(0).Cells("colQty").Value)
     End Sub
 
+    Private Sub Cart_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+        LoadCartItems()
+    End Sub
+
     ' NAVIGATION
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Hide()
@@ -125,12 +129,4 @@ Public Class Cart
 
         lblSubtotal.Text = "₱" & subtotal.ToString("0.00")
     End Sub
-
-    ' REFRESH CART
-    Private Sub Cart_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
-        If Me.Visible Then
-            LoadCartItems()
-        End If
-    End Sub
-
 End Class

@@ -33,6 +33,7 @@ Partial Class Admin_OrdLogs
 		TextBox2 = New TextBox()
 		Button7 = New Button()
 		Button4 = New Button()
+		btnClose = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -166,12 +167,25 @@ Partial Class Admin_OrdLogs
 		Button4.TextAlign = ContentAlignment.MiddleLeft
 		Button4.UseVisualStyleBackColor = False
 		' 
+		' btnClose
+		' 
+		btnClose.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnClose.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnClose.ForeColor = Color.White
+		btnClose.Location = New Point(41, 823)
+		btnClose.Name = "btnClose"
+		btnClose.Size = New Size(93, 43)
+		btnClose.TabIndex = 23
+		btnClose.Text = "Back"
+		btnClose.UseVisualStyleBackColor = False
+		' 
 		' Admin_OrdLogs
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(btnClose)
 		Controls.Add(Button4)
 		Controls.Add(Button7)
 		Controls.Add(TextBox2)
@@ -199,4 +213,5 @@ Partial Class Admin_OrdLogs
 	Friend WithEvents TextBox2 As TextBox
 	Friend WithEvents Button7 As Button
 	Friend WithEvents Button4 As Button
+	Friend WithEvents btnClose As Button
 End Class

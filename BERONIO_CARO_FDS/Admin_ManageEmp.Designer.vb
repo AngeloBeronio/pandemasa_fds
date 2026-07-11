@@ -62,6 +62,7 @@ Partial Class Admin_ManageEmp
 		btn_AddEmployee = New Button()
 		Button1 = New Button()
 		Button2 = New Button()
+		btnClose = New Button()
 		Panel2.SuspendLayout()
 		Panel1.SuspendLayout()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
@@ -464,12 +465,25 @@ Partial Class Admin_ManageEmp
 		Button2.TextAlign = ContentAlignment.MiddleLeft
 		Button2.UseVisualStyleBackColor = False
 		' 
+		' btnClose
+		' 
+		btnClose.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnClose.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnClose.ForeColor = Color.White
+		btnClose.Location = New Point(50, 773)
+		btnClose.Name = "btnClose"
+		btnClose.Size = New Size(93, 43)
+		btnClose.TabIndex = 28
+		btnClose.Text = "Back"
+		btnClose.UseVisualStyleBackColor = False
+		' 
 		' Admin_ManageEmp
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(btnClose)
 		Controls.Add(Button2)
 		Controls.Add(Button1)
 		Controls.Add(Panel4)
@@ -530,4 +544,5 @@ Partial Class Admin_ManageEmp
 	Friend WithEvents Label11 As Label
 	Friend WithEvents Label10 As Label
 	Friend WithEvents Label9 As Label
+	Friend WithEvents btnClose As Button
 End Class

@@ -249,7 +249,7 @@ Public Class Payment
 			Case "Cash"
 				If Not Decimal.TryParse(amoTendered.Text, cash) OrElse cash < total Then
 					MessageBox.Show("Insufficient cash amount.", "Payment Error",
-								MessageBoxButtons.OK, MessageBoxIcon.Warning)
+							MessageBoxButtons.OK, MessageBoxIcon.Warning)
 					Return
 				End If
 
@@ -257,34 +257,38 @@ Public Class Payment
 				refNumber = amoTendered.Text.Trim()
 				If refNumber = "" OrElse refNumber = "0" Then
 					MessageBox.Show("Please enter the reference number.", "Missing Reference",
-								MessageBoxButtons.OK, MessageBoxIcon.Warning)
+				MessageBoxButtons.OK, MessageBoxIcon.Warning)
+					Return
+				End If
+				If Not refNumber.All(Function(c) Char.IsDigit(c)) OrElse refNumber.Length < 13 Then
+					MessageBox.Show("Reference number must be at least 13 digits (numbers only).",
+				"Invalid Reference Number", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 					Return
 				End If
 
 			Case "Card"
 				Dim cardResult As DialogResult = MessageBox.Show(
-					"Was the card payment approved on the terminal?",
-					"Confirm Card Payment",
-					MessageBoxButtons.YesNo,
-					MessageBoxIcon.Question)
+				"Was the card payment approved on the terminal?",
+				"Confirm Card Payment",
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Question)
 				If cardResult = DialogResult.No Then
 					MessageBox.Show("Card declined. Please try another payment method.",
-									"Payment Declined",
-									MessageBoxButtons.OK,
-									MessageBoxIcon.Warning)
+								"Payment Declined",
+								MessageBoxButtons.OK,
+								MessageBoxIcon.Warning)
 					Return
 				End If
 		End Select
 
-		' PUT TO ORDER_LOGS
 		Try
 			OpenConnection()
 			Dim transaction As MySqlTransaction = conn.BeginTransaction()
 
 			Try
 				Dim orderCmd As New MySqlCommand(
-				"INSERT INTO orders (user_id, subtotal, discount_amount, total_amount, payment_method, reference_number, transaction_fee)
-                 VALUES (@uid, @sub, @disc, @total, @method, @ref, @fee)", conn, transaction)
+			"INSERT INTO orders (user_id, subtotal, discount_amount, total_amount, payment_method, reference_number, transaction_fee)
+             VALUES (@uid, @sub, @disc, @total, @method, @ref, @fee)", conn, transaction)
 
 				orderCmd.Parameters.AddWithValue("@uid", LoggedInUserId)
 				orderCmd.Parameters.AddWithValue("@sub", subtotal)
@@ -299,9 +303,8 @@ Public Class Payment
 
 				For Each item As CartItem In CartItems
 					Dim itemCmd As New MySqlCommand(
-					"INSERT INTO order_items (order_id, product_id, quantity, price_at_sale, net_price_sale)
-                     VALUES (@oid, @pid, @qty, @price, @netprice)", conn, transaction)
-
+				"INSERT INTO order_items (order_id, product_id, quantity, price_at_sale, net_price_sale)
+                 VALUES (@oid, @pid, @qty, @price, @netprice)", conn, transaction)
 					itemCmd.Parameters.AddWithValue("@oid", newOrderId)
 					itemCmd.Parameters.AddWithValue("@pid", item.ProductId)
 					itemCmd.Parameters.AddWithValue("@qty", item.Quantity)
@@ -310,11 +313,20 @@ Public Class Payment
 					itemCmd.ExecuteNonQuery()
 
 					Dim stockCmd As New MySqlCommand(
-					"UPDATE products SET stock_quantity = stock_quantity - @qty
-                     WHERE product_id = @pid", conn, transaction)
+				"UPDATE products SET stock_quantity = stock_quantity - @qty
+                 WHERE product_id = @pid", conn, transaction)
 					stockCmd.Parameters.AddWithValue("@qty", item.Quantity)
 					stockCmd.Parameters.AddWithValue("@pid", item.ProductId)
 					stockCmd.ExecuteNonQuery()
+
+					Dim updateStatusCmd As New MySqlCommand(
+				"UPDATE products SET status = CASE
+                 WHEN stock_quantity <= 0 THEN 'Unavailable'
+                 WHEN stock_quantity <= low_stock_threshold THEN 'Low in Stock'
+                 ELSE 'Available'
+                 END WHERE product_id = @pid", conn, transaction)
+					updateStatusCmd.Parameters.AddWithValue("@pid", item.ProductId)
+					updateStatusCmd.ExecuteNonQuery()
 				Next
 
 				transaction.Commit()
@@ -324,7 +336,7 @@ Public Class Payment
 					receiptPath = GenerateReceiptPdf(newOrderId, subtotal, discount, fee, total, cash, refNumber)
 				Catch exReceipt As Exception
 					MessageBox.Show("Order saved, but the receipt could not be generated: " & exReceipt.Message,
-								"Receipt Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+							"Receipt Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 				End Try
 
 				CartItems.Clear()
@@ -342,7 +354,7 @@ Public Class Payment
 			Catch ex As Exception
 				transaction.Rollback()
 				MessageBox.Show("Transaction failed: " & ex.Message, "Error",
-							MessageBoxButtons.OK, MessageBoxIcon.Error)
+						MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
 
 		Finally
@@ -354,7 +366,9 @@ Public Class Payment
 										 fee As Decimal, total As Decimal, cash As Decimal,
 										 refNumber As String) As String
 
-		Dim receiptsFolder As String = Path.Combine(Application.StartupPath, "Receipts")
+		Dim receiptsFolder As String = Path.Combine(
+		Directory.GetParent(Application.StartupPath).Parent.Parent.FullName,
+		"BERONIO_CARO_FDS", "Receipts")
 		If Not Directory.Exists(receiptsFolder) Then
 			Directory.CreateDirectory(receiptsFolder)
 		End If

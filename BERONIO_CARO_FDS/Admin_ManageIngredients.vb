@@ -7,17 +7,15 @@ Public Class Admin_ManageIngredients
 
 	Private Sub Admin_Ingredients_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupIngredientGrid()
+	End Sub
+
+	Private Sub Admin_Ingredients_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
 		LoadIngredients()
 	End Sub
 
 	Private Sub SetupIngredientGrid()
 		DataGridView1.Columns.Clear()
 		DataGridView1.AutoGenerateColumns = False
-		DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-		DataGridView1.MultiSelect = False
-		DataGridView1.ReadOnly = True
-		DataGridView1.AllowUserToAddRows = False
-		DataGridView1.RowHeadersVisible = False
 
 		DataGridView1.Columns.Add("colId", "ID")
 		DataGridView1.Columns.Add("colName", "INGREDIENT NAME")
@@ -251,5 +249,10 @@ Public Class Admin_ManageIngredients
 	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
 		Me.Hide()
 		Admin_InvLogs.Show()
+	End Sub
+
+	Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+		Me.Hide()
+		Start.Show()
 	End Sub
 End Class

@@ -47,6 +47,7 @@ Partial Class Admin_ManageIngredients
 		Button5 = New Button()
 		Button6 = New Button()
 		Button4 = New Button()
+		btnClose = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		Panel4.SuspendLayout()
 		Panel2.SuspendLayout()
@@ -54,9 +55,14 @@ Partial Class Admin_ManageIngredients
 		' 
 		' DataGridView1
 		' 
+		DataGridView1.AllowUserToAddRows = False
 		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		DataGridView1.Location = New Point(382, 81)
+		DataGridView1.MultiSelect = False
 		DataGridView1.Name = "DataGridView1"
+		DataGridView1.ReadOnly = True
+		DataGridView1.RowHeadersVisible = False
+		DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 		DataGridView1.Size = New Size(1087, 712)
 		DataGridView1.TabIndex = 20
 		' 
@@ -304,12 +310,25 @@ Partial Class Admin_ManageIngredients
 		Button4.TextAlign = ContentAlignment.MiddleLeft
 		Button4.UseVisualStyleBackColor = False
 		' 
+		' btnClose
+		' 
+		btnClose.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnClose.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnClose.ForeColor = Color.White
+		btnClose.Location = New Point(52, 772)
+		btnClose.Name = "btnClose"
+		btnClose.Size = New Size(93, 43)
+		btnClose.TabIndex = 31
+		btnClose.Text = "Back"
+		btnClose.UseVisualStyleBackColor = False
+		' 
 		' Admin_ManageIngredients
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(btnClose)
 		Controls.Add(Button4)
 		Controls.Add(Button8)
 		Controls.Add(Button7)
@@ -351,4 +370,5 @@ Partial Class Admin_ManageIngredients
 	Friend WithEvents Button5 As Button
 	Friend WithEvents Button6 As Button
 	Friend WithEvents Button4 As Button
+	Friend WithEvents btnClose As Button
 End Class

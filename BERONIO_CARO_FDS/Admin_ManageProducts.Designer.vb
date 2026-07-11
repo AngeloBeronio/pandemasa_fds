@@ -74,6 +74,7 @@ Partial Class Admin_ManageProducts
 		Label6 = New Label()
 		Button9 = New Button()
 		Button11 = New Button()
+		btnClose = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		Panel1.SuspendLayout()
 		Panel2.SuspendLayout()
@@ -609,12 +610,25 @@ Partial Class Admin_ManageProducts
 		Button11.TextAlign = ContentAlignment.MiddleLeft
 		Button11.UseVisualStyleBackColor = False
 		' 
+		' btnClose
+		' 
+		btnClose.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnClose.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnClose.ForeColor = Color.White
+		btnClose.Location = New Point(53, 768)
+		btnClose.Name = "btnClose"
+		btnClose.Size = New Size(93, 43)
+		btnClose.TabIndex = 22
+		btnClose.Text = "Back"
+		btnClose.UseVisualStyleBackColor = False
+		' 
 		' Admin_ManageProducts
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(btnClose)
 		Controls.Add(Button11)
 		Controls.Add(Button9)
 		Controls.Add(Panel4)
@@ -692,4 +706,5 @@ Partial Class Admin_ManageProducts
 	Friend WithEvents TextBox5 As TextBox
 	Friend WithEvents Panel6 As Panel
 	Friend WithEvents Button11 As Button
+	Friend WithEvents btnClose As Button
 End Class

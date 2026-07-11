@@ -41,6 +41,7 @@ Partial Class Admin_Homevb
 		Button8 = New Button()
 		Label5 = New Label()
 		Label7 = New Label()
+		btnClose = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		SuspendLayout()
 		' 
@@ -50,7 +51,7 @@ Partial Class Admin_Homevb
 		Label1.BackColor = Color.Transparent
 		Label1.Font = New Font("Segoe UI", 26.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
 		Label1.ForeColor = Color.White
-		Label1.Location = New Point(498, 105)
+		Label1.Location = New Point(498, 115)
 		Label1.Name = "Label1"
 		Label1.Size = New Size(120, 47)
 		Label1.TabIndex = 0
@@ -84,11 +85,11 @@ Partial Class Admin_Homevb
 		' 
 		Label4.AutoSize = True
 		Label4.BackColor = Color.Transparent
-		Label4.Font = New Font("Segoe UI", 26.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Label4.Font = New Font("Segoe UI", 40.25F)
 		Label4.ForeColor = Color.White
-		Label4.Location = New Point(432, 550)
+		Label4.Location = New Point(434, 593)
 		Label4.Name = "Label4"
-		Label4.Size = New Size(120, 47)
+		Label4.Size = New Size(184, 72)
 		Label4.TabIndex = 3
 		Label4.Text = "Label4"
 		' 
@@ -247,12 +248,25 @@ Partial Class Admin_Homevb
 		Label7.TabIndex = 18
 		Label7.Text = "Label7"
 		' 
+		' btnClose
+		' 
+		btnClose.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btnClose.Font = New Font("Segoe UI Semibold", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btnClose.ForeColor = Color.White
+		btnClose.Location = New Point(47, 766)
+		btnClose.Name = "btnClose"
+		btnClose.Size = New Size(93, 43)
+		btnClose.TabIndex = 19
+		btnClose.Text = "Back"
+		btnClose.UseVisualStyleBackColor = False
+		' 
 		' Admin_Homevb
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
 		AutoScaleMode = AutoScaleMode.Font
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(btnClose)
 		Controls.Add(Label7)
 		Controls.Add(Label5)
 		Controls.Add(Button8)
@@ -293,4 +307,5 @@ Partial Class Admin_Homevb
 	Friend WithEvents Button8 As Button
 	Friend WithEvents Label5 As Label
 	Friend WithEvents Label7 As Label
+	Friend WithEvents btnClose As Button
 End Class

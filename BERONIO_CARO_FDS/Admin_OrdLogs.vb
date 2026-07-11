@@ -8,6 +8,9 @@ Public Class Admin_OrdLogs
 	Private Sub Admin_OrdLogs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupLogsGrid()
 		TextBox1.Text = currentPage.ToString()
+	End Sub
+
+	Private Sub Admin_OrdLogs_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
 		LoadLogs()
 	End Sub
 
@@ -121,5 +124,10 @@ Public Class Admin_OrdLogs
 	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 		Me.Hide()
 		Admin_ManageIngredients.Show()
+	End Sub
+
+	Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+		Me.Hide()
+		Start.Show()
 	End Sub
 End Class

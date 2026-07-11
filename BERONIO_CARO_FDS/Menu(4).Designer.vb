@@ -39,6 +39,7 @@ Partial Class Menu_4_
 		Label1 = New Label()
 		Timer1 = New Timer(components)
 		btnClose = New Button()
+		ListBox1 = New ListBox()
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).BeginInit()
 		CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
 		CType(itemMenu, ComponentModel.ISupportInitialize).BeginInit()
@@ -219,6 +220,14 @@ Partial Class Menu_4_
 		btnClose.Text = "Back"
 		btnClose.UseVisualStyleBackColor = False
 		' 
+		' ListBox1
+		' 
+		ListBox1.FormattingEnabled = True
+		ListBox1.Location = New Point(1596, 96)
+		ListBox1.Name = "ListBox1"
+		ListBox1.Size = New Size(236, 109)
+		ListBox1.TabIndex = 28
+		' 
 		' Menu_4_
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
@@ -226,6 +235,7 @@ Partial Class Menu_4_
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		BackgroundImageLayout = ImageLayout.Stretch
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(ListBox1)
 		Controls.Add(btnClose)
 		Controls.Add(Label2)
 		Controls.Add(Label1)
@@ -260,4 +270,5 @@ Partial Class Menu_4_
 	Friend WithEvents Label1 As Label
 	Friend WithEvents Timer1 As Timer
 	Friend WithEvents btnClose As Button
+	Friend WithEvents ListBox1 As ListBox
 End Class

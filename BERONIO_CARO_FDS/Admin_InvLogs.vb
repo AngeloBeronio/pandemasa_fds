@@ -8,6 +8,9 @@ Public Class Admin_InvLogs
 	Private Sub Admin_InvLogs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupLogsGrid()
 		TextBox1.Text = currentPage.ToString()
+	End Sub
+
+	Private Sub Admin_InvLogs_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
 		LoadLogs()
 	End Sub
 
@@ -60,8 +63,10 @@ Public Class Admin_InvLogs
 				While reader.Read()
 					Dim index As Integer = DataGridView1.Rows.Add()
 					Dim row As DataGridViewRow = DataGridView1.Rows(index)
-					row.Cells("colLogId").Value = reader("log_id")
-					row.Cells("colType").Value = reader("item_type").ToString()
+					Dim logType As String = reader("item_type").ToString()
+					Dim logId As String = reader("log_id").ToString()
+					row.Cells("colLogId").Value = logType.Substring(0, 1) & "-" & logId  ' e.g. "P-1" or "I-1"
+					row.Cells("colType").Value = logType
 					row.Cells("colItemId").Value = reader("item_id")
 					row.Cells("colUserId").Value = If(IsDBNull(reader("user_id")), "N/A", reader("user_id"))
 					row.Cells("colQty").Value = reader("adjustment_quantity")
@@ -125,5 +130,10 @@ Public Class Admin_InvLogs
 	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
 		Me.Hide()
 		Admin_ManageEmp.Show()
+	End Sub
+
+	Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+		Me.Hide()
+		Start.Show()
 	End Sub
 End Class

@@ -299,4 +299,9 @@ Public Class Admin_ManageEmp
 		Me.Hide()
 		Admin_InvLogs.Show()
 	End Sub
+
+	Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+		Me.Hide()
+		Start.Show()
+	End Sub
 End Class

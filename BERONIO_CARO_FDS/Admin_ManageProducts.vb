@@ -1,6 +1,5 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports System.IO
-Imports System.Data
 
 Public Class Admin_ManageProducts
 
@@ -11,22 +10,25 @@ Public Class Admin_ManageProducts
 	Private Sub Admin_Inv_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupInventoryGrid()
 		PopulateCategoryComboBox()
-		RadioButton3.Checked = True ' default new products to Baked
+		RadioButton3.Checked = True
 		ApplyBakedFieldState()
+	End Sub
+
+	Private Sub Admin_Inv_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
 		LoadInventory()
 	End Sub
 
 	Private Sub ApplyBakedFieldState()
 		Dim isBaked As Boolean = RadioButton3.Checked
 
-		TextBox5.Enabled = Not isBaked ' Estimated Cost Price (baked products auto-compute cost from recipe)
+		TextBox5.Enabled = Not isBaked
 		TextBox5.BackColor = If(TextBox5.Enabled, SystemColors.Window, SystemColors.Control)
 
-		TextBox2.Enabled = isBaked ' Ingredient Name
-		TextBox4.Enabled = isBaked ' Gram/s
-		Button10.Enabled = isBaked ' SET
+		TextBox2.Enabled = isBaked
+		TextBox4.Enabled = isBaked
+		Button8.Enabled = isBaked
 		ComboBox2.Enabled = isBaked
-		Button10.Enabled = isBaked ' REMOVE
+		Button10.Enabled = isBaked
 	End Sub
 
 	Private Sub SetupInventoryGrid()
@@ -82,31 +84,14 @@ Public Class Admin_ManageProducts
 				"    GROUP BY pi.product_id" &
 				") rc ON p.product_id = rc.product_id"
 
-			Dim hasFilter As Boolean = False
-
 			If CheckBox1.Checked Or CheckBox2.Checked Or CheckBox3.Checked Or CheckBox4.Checked Or CheckBox5.Checked Then
 				query &= " WHERE c.category_name IN ("
 
-				If CheckBox1.Checked Then
-					query &= "@cat1,"
-					hasFilter = True
-				End If
-				If CheckBox2.Checked Then
-					query &= "@cat2,"
-					hasFilter = True
-				End If
-				If CheckBox3.Checked Then
-					query &= "@cat3,"
-					hasFilter = True
-				End If
-				If CheckBox4.Checked Then
-					query &= "@cat4,"
-					hasFilter = True
-				End If
-				If CheckBox5.Checked Then
-					query &= "@cat5,"
-					hasFilter = True
-				End If
+				If CheckBox1.Checked Then query &= "@cat1,"
+				If CheckBox2.Checked Then query &= "@cat2,"
+				If CheckBox3.Checked Then query &= "@cat3,"
+				If CheckBox4.Checked Then query &= "@cat4,"
+				If CheckBox5.Checked Then query &= "@cat5,"
 
 				If query.EndsWith(",") Then
 					query = query.Substring(0, query.Length - 1)
@@ -190,14 +175,10 @@ Public Class Admin_ManageProducts
 	End Sub
 
 	Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
-		If DataGridView1.SelectedRows.Count = 0 Then
-			Exit Sub
-		End If
+		If DataGridView1.SelectedRows.Count = 0 Then Exit Sub
 
 		Dim row As DataGridViewRow = DataGridView1.SelectedRows(0)
-		If row.Cells("colName").Value Is Nothing Then
-			Exit Sub
-		End If
+		If row.Cells("colName").Value Is Nothing Then Exit Sub
 
 		selectedProductId = Convert.ToInt32(row.Cells("colId").Value)
 		TextBox1.Text = CleanCurrency(row.Cells("colPrice").Value.ToString())
@@ -215,10 +196,7 @@ Public Class Admin_ManageProducts
 	End Sub
 
 	Private Function CleanCurrency(displayValue As String) As String
-		Dim clean As String = displayValue
-		clean = clean.Replace("₱", "")
-		clean = clean.Replace(",", "")
-		Return clean.Trim()
+		Return displayValue.Replace("₱", "").Replace(",", "").Trim()
 	End Function
 
 	Private Sub PopulateCategoryComboBox()
@@ -238,6 +216,7 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
+	' ATTACH IMAGE — Button1
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Dim ofd As New OpenFileDialog()
 		ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif"
@@ -261,8 +240,9 @@ Public Class Admin_ManageProducts
 		End If
 	End Sub
 
+	' ADD PRODUCT — Button2
 	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-		Dim productName = TextBox3.Text.Trim
+		Dim productName = TextBox3.Text.Trim()
 		If productName = "" Or ComboBox1.SelectedValue Is Nothing Then
 			MessageBox.Show("Please fill out Name and Category options.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
@@ -289,15 +269,12 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
+	' REMOVE PRODUCT — Button4
 	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-		If selectedProductId = -1 Then
-			Exit Sub
-		End If
+		If selectedProductId = -1 Then Exit Sub
 
 		Dim result = MessageBox.Show("Remove this item permanently?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-		If result <> DialogResult.Yes Then
-			Exit Sub
-		End If
+		If result <> DialogResult.Yes Then Exit Sub
 
 		Try
 			OpenConnection()
@@ -321,15 +298,12 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
+	' UPDATE QUANTITY — Button7
 	Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-		If selectedProductId = -1 Then
-			Exit Sub
-		End If
+		If selectedProductId = -1 Then Exit Sub
 
 		Dim inputValue As Integer = Convert.ToInt32(NumericUpDown1.Value)
-		If inputValue <= 0 Then
-			Exit Sub
-		End If
+		If inputValue <= 0 Then Exit Sub
 
 		Dim finalQtyToAdd As Integer = inputValue
 		Dim unit As String = "piece"
@@ -412,24 +386,18 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
-	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+	' UPDATE PRICE — Button3 (was Button8, now Button3 based on designer)
+	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+		If selectedProductId = -1 Then Exit Sub
+
 		Dim sellingPrice As Decimal
-		Dim costPrice As Decimal
-
-		If selectedProductId = -1 Then
-			Exit Sub
-		End If
-
-		If Not Decimal.TryParse(TextBox1.Text, sellingPrice) Then
-			Exit Sub
-		End If
+		If Not Decimal.TryParse(TextBox1.Text, sellingPrice) Then Exit Sub
 
 		Dim isBakedValue As Boolean = RadioButton3.Checked
+		Dim costPrice As Decimal
 
 		If Not isBakedValue Then
-			If Not Decimal.TryParse(TextBox5.Text, costPrice) Then
-				Exit Sub
-			End If
+			If Not Decimal.TryParse(TextBox5.Text, costPrice) Then Exit Sub
 		End If
 
 		Try
@@ -459,112 +427,8 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
-	Private Sub BakedStatusChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged, RadioButton4.CheckedChanged
-		ApplyBakedFieldState()
-	End Sub
-
-	Private Sub ClearEditForm()
-		selectedProductId = -1
-		selectedImagePath = ""
-		selectedIsBaked = True
-		TextBox3.Clear()
-		TextBox1.Clear()
-		TextBox5.Clear()
-		TextBox2.Clear()
-		TextBox4.Clear()
-		RadioButton3.Checked = True
-		ApplyBakedFieldState()
-		ComboBox2.DataSource = Nothing
-		If ComboBox1.Items.Count > 0 Then
-			ComboBox1.SelectedIndex = -1
-		End If
-	End Sub
-
-	Private Function GetPiecesPerTray(productId As Integer) As Integer
-		Select Case productId
-			Case 1
-				Return 24
-			Case 2, 3, 5, 6
-				Return 15
-			Case 7 To 12
-				Return 18
-			Case 13
-				Return 12
-			Case 14, 15
-				Return 24
-			Case 16
-				Return 6
-			Case 17 To 20
-				Return 12
-			Case Else
-				Return 1
-		End Select
-	End Function
-
-	Private Function GetProductIngredients(productId As Integer, conn As MySqlConnection, trans As MySqlTransaction) As List(Of Tuple(Of Integer, String, Decimal))
-		Dim result As New List(Of Tuple(Of Integer, String, Decimal))
-
-		Dim cmd As New MySqlCommand("SELECT pi.ingredient_id, i.ingredient_name, pi.qty_gram_per_piece " &
-			"FROM product_ingredients pi " &
-			"JOIN ingredients i ON pi.ingredient_id = i.ingredient_id " &
-			"WHERE pi.product_id = @pid", conn, trans)
-		cmd.Parameters.AddWithValue("@pid", productId)
-
-		Dim reader As MySqlDataReader = cmd.ExecuteReader()
-		While reader.Read()
-			result.Add(New Tuple(Of Integer, String, Decimal)(
-				Convert.ToInt32(reader("ingredient_id")),
-				reader("ingredient_name").ToString(),
-				Convert.ToDecimal(reader("qty_gram_per_piece"))
-			))
-		End While
-		reader.Close()
-
-		Return result
-	End Function
-
-	Private Function GetIngredientStock(ingredientId As Integer, conn As MySqlConnection, trans As MySqlTransaction) As Decimal
-		Dim cmd As New MySqlCommand("SELECT stock_grams FROM ingredients WHERE ingredient_id = @iid", conn, trans)
-		cmd.Parameters.AddWithValue("@iid", ingredientId)
-		Dim result As Object = cmd.ExecuteScalar()
-		If result Is Nothing OrElse IsDBNull(result) Then
-			Return 0D
-		End If
-		Return Convert.ToDecimal(result)
-	End Function
-
-	Private Sub PopulateProductIngredientComboBox(productId As Integer)
-		Try
-			OpenConnection()
-			Dim dt As New DataTable()
-			Dim da As New MySqlDataAdapter("SELECT i.ingredient_id, i.ingredient_name " &
-				"FROM product_ingredients pi " &
-				"JOIN ingredients i ON pi.ingredient_id = i.ingredient_id " &
-				"WHERE pi.product_id = @pid ORDER BY i.ingredient_name", conn)
-			da.SelectCommand.Parameters.AddWithValue("@pid", productId)
-			da.Fill(dt)
-
-			ComboBox2.DataSource = dt
-			ComboBox2.DisplayMember = "ingredient_name"
-			ComboBox2.ValueMember = "ingredient_id"
-		Catch ex As Exception
-			MessageBox.Show("Error loading recipe ingredients: " & ex.Message)
-		Finally
-			CloseConnection()
-		End Try
-	End Sub
-
-	Private Function GetIngredientIdByName(ingredientName As String, conn As MySqlConnection) As Object
-		Dim cmd As New MySqlCommand("SELECT ingredient_id FROM ingredients WHERE ingredient_name = @name LIMIT 1", conn)
-		cmd.Parameters.AddWithValue("@name", ingredientName)
-		Dim result As Object = cmd.ExecuteScalar()
-		If result Is Nothing OrElse IsDBNull(result) Then
-			Return Nothing
-		End If
-		Return result
-	End Function
-
-	Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+	' SET RECIPE INGREDIENT — Button8
+	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
 		If selectedProductId = -1 Then
 			MessageBox.Show("Please select a product first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
@@ -622,15 +486,14 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
-	Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+	' REMOVE RECIPE INGREDIENT — Button10
+	Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
 		If selectedProductId = -1 Then
 			MessageBox.Show("Please select a product first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
 		End If
 
-		If ComboBox2.SelectedValue Is Nothing Then
-			Exit Sub
-		End If
+		If ComboBox2.SelectedValue Is Nothing Then Exit Sub
 
 		Try
 			OpenConnection()
@@ -648,6 +511,100 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
+	Private Sub BakedStatusChanged(sender As Object, e As EventArgs) Handles RadioButton3.CheckedChanged, RadioButton4.CheckedChanged
+		ApplyBakedFieldState()
+	End Sub
+
+	Private Sub ClearEditForm()
+		selectedProductId = -1
+		selectedImagePath = ""
+		selectedIsBaked = True
+		TextBox3.Clear()
+		TextBox1.Clear()
+		TextBox5.Clear()
+		TextBox2.Clear()
+		TextBox4.Clear()
+		RadioButton3.Checked = True
+		ApplyBakedFieldState()
+		ComboBox2.DataSource = Nothing
+		If ComboBox1.Items.Count > 0 Then
+			ComboBox1.SelectedIndex = -1
+		End If
+	End Sub
+
+	Private Function GetPiecesPerTray(productId As Integer) As Integer
+		Select Case productId
+			Case 1 : Return 24
+			Case 2, 3, 5, 6 : Return 15
+			Case 7 To 12 : Return 18
+			Case 13 : Return 12
+			Case 14, 15 : Return 24
+			Case 16 : Return 6
+			Case 17 To 20 : Return 12
+			Case Else : Return 1
+		End Select
+	End Function
+
+	Private Function GetProductIngredients(productId As Integer, conn As MySqlConnection, trans As MySqlTransaction) As List(Of Tuple(Of Integer, String, Decimal))
+		Dim result As New List(Of Tuple(Of Integer, String, Decimal))
+
+		Dim cmd As New MySqlCommand("SELECT pi.ingredient_id, i.ingredient_name, pi.qty_gram_per_piece " &
+			"FROM product_ingredients pi " &
+			"JOIN ingredients i ON pi.ingredient_id = i.ingredient_id " &
+			"WHERE pi.product_id = @pid", conn, trans)
+		cmd.Parameters.AddWithValue("@pid", productId)
+
+		Dim reader As MySqlDataReader = cmd.ExecuteReader()
+		While reader.Read()
+			result.Add(New Tuple(Of Integer, String, Decimal)(
+				Convert.ToInt32(reader("ingredient_id")),
+				reader("ingredient_name").ToString(),
+				Convert.ToDecimal(reader("qty_gram_per_piece"))
+			))
+		End While
+		reader.Close()
+
+		Return result
+	End Function
+
+	Private Function GetIngredientStock(ingredientId As Integer, conn As MySqlConnection, trans As MySqlTransaction) As Decimal
+		Dim cmd As New MySqlCommand("SELECT stock_grams FROM ingredients WHERE ingredient_id = @iid", conn, trans)
+		cmd.Parameters.AddWithValue("@iid", ingredientId)
+		Dim result As Object = cmd.ExecuteScalar()
+		If result Is Nothing OrElse IsDBNull(result) Then Return 0D
+		Return Convert.ToDecimal(result)
+	End Function
+
+	Private Sub PopulateProductIngredientComboBox(productId As Integer)
+		Try
+			OpenConnection()
+			Dim dt As New DataTable()
+			Dim da As New MySqlDataAdapter("SELECT i.ingredient_id, i.ingredient_name " &
+				"FROM product_ingredients pi " &
+				"JOIN ingredients i ON pi.ingredient_id = i.ingredient_id " &
+				"WHERE pi.product_id = @pid ORDER BY i.ingredient_name", conn)
+			da.SelectCommand.Parameters.AddWithValue("@pid", productId)
+			da.Fill(dt)
+
+			ComboBox2.DataSource = dt
+			ComboBox2.DisplayMember = "ingredient_name"
+			ComboBox2.ValueMember = "ingredient_id"
+		Catch ex As Exception
+			MessageBox.Show("Error loading recipe ingredients: " & ex.Message)
+		Finally
+			CloseConnection()
+		End Try
+	End Sub
+
+	Private Function GetIngredientIdByName(ingredientName As String, conn As MySqlConnection) As Object
+		Dim cmd As New MySqlCommand("SELECT ingredient_id FROM ingredients WHERE ingredient_name = @name LIMIT 1", conn)
+		cmd.Parameters.AddWithValue("@name", ingredientName)
+		Dim result As Object = cmd.ExecuteScalar()
+		If result Is Nothing OrElse IsDBNull(result) Then Return Nothing
+		Return result
+	End Function
+
+	' NAVIGATION
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 		Me.Hide()
 		Admin_Homevb.Show()
@@ -658,18 +615,18 @@ Public Class Admin_ManageProducts
 		Admin_OrdLogs.Show()
 	End Sub
 
-	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-		Me.Hide()
-		Admin_ManageEmp.Show()
-	End Sub
-
 	Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
 		Me.Hide()
 		Admin_OrdLogs.Show()
 	End Sub
 
-	Private Sub Button11_Click_1(sender As Object, e As EventArgs) Handles Button11.Click
+	Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
 		Me.Hide()
 		Admin_ManageIngredients.Show()
+	End Sub
+
+	Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+		Me.Hide()
+		Start.Show()
 	End Sub
 End Class

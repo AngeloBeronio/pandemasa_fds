@@ -39,6 +39,7 @@ Partial Class Menu_5_
 		itemMenu = New DataGridView()
 		Timer1 = New Timer(components)
 		btnClose = New Button()
+		ListBox1 = New ListBox()
 		CType(NumericUpDown1, ComponentModel.ISupportInitialize).BeginInit()
 		CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
 		CType(itemMenu, ComponentModel.ISupportInitialize).BeginInit()
@@ -220,6 +221,14 @@ Partial Class Menu_5_
 		btnClose.Text = "Back"
 		btnClose.UseVisualStyleBackColor = False
 		' 
+		' ListBox1
+		' 
+		ListBox1.FormattingEnabled = True
+		ListBox1.Location = New Point(1596, 99)
+		ListBox1.Name = "ListBox1"
+		ListBox1.Size = New Size(236, 109)
+		ListBox1.TabIndex = 32
+		' 
 		' Menu_5_
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
@@ -227,6 +236,7 @@ Partial Class Menu_5_
 		BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), Image)
 		BackgroundImageLayout = ImageLayout.Stretch
 		ClientSize = New Size(1904, 1041)
+		Controls.Add(ListBox1)
 		Controls.Add(btnClose)
 		Controls.Add(itemMenu)
 		Controls.Add(PictureBox1)
@@ -261,4 +271,5 @@ Partial Class Menu_5_
 	Friend WithEvents itemMenu As DataGridView
 	Friend WithEvents Timer1 As Timer
 	Friend WithEvents btnClose As Button
+	Friend WithEvents ListBox1 As ListBox
 End Class
