@@ -226,7 +226,7 @@ Public Class Admin_Homevb
 		Try
 			OpenConnection()
 			Dim query As String =
-			"INSERT INTO app_settings (setting_key, setting_value) VALUES (@k, @v) " &
+			"INSERT INTO set_ls_time (setting_key, setting_value) VALUES (@k, @v) " &
 			"ON DUPLICATE KEY UPDATE setting_value = @v"
 			Dim cmd As New MySqlCommand(query, conn)
 			cmd.Parameters.AddWithValue("@k", key)

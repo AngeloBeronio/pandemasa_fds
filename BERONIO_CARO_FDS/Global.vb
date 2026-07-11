@@ -235,7 +235,7 @@ Module [Global]
         Try
             OpenConnection()
             Dim query As String =
-                "SELECT setting_value FROM app_settings WHERE setting_key = 'warning_time'"
+                "SELECT setting_value FROM set_ls_time WHERE setting_key = 'warning_time'"
             Dim cmd As New MySqlCommand(query, conn)
             Dim result As Object = cmd.ExecuteScalar()
 
