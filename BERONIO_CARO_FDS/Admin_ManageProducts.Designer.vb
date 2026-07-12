@@ -35,6 +35,7 @@ Partial Class Admin_ManageProducts
 		CheckBox2 = New CheckBox()
 		CheckBox1 = New CheckBox()
 		Panel2 = New Panel()
+		Button12 = New Button()
 		Label10 = New Label()
 		TextBox5 = New TextBox()
 		Panel6 = New Panel()
@@ -215,6 +216,7 @@ Partial Class Admin_ManageProducts
 		' 
 		' Panel2
 		' 
+		Panel2.Controls.Add(Button12)
 		Panel2.Controls.Add(Label10)
 		Panel2.Controls.Add(TextBox5)
 		Panel2.Controls.Add(Panel6)
@@ -241,6 +243,15 @@ Partial Class Admin_ManageProducts
 		Panel2.Name = "Panel2"
 		Panel2.Size = New Size(328, 737)
 		Panel2.TabIndex = 18
+		' 
+		' Button12
+		' 
+		Button12.Location = New Point(167, 323)
+		Button12.Name = "Button12"
+		Button12.Size = New Size(75, 23)
+		Button12.TabIndex = 30
+		Button12.Text = "SET"
+		Button12.UseVisualStyleBackColor = True
 		' 
 		' Label10
 		' 
@@ -277,27 +288,27 @@ Partial Class Admin_ManageProducts
 		Label14.AutoSize = True
 		Label14.Location = New Point(24, 626)
 		Label14.Name = "Label14"
-		Label14.Size = New Size(110, 15)
+		Label14.Size = New Size(96, 15)
 		Label14.TabIndex = 26
-		Label14.Text = "INGREDIENT NAME"
+		Label14.Text = "Ingredient Name"
 		' 
 		' Label13
 		' 
 		Label13.AutoSize = True
 		Label13.Location = New Point(202, 492)
 		Label13.Name = "Label13"
-		Label13.Size = New Size(52, 15)
+		Label13.Size = New Size(46, 15)
 		Label13.TabIndex = 25
-		Label13.Text = "GRAM/S"
+		Label13.Text = "Gram/s"
 		' 
 		' Label12
 		' 
 		Label12.AutoSize = True
 		Label12.Location = New Point(24, 492)
 		Label12.Name = "Label12"
-		Label12.Size = New Size(110, 15)
+		Label12.Size = New Size(96, 15)
 		Label12.TabIndex = 24
-		Label12.Text = "INGREDIENT NAME"
+		Label12.Text = "Ingredient Name"
 		' 
 		' ComboBox2
 		' 
@@ -332,7 +343,6 @@ Partial Class Admin_ManageProducts
 		GroupBox2.Size = New Size(125, 93)
 		GroupBox2.TabIndex = 20
 		GroupBox2.TabStop = False
-		GroupBox2.Text = "GroupBox2"
 		' 
 		' RadioButton4
 		' 
@@ -390,21 +400,25 @@ Partial Class Admin_ManageProducts
 		' 
 		' Button8
 		' 
+		Button8.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Button8.ForeColor = Color.White
 		Button8.Location = New Point(28, 539)
 		Button8.Name = "Button8"
 		Button8.Size = New Size(86, 31)
 		Button8.TabIndex = 17
 		Button8.Text = "SET"
-		Button8.UseVisualStyleBackColor = True
+		Button8.UseVisualStyleBackColor = False
 		' 
 		' Button7
 		' 
+		Button7.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Button7.ForeColor = Color.White
 		Button7.Location = New Point(33, 175)
 		Button7.Name = "Button7"
 		Button7.Size = New Size(130, 31)
 		Button7.TabIndex = 16
 		Button7.Text = "SET"
-		Button7.UseVisualStyleBackColor = True
+		Button7.UseVisualStyleBackColor = False
 		' 
 		' TextBox2
 		' 
@@ -427,7 +441,7 @@ Partial Class Admin_ManageProducts
 		' 
 		TextBox1.Location = New Point(28, 324)
 		TextBox1.Name = "TextBox1"
-		TextBox1.Size = New Size(100, 23)
+		TextBox1.Size = New Size(117, 23)
 		TextBox1.TabIndex = 13
 		' 
 		' Label4
@@ -528,21 +542,25 @@ Partial Class Admin_ManageProducts
 		' 
 		' Button4
 		' 
+		Button4.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Button4.ForeColor = Color.White
 		Button4.Location = New Point(1039, 42)
 		Button4.Name = "Button4"
 		Button4.Size = New Size(87, 79)
 		Button4.TabIndex = 11
 		Button4.Text = "REMOVE"
-		Button4.UseVisualStyleBackColor = True
+		Button4.UseVisualStyleBackColor = False
 		' 
 		' Button2
 		' 
+		Button2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Button2.ForeColor = Color.White
 		Button2.Location = New Point(886, 42)
 		Button2.Name = "Button2"
 		Button2.Size = New Size(87, 79)
 		Button2.TabIndex = 10
 		Button2.Text = "ADD"
-		Button2.UseVisualStyleBackColor = True
+		Button2.UseVisualStyleBackColor = False
 		' 
 		' ComboBox1
 		' 
@@ -554,13 +572,15 @@ Partial Class Admin_ManageProducts
 		' 
 		' Button1
 		' 
+		Button1.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
 		Button1.Font = New Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+		Button1.ForeColor = Color.White
 		Button1.Location = New Point(327, 86)
 		Button1.Name = "Button1"
 		Button1.Size = New Size(112, 35)
 		Button1.TabIndex = 7
 		Button1.Text = "ATTACH"
-		Button1.UseVisualStyleBackColor = True
+		Button1.UseVisualStyleBackColor = False
 		' 
 		' TextBox3
 		' 
@@ -707,4 +727,5 @@ Partial Class Admin_ManageProducts
 	Friend WithEvents Panel6 As Panel
 	Friend WithEvents Button11 As Button
 	Friend WithEvents btnClose As Button
+	Friend WithEvents Button12 As Button
 End Class

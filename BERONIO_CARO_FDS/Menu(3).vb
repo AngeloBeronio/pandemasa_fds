@@ -1,7 +1,4 @@
-﻿Imports MySql.Data.MySqlClient
-
-Public Class Menu_3_
-
+﻿Public Class Menu_3_
     Private selectedProductId As Integer = -1
     Private selectedProductName As String = ""
     Private selectedPrice As Decimal = 0
@@ -15,13 +12,40 @@ Public Class Menu_3_
         Timer1.Start()
     End Sub
 
-    Sub Menu_3__Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+    Private Sub Menu_3__Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
         LoadLowStockWarning(ListBox1)
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Label1.Text = GetGreeting()
         Label2.Text = DateTime.Now.ToString("hh:mm tt")
+    End Sub
+
+    ' SELECT PRODUCT
+    Private Sub itemMenu_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles itemMenu.CellClick
+        Dim row As DataGridViewRow = itemMenu.Rows(e.RowIndex)
+        If row.DefaultCellStyle.BackColor = Color.LightGray Then
+            MessageBox.Show("This product is currently unavailable.", "Unavailable",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            selectedProductId = -1
+            Return
+        End If
+        selectedProductId = CInt(row.Cells("colProductId").Value)
+        selectedProductName = row.Cells("colName").Value.ToString()
+        selectedPrice = CDec(row.Cells("colPrice").Value.ToString().Replace("₱", ""))
+        LoadProductImage(PictureBox1, row.Cells("colImagePath").Value.ToString())
+        NumericUpDown1.Value = 1
+    End Sub
+
+    ' ADD TO CART
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        If selectedProductId = -1 Then
+            MessageBox.Show("Please select a product from the menu first.",
+                            "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+        AddToCart(selectedProductId, selectedProductName, selectedPrice, NumericUpDown1.Value)
+        NumericUpDown1.Value = 1
     End Sub
 
     ' NAVIGATION
@@ -48,7 +72,7 @@ Public Class Menu_3_
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         If CartItems.Count = 0 Then
             MessageBox.Show("Your cart is empty. Please add items first.",
-                        "Empty Cart", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            "Empty Cart", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
         Me.Hide()
@@ -60,43 +84,10 @@ Public Class Menu_3_
         Start.Show()
     End Sub
 
-    Private Sub itemMenu_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles itemMenu.CellClick
-        Dim row As DataGridViewRow = itemMenu.Rows(e.RowIndex)
-
-        If row.DefaultCellStyle.BackColor = Color.LightGray Then
-            MessageBox.Show("This product is currently unavailable.", "Unavailable",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            selectedProductId = -1
-            Return
-        End If
-
-        selectedProductId = CInt(row.Cells("colProductId").Value)
-        selectedProductName = row.Cells("colName").Value.ToString()
-        selectedPrice = CDec(row.Cells("colPrice").Value.ToString().Replace("₱", ""))
-        LoadProductImage(PictureBox1, row.Cells("colImagePath").Value.ToString())
-        NumericUpDown1.Value = 1
-    End Sub
-
-    Private Sub btnAddToCart_Click(sender As Object, e As EventArgs) Handles Button5.Click
-        If selectedProductId = -1 Then
-            MessageBox.Show("Please select a product from the menu first.",
-                            "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        AddToCart(selectedProductId, selectedProductName, selectedPrice, NumericUpDown1.Value)
-        NumericUpDown1.Value = 1
-    End Sub
-
     Private Sub Menu_3__FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If PictureBox1.Image IsNot Nothing Then
             PictureBox1.Image.Dispose()
             PictureBox1.Image = Nothing
         End If
     End Sub
-
-    Private Sub itemMenu_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles itemMenu.CellContentClick
-
-    End Sub
-
 End Class

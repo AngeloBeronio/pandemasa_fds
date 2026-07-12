@@ -1,7 +1,6 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Public Class SetThreshold
-
     Private Sub SetThresholdForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadProducts()
     End Sub
@@ -98,12 +97,10 @@ End Class
 Public Class ProductItem
     Public Property Id As Integer
     Public Property Name As String
-
     Public Sub New(id As Integer, name As String)
         Me.Id = id
         Me.Name = name
     End Sub
-
     Public Overrides Function ToString() As String
         Return Name
     End Function

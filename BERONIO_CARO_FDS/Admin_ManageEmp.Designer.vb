@@ -93,12 +93,14 @@ Partial Class Admin_ManageEmp
 		' 
 		' btn_Set
 		' 
+		btn_Set.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btn_Set.ForeColor = Color.White
 		btn_Set.Location = New Point(34, 451)
 		btn_Set.Name = "btn_Set"
 		btn_Set.Size = New Size(130, 31)
 		btn_Set.TabIndex = 17
 		btn_Set.Text = "SET"
-		btn_Set.UseVisualStyleBackColor = True
+		btn_Set.UseVisualStyleBackColor = False
 		' 
 		' Label5
 		' 
@@ -176,12 +178,15 @@ Partial Class Admin_ManageEmp
 		' 
 		' btn_Find
 		' 
+		btn_Find.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btn_Find.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+		btn_Find.ForeColor = Color.White
 		btn_Find.Location = New Point(285, 60)
 		btn_Find.Name = "btn_Find"
 		btn_Find.Size = New Size(97, 43)
 		btn_Find.TabIndex = 27
 		btn_Find.Text = "Find"
-		btn_Find.UseVisualStyleBackColor = True
+		btn_Find.UseVisualStyleBackColor = False
 		' 
 		' Label6
 		' 
@@ -314,9 +319,9 @@ Partial Class Admin_ManageEmp
 		Label13.AutoSize = True
 		Label13.Location = New Point(367, 136)
 		Label13.Name = "Label13"
-		Label13.Size = New Size(56, 15)
+		Label13.Size = New Size(57, 15)
 		Label13.TabIndex = 34
-		Label13.Text = "Passcode"
+		Label13.Text = "Password"
 		' 
 		' Label11
 		' 
@@ -355,21 +360,27 @@ Partial Class Admin_ManageEmp
 		' 
 		' btn_RemoveRole
 		' 
+		btn_RemoveRole.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btn_RemoveRole.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
+		btn_RemoveRole.ForeColor = Color.White
 		btn_RemoveRole.Location = New Point(1228, 73)
 		btn_RemoveRole.Name = "btn_RemoveRole"
 		btn_RemoveRole.Size = New Size(87, 79)
 		btn_RemoveRole.TabIndex = 25
 		btn_RemoveRole.Text = "REMOVE"
-		btn_RemoveRole.UseVisualStyleBackColor = True
+		btn_RemoveRole.UseVisualStyleBackColor = False
 		' 
 		' btn_AddRole
 		' 
+		btn_AddRole.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btn_AddRole.Font = New Font("Segoe UI Semibold", 12F, FontStyle.Bold)
+		btn_AddRole.ForeColor = Color.White
 		btn_AddRole.Location = New Point(1098, 72)
 		btn_AddRole.Name = "btn_AddRole"
 		btn_AddRole.Size = New Size(87, 79)
 		btn_AddRole.TabIndex = 24
 		btn_AddRole.Text = "ADD"
-		btn_AddRole.UseVisualStyleBackColor = True
+		btn_AddRole.UseVisualStyleBackColor = False
 		' 
 		' txt_RoleName
 		' 
@@ -417,21 +428,27 @@ Partial Class Admin_ManageEmp
 		' 
 		' btn_RemoveEmployee
 		' 
+		btn_RemoveEmployee.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btn_RemoveEmployee.Font = New Font("Segoe UI Semibold", 12.25F, FontStyle.Bold)
+		btn_RemoveEmployee.ForeColor = Color.White
 		btn_RemoveEmployee.Location = New Point(696, 72)
 		btn_RemoveEmployee.Name = "btn_RemoveEmployee"
 		btn_RemoveEmployee.Size = New Size(87, 79)
 		btn_RemoveEmployee.TabIndex = 11
 		btn_RemoveEmployee.Text = "REMOVE"
-		btn_RemoveEmployee.UseVisualStyleBackColor = True
+		btn_RemoveEmployee.UseVisualStyleBackColor = False
 		' 
 		' btn_AddEmployee
 		' 
+		btn_AddEmployee.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		btn_AddEmployee.Font = New Font("Segoe UI Semibold", 12.25F, FontStyle.Bold)
+		btn_AddEmployee.ForeColor = Color.White
 		btn_AddEmployee.Location = New Point(593, 73)
 		btn_AddEmployee.Name = "btn_AddEmployee"
 		btn_AddEmployee.Size = New Size(87, 79)
 		btn_AddEmployee.TabIndex = 10
 		btn_AddEmployee.Text = "ADD"
-		btn_AddEmployee.UseVisualStyleBackColor = True
+		btn_AddEmployee.UseVisualStyleBackColor = False
 		' 
 		' Button1
 		' 

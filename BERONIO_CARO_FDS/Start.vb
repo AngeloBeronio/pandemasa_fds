@@ -9,9 +9,7 @@ Public Class Start
         End Try
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        LoginUser()
-    End Sub
-    Private Sub LoginUser()
+        ' CHECK IF EMPTY
         If TextBox1.Text.Trim = "" Then
             MessageBox.Show("Please enter your Employee ID.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
@@ -22,7 +20,7 @@ Public Class Start
             TextBox2.Focus()
             Return
         End If
-
+        '
         Try
             OpenConnection()
             Dim query As String = "SELECT employee_id, first_name, last_name, role_id, passcode FROM employees WHERE employee_id = @id"
@@ -30,6 +28,7 @@ Public Class Start
             cmd.Parameters.AddWithValue("@id", TextBox1.Text.Trim)
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
 
+            ' READ FROM DATABASE
             If reader.Read() Then
                 Dim dbPasscode As String = If(reader.IsDBNull(reader.GetOrdinal("passcode")), Nothing, reader("passcode").ToString())
                 Dim empID As String = reader("employee_id").ToString()
@@ -38,17 +37,15 @@ Public Class Start
                 reader.Close()
                 CloseConnection()
 
+                ' VALIDATION
                 If dbPasscode IsNot Nothing AndAlso dbPasscode = TextBox2.Text.Trim Then
                     [Global].EmployeeID = empID
                     [Global].LoggedInUserId = CInt(empID)
                     [Global].EmployeeName = empName
                     [Global].RoleID = roleID
                     LogAttendance(empID)
-
-                    ' Clear fields before showing success
                     TextBox1.Clear()
                     TextBox2.Clear()
-
                     MessageBox.Show("Welcome, " & empName & "!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Me.Hide()
                     Select Case roleID
@@ -64,7 +61,6 @@ Public Class Start
                             Me.Show()
                     End Select
                 Else
-                    ' Wrong passcode — clear both fields
                     TextBox1.Clear()
                     TextBox2.Clear()
                     TextBox1.Focus()
@@ -73,21 +69,19 @@ Public Class Start
             Else
                 reader.Close()
                 CloseConnection()
-
-                ' ID not found — clear both fields
                 TextBox1.Clear()
                 TextBox2.Clear()
                 TextBox1.Focus()
                 MessageBox.Show("Employee ID not found.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Catch ex As Exception
-            ' Also clear on unexpected errors
             TextBox1.Clear()
             TextBox2.Clear()
             TextBox1.Focus()
             MessageBox.Show("Login error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
+
     Private Sub LogAttendance(empID As String)
         Try
             OpenConnection()

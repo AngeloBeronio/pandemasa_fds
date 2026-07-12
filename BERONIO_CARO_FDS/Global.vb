@@ -231,30 +231,32 @@ Module [Global]
         End Try
     End Sub
 
-    Public Function IsWarningTimeReached() As Boolean
-        Try
-            OpenConnection()
-            Dim query As String =
-                "SELECT setting_value FROM set_ls_time WHERE setting_key = 'warning_time'"
-            Dim cmd As New MySqlCommand(query, conn)
-            Dim result As Object = cmd.ExecuteScalar()
+	' LOW STOCK THRESHOLD TIME SETUP
+	Public Function IsWarningTimeReached() As Boolean
+		Try
+			OpenConnection()
+			Dim query As String =
+				"SELECT setting_value FROM set_ls_time WHERE setting_key = 'warning_time'"
+			Dim cmd As New MySqlCommand(query, conn)
+			Dim result As Object = cmd.ExecuteScalar()
 
-            If result Is Nothing OrElse result Is DBNull.Value Then Return True
+			If result Is Nothing OrElse result Is DBNull.Value Then Return True
 
-            Dim warningTime As TimeSpan
-            If TimeSpan.TryParse(result.ToString(), warningTime) Then
-                Return DateTime.Now.TimeOfDay < warningTime
-            End If
+			Dim warningTime As TimeSpan
+			If TimeSpan.TryParse(result.ToString(), warningTime) Then
+				Return DateTime.Now.TimeOfDay < warningTime
+			End If
 
-            Return True
-        Catch ex As Exception
-            Return True
-        Finally
-            CloseConnection()
-        End Try
-    End Function
+			Return True
+		Catch ex As Exception
+			Return True
+		Finally
+			CloseConnection()
+		End Try
+	End Function
 
-    Public Class CartItem
+	' CART ITEM CLASS
+	Public Class CartItem
         Public Property ProductId As Integer
         Public Property ProductName As String
         Public Property Quantity As Integer

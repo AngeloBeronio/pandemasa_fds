@@ -92,21 +92,27 @@ Partial Class Admin_ManageIngredients
 		' 
 		' Button2
 		' 
+		Button2.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Button2.Font = New Font("Segoe UI Semibold", 14.25F, FontStyle.Bold)
+		Button2.ForeColor = Color.White
 		Button2.Location = New Point(849, 25)
 		Button2.Name = "Button2"
 		Button2.Size = New Size(109, 103)
 		Button2.TabIndex = 18
 		Button2.Text = "ADD"
-		Button2.UseVisualStyleBackColor = True
+		Button2.UseVisualStyleBackColor = False
 		' 
 		' Button1
 		' 
+		Button1.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Button1.Font = New Font("Segoe UI Semibold", 14.25F, FontStyle.Bold)
+		Button1.ForeColor = Color.White
 		Button1.Location = New Point(31, 408)
 		Button1.Name = "Button1"
 		Button1.Size = New Size(87, 79)
 		Button1.TabIndex = 19
 		Button1.Text = "SET"
-		Button1.UseVisualStyleBackColor = True
+		Button1.UseVisualStyleBackColor = False
 		' 
 		' FlowLayoutPanel2
 		' 
@@ -117,12 +123,15 @@ Partial Class Admin_ManageIngredients
 		' 
 		' Button3
 		' 
+		Button3.BackColor = Color.FromArgb(CByte(255), CByte(128), CByte(0))
+		Button3.Font = New Font("Segoe UI Semibold", 14.25F, FontStyle.Bold)
+		Button3.ForeColor = Color.White
 		Button3.Location = New Point(1029, 25)
 		Button3.Name = "Button3"
 		Button3.Size = New Size(109, 103)
 		Button3.TabIndex = 22
 		Button3.Text = "REMOVE"
-		Button3.UseVisualStyleBackColor = True
+		Button3.UseVisualStyleBackColor = False
 		' 
 		' Label10
 		' 

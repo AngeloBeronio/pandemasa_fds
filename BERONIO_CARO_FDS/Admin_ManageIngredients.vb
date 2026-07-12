@@ -1,18 +1,15 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Public Class Admin_ManageIngredients
-
 	Private selectedIngredientId As Integer = -1
 	Private selectedIngredientOldStock As Decimal = 0
 
 	Private Sub Admin_Ingredients_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupIngredientGrid()
 	End Sub
-
 	Private Sub Admin_Ingredients_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
 		LoadIngredients()
 	End Sub
-
 	Private Sub SetupIngredientGrid()
 		DataGridView1.Columns.Clear()
 		DataGridView1.AutoGenerateColumns = False
@@ -26,6 +23,7 @@ Public Class Admin_ManageIngredients
 		DataGridView1.Columns("colName").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 	End Sub
 
+	' MAIN
 	Private Sub LoadIngredients()
 		Try
 			OpenConnection()
@@ -56,6 +54,7 @@ Public Class Admin_ManageIngredients
 		End Try
 	End Sub
 
+	' SELECT THEN POPULATES TEXTBOX WITH DETAILS
 	Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
 		If DataGridView1.SelectedRows.Count = 0 Then
 			Exit Sub
@@ -70,13 +69,10 @@ Public Class Admin_ManageIngredients
 		TextBox1.Text = row.Cells("colName").Value.ToString()
 		TextBox2.Text = row.Cells("colPrice").Value.ToString()
 		TextBox3.Text = row.Cells("colStock").Value.ToString()
-
-		' Remember the stock level as of selection so we can log the delta on Save
 		Decimal.TryParse(row.Cells("colStock").Value.ToString(), selectedIngredientOldStock)
 	End Sub
 
-	' SET: saves name / price per gram / stock in grams for the selected ingredient
-	' Also logs any stock change to ingredientinv_logs, mirroring productinv_logs
+	' SAVE PRODUCT INFO
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		If selectedIngredientId = -1 Then
 			MessageBox.Show("Please select an ingredient first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -116,8 +112,6 @@ Public Class Admin_ManageIngredients
 			cmd.ExecuteNonQuery()
 
 			Dim stockDelta As Decimal = gramsInStock - selectedIngredientOldStock
-
-			' Only write a log entry if the stock quantity actually changed
 			If stockDelta <> 0 Then
 				Dim logCmd As New MySqlCommand("INSERT INTO ingredientinv_logs (ingredient_id, user_id, adjustment_quantity, adjustment_unit) VALUES (@iid, @uid, @qty, @unit)", conn, trans)
 				logCmd.Parameters.AddWithValue("@iid", selectedIngredientId)
@@ -141,7 +135,7 @@ Public Class Admin_ManageIngredients
 		End Try
 	End Sub
 
-	' ADD: creates a brand-new ingredient with 0 stock; stock is set afterward via the Update panel
+	' ADD NEW INGREDIENT
 	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
 		Dim ingName As String = TextBox4.Text.Trim()
 		Dim pricePerGram As Decimal
@@ -184,7 +178,7 @@ Public Class Admin_ManageIngredients
 		End Try
 	End Sub
 
-	' REMOVE: deletes the ingredient currently selected in the grid
+	' REMOVES INGREDIENT
 	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
 		If selectedIngredientId = -1 Then
 			MessageBox.Show("Please select an ingredient first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -218,6 +212,7 @@ Public Class Admin_ManageIngredients
 		End Try
 	End Sub
 
+	' HELPER
 	Private Sub ClearUpdateForm()
 		selectedIngredientId = -1
 		selectedIngredientOldStock = 0
@@ -226,6 +221,7 @@ Public Class Admin_ManageIngredients
 		TextBox3.Clear()
 	End Sub
 
+	' NAVIGATION
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 		Me.Hide()
 		Admin_Homevb.Show()

@@ -254,12 +254,11 @@ Public Class ReportOptions
 					payGrid.AddCell(New PdfPCell(New Phrase(row("days_attended").ToString(), normalFont)) With {.Padding = 5})
 					payGrid.AddCell(New PdfPCell(New Phrase("PHP " & Convert.ToDecimal(row("total_salary")).ToString("N2"), normalFont)) With {.Padding = 5})
 				Next
-
 				doc.Add(payGrid)
 				doc.Close()
 			End Using
 
-			MessageBox.Show("Comprehensive report generated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+			MessageBox.Show("Report generated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 		Catch ex As Exception
 			MessageBox.Show("Error building report: " & ex.Message)
 		Finally

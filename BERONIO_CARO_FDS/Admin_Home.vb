@@ -179,46 +179,18 @@ Public Class Admin_Homevb
 		DataGridView1.Columns.Add("colRevenue", "Revenue")
 		DataGridView1.Columns("colProduct").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 	End Sub
-
-	' SET THRESHOLD AND UPDATE STATUS
-	' BUTTON 1 — Set Low Stock Threshold
+	' Set Low Stock Threshold
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-		Dim userInput As String = InputBox("Enter new low stock threshold:", "Set Threshold", "10")
-		Dim newThreshold As Integer
-
-		If userInput = "" Then Exit Sub
-
-		If Integer.TryParse(userInput, newThreshold) AndAlso newThreshold >= 0 Then
-			SaveSetting("low_stock_threshold", newThreshold.ToString())
-			UpdateProductStatuses(newThreshold)
-			MessageBox.Show("Threshold saved and stock statuses updated!", "Success",
-						MessageBoxButtons.OK, MessageBoxIcon.Information)
-		Else
-			MessageBox.Show("Please enter a valid positive number.", "Invalid Input",
-						MessageBoxButtons.OK, MessageBoxIcon.Warning)
-		End If
+		Dim threshold As New SetThreshold()
+		threshold.ShowDialog()
+		LoadDashboard(DateTime.Today) ' Refresh dashboard after threshold is updated
 	End Sub
 
-	' BUTTON 2 — Set Warning Time
+	' Set Warning Time
 	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-		Dim userInput As String = InputBox(
-		"Enter the time to show low stock warning on cashier screen (24hr format, e.g. 08:00):",
-		"Set Warning Time", "08:00")
-
-		If userInput = "" Then Exit Sub
-
-		Dim parsedTime As TimeSpan
-		If TimeSpan.TryParse(userInput, parsedTime) Then
-			SaveSetting("warning_time", parsedTime.ToString("hh\:mm"))
-			MessageBox.Show("Warning time set to " & parsedTime.ToString("hh\:mm") & ".",
-						"Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-		Else
-			MessageBox.Show("Invalid time format. Please use HH:mm (e.g. 08:00).", "Invalid Input",
-						MessageBoxButtons.OK, MessageBoxIcon.Warning)
-		End If
+		Dim warningForm As New setwarningtime()
+		warningForm.ShowDialog()
 	End Sub
-
-	' Save any key-value setting to the database
 	Private Sub SaveSetting(key As String, value As String)
 		Try
 			OpenConnection()
@@ -236,7 +208,6 @@ Public Class Admin_Homevb
 		End Try
 	End Sub
 
-	' Update product statuses based on new threshold
 	Private Sub UpdateProductStatuses(newThreshold As Integer)
 		Try
 			OpenConnection()
@@ -261,9 +232,7 @@ Public Class Admin_Homevb
 		End Try
 	End Sub
 
-	' OPEN REPORT OPTIONS
 	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-		Me.Hide()
 		ReportOptions.Show()
 	End Sub
 

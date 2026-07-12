@@ -55,6 +55,7 @@ Partial Class Start
 		TextBox2.Font = New Font("Segoe UI", 21.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
 		TextBox2.Location = New Point(771, 751)
 		TextBox2.Name = "TextBox2"
+		TextBox2.PasswordChar = "*"c
 		TextBox2.Size = New Size(348, 46)
 		TextBox2.TabIndex = 3
 		' 
@@ -76,9 +77,9 @@ Partial Class Start
 		Label2.Font = New Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
 		Label2.Location = New Point(771, 701)
 		Label2.Name = "Label2"
-		Label2.Size = New Size(81, 47)
+		Label2.Size = New Size(175, 47)
 		Label2.TabIndex = 5
-		Label2.Text = "PIN"
+		Label2.Text = "Password"
 		' 
 		' Start
 		' 

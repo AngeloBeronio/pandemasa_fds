@@ -4,7 +4,6 @@ Imports iTextSharp.text.pdf
 Imports System.IO
 
 Public Class Payment
-
 	Private isDiscounted As Boolean = False
 	Private discountType As String = "None"
 	Private isOnlinePayment As Boolean = False
@@ -21,37 +20,7 @@ Public Class Payment
 		LoadCartSummary()
 	End Sub
 
-	' NAVIGATION
-	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-		Me.Hide()
-		Menu_2_.Show()
-	End Sub
-
-	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-		Me.Hide()
-		Menu_3_.Show()
-	End Sub
-
-	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-		Me.Hide()
-		Menu_4_.Show()
-	End Sub
-
-	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-		Me.Hide()
-		Menu__1_.Show()
-	End Sub
-
-	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-		Me.Hide()
-		Menu_5_.Show()
-	End Sub
-
-	' sub-nav
-	Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
-		PaymentMethod.Show()
-	End Sub
-
+	' SETUP INTERFACE
 	Private Sub SetupOrderGrid()
 		dgvOrder.Columns.Clear()
 		dgvOrder.RowTemplate.Height = 35
@@ -194,9 +163,7 @@ Public Class Payment
 	Private Sub Button19_Click(sender As Object, e As EventArgs) Handles Button19.Click
 		If Not isOnlinePayment Then AppendInput("00")
 	End Sub
-
-	' BACKSPACE
-	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click ' BACKSPACE
 		If amoTendered.Text.Length > 1 Then
 			amoTendered.Text = amoTendered.Text.Substring(0, amoTendered.Text.Length - 1)
 		Else
@@ -204,15 +171,11 @@ Public Class Payment
 		End If
 		If Not isOnlinePayment Then UpdateTotals()
 	End Sub
-
-	' CLEAR
-	Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+	Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click ' CLEAR
 		amoTendered.Text = "0"
 		If Not isOnlinePayment Then UpdateTotals()
 	End Sub
-
-	' DISCOUNT
-	Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
+	Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click 'DISCOUNT
 		If Not isDiscounted Then
 			isDiscounted = True
 			discountType = "PWD/Senior"
@@ -226,17 +189,11 @@ Public Class Payment
 		End If
 		UpdateTotals()
 	End Sub
-
 	Private Sub amoTendered_TextChanged(sender As Object, e As EventArgs) Handles amoTendered.TextChanged
 		If Not isOnlinePayment Then UpdateTotals()
 	End Sub
 
 	Private Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
-		If CartItems.Count = 0 Then
-			MessageBox.Show("Cart is empty.", "Nothing to Pay")
-			Return
-		End If
-
 		Dim subtotal As Decimal = CartItems.Sum(Function(c) c.Total)
 		Dim discount As Decimal = If(isDiscounted, subtotal * 0.2, 0)
 		Dim afterDiscount As Decimal = subtotal - discount
@@ -244,7 +201,10 @@ Public Class Payment
 		Dim total As Decimal = afterDiscount + fee
 		Dim cash As Decimal = 0
 		Dim refNumber As String = ""
-
+		If CartItems.Count = 0 Then
+			MessageBox.Show("Cart is empty.", "Nothing to Pay")
+			Return
+		End If
 		Select Case selectedPaymentMethod
 			Case "Cash"
 				If Not Decimal.TryParse(amoTendered.Text, cash) OrElse cash < total Then
@@ -280,7 +240,6 @@ Public Class Payment
 					Return
 				End If
 		End Select
-
 		Try
 			OpenConnection()
 			Dim transaction As MySqlTransaction = conn.BeginTransaction()
@@ -328,9 +287,7 @@ Public Class Payment
 					updateStatusCmd.Parameters.AddWithValue("@pid", item.ProductId)
 					updateStatusCmd.ExecuteNonQuery()
 				Next
-
 				transaction.Commit()
-
 				Dim receiptPath As String = ""
 				Try
 					receiptPath = GenerateReceiptPdf(newOrderId, subtotal, discount, fee, total, cash, refNumber)
@@ -338,9 +295,7 @@ Public Class Payment
 					MessageBox.Show("Order saved, but the receipt could not be generated: " & exReceipt.Message,
 							"Receipt Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 				End Try
-
 				CartItems.Clear()
-
 				If receiptPath <> "" Then
 					Try
 						Process.Start(New ProcessStartInfo(receiptPath) With {.UseShellExecute = True})
@@ -350,25 +305,21 @@ Public Class Payment
 
 				Me.Hide()
 				Menu__1_.Show()
-
 			Catch ex As Exception
 				transaction.Rollback()
 				MessageBox.Show("Transaction failed: " & ex.Message, "Error",
 						MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
-
 		Finally
 			CloseConnection()
 		End Try
 	End Sub
 
+	'
 	Private Function GenerateReceiptPdf(orderId As Integer, subtotal As Decimal, discount As Decimal,
 										 fee As Decimal, total As Decimal, cash As Decimal,
 										 refNumber As String) As String
-
-		Dim receiptsFolder As String = Path.Combine(
-		Directory.GetParent(Application.StartupPath).Parent.Parent.FullName,
-		"BERONIO_CARO_FDS", "Receipts")
+		Dim receiptsFolder As String = Path.Combine(Application.StartupPath, "Receipts")
 		If Not Directory.Exists(receiptsFolder) Then
 			Directory.CreateDirectory(receiptsFolder)
 		End If
@@ -488,4 +439,29 @@ Public Class Payment
 		table.AddCell(cell)
 	End Sub
 
+	' NAVIGATION
+	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+		Me.Hide()
+		Menu_2_.Show()
+	End Sub
+	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+		Me.Hide()
+		Menu_3_.Show()
+	End Sub
+	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+		Me.Hide()
+		Menu_4_.Show()
+	End Sub
+	Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+		Me.Hide()
+		Menu__1_.Show()
+	End Sub
+	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+		Me.Hide()
+		Menu_5_.Show()
+	End Sub
+	' sub
+	Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+		PaymentMethod.Show()
+	End Sub
 End Class
