@@ -74,6 +74,7 @@ Partial Class Admin_ManageProducts
 		Label6 = New Label()
 		Button9 = New Button()
 		Button11 = New Button()
+		Button12 = New Button()
 		CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
 		Panel1.SuspendLayout()
 		Panel2.SuspendLayout()
@@ -214,6 +215,7 @@ Partial Class Admin_ManageProducts
 		' 
 		' Panel2
 		' 
+		Panel2.Controls.Add(Button12)
 		Panel2.Controls.Add(Label10)
 		Panel2.Controls.Add(TextBox5)
 		Panel2.Controls.Add(Panel6)
@@ -609,6 +611,15 @@ Partial Class Admin_ManageProducts
 		Button11.TextAlign = ContentAlignment.MiddleLeft
 		Button11.UseVisualStyleBackColor = False
 		' 
+		' Button12
+		' 
+		Button12.Location = New Point(146, 324)
+		Button12.Name = "Button12"
+		Button12.Size = New Size(86, 31)
+		Button12.TabIndex = 30
+		Button12.Text = "SET"
+		Button12.UseVisualStyleBackColor = True
+		' 
 		' Admin_ManageProducts
 		' 
 		AutoScaleDimensions = New SizeF(7F, 15F)
@@ -692,4 +703,5 @@ Partial Class Admin_ManageProducts
 	Friend WithEvents TextBox5 As TextBox
 	Friend WithEvents Panel6 As Panel
 	Friend WithEvents Button11 As Button
+	Friend WithEvents Button12 As Button
 End Class

@@ -11,7 +11,7 @@ Public Class Admin_ManageProducts
 	Private Sub Admin_Inv_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		SetupInventoryGrid()
 		PopulateCategoryComboBox()
-		RadioButton3.Checked = True ' default new products to Baked
+		RadioButton3.Checked = True
 		ApplyBakedFieldState()
 		LoadInventory()
 	End Sub
@@ -19,14 +19,14 @@ Public Class Admin_ManageProducts
 	Private Sub ApplyBakedFieldState()
 		Dim isBaked As Boolean = RadioButton3.Checked
 
-		TextBox5.Enabled = Not isBaked ' Estimated Cost Price (baked products auto-compute cost from recipe)
+		TextBox5.Enabled = Not isBaked
 		TextBox5.BackColor = If(TextBox5.Enabled, SystemColors.Window, SystemColors.Control)
 
-		TextBox2.Enabled = isBaked ' Ingredient Name
-		TextBox4.Enabled = isBaked ' Gram/s
-		Button10.Enabled = isBaked ' SET
+		TextBox2.Enabled = isBaked
+		TextBox4.Enabled = isBaked
+		Button8.Enabled = isBaked
 		ComboBox2.Enabled = isBaked
-		Button10.Enabled = isBaked ' REMOVE
+		Button10.Enabled = isBaked
 	End Sub
 
 	Private Sub SetupInventoryGrid()
@@ -82,31 +82,14 @@ Public Class Admin_ManageProducts
 				"    GROUP BY pi.product_id" &
 				") rc ON p.product_id = rc.product_id"
 
-			Dim hasFilter As Boolean = False
-
 			If CheckBox1.Checked Or CheckBox2.Checked Or CheckBox3.Checked Or CheckBox4.Checked Or CheckBox5.Checked Then
 				query &= " WHERE c.category_name IN ("
 
-				If CheckBox1.Checked Then
-					query &= "@cat1,"
-					hasFilter = True
-				End If
-				If CheckBox2.Checked Then
-					query &= "@cat2,"
-					hasFilter = True
-				End If
-				If CheckBox3.Checked Then
-					query &= "@cat3,"
-					hasFilter = True
-				End If
-				If CheckBox4.Checked Then
-					query &= "@cat4,"
-					hasFilter = True
-				End If
-				If CheckBox5.Checked Then
-					query &= "@cat5,"
-					hasFilter = True
-				End If
+				If CheckBox1.Checked Then query &= "@cat1,"
+				If CheckBox2.Checked Then query &= "@cat2,"
+				If CheckBox3.Checked Then query &= "@cat3,"
+				If CheckBox4.Checked Then query &= "@cat4,"
+				If CheckBox5.Checked Then query &= "@cat5,"
 
 				If query.EndsWith(",") Then
 					query = query.Substring(0, query.Length - 1)
@@ -412,7 +395,7 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
-	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+	Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
 		Dim sellingPrice As Decimal
 		Dim costPrice As Decimal
 
@@ -424,7 +407,7 @@ Public Class Admin_ManageProducts
 			Exit Sub
 		End If
 
-		Dim isBakedValue As Boolean = RadioButton3.Checked
+		Dim isBakedValue = RadioButton3.Checked
 
 		If Not isBakedValue Then
 			If Not Decimal.TryParse(TextBox5.Text, costPrice) Then
@@ -564,13 +547,13 @@ Public Class Admin_ManageProducts
 		Return result
 	End Function
 
-	Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
 		If selectedProductId = -1 Then
 			MessageBox.Show("Please select a product first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
 		End If
 
-		Dim ingName As String = TextBox2.Text.Trim()
+		Dim ingName = TextBox2.Text.Trim
 		Dim gramsPerPiece As Decimal
 
 		If ingName = "" Then
@@ -586,7 +569,7 @@ Public Class Admin_ManageProducts
 		Try
 			OpenConnection()
 
-			Dim ingredientId As Object = GetIngredientIdByName(ingName, conn)
+			Dim ingredientId = GetIngredientIdByName(ingName, conn)
 			If ingredientId Is Nothing Then
 				MessageBox.Show("Ingredient '" & ingName & "' was not found in the ingredients list.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 				Exit Sub
@@ -595,7 +578,7 @@ Public Class Admin_ManageProducts
 			Dim existsCmd As New MySqlCommand("SELECT COUNT(*) FROM product_ingredients WHERE product_id = @pid AND ingredient_id = @iid", conn)
 			existsCmd.Parameters.AddWithValue("@pid", selectedProductId)
 			existsCmd.Parameters.AddWithValue("@iid", ingredientId)
-			Dim alreadyExists As Long = Convert.ToInt64(existsCmd.ExecuteScalar())
+			Dim alreadyExists = Convert.ToInt64(existsCmd.ExecuteScalar)
 
 			If alreadyExists > 0 Then
 				Dim updateCmd As New MySqlCommand("UPDATE product_ingredients SET qty_gram_per_piece = @qty WHERE product_id = @pid AND ingredient_id = @iid", conn)
@@ -622,7 +605,7 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
-	Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
+	Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
 		If selectedProductId = -1 Then
 			MessageBox.Show("Please select a product first.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 			Exit Sub
@@ -648,6 +631,7 @@ Public Class Admin_ManageProducts
 		End Try
 	End Sub
 
+
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 		Me.Hide()
 		Admin_Homevb.Show()
@@ -665,11 +649,12 @@ Public Class Admin_ManageProducts
 
 	Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
 		Me.Hide()
-		Admin_OrdLogs.Show()
+		Admin_InvLogs.Show()
 	End Sub
 
-	Private Sub Button11_Click_1(sender As Object, e As EventArgs) Handles Button11.Click
+	Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
 		Me.Hide()
 		Admin_ManageIngredients.Show()
 	End Sub
+
 End Class
