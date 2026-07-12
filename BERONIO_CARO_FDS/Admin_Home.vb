@@ -179,6 +179,7 @@ Public Class Admin_Homevb
 		DataGridView1.Columns.Add("colRevenue", "Revenue")
 		DataGridView1.Columns("colProduct").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 	End Sub
+
 	' Set Low Stock Threshold
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Dim threshold As New SetThreshold()

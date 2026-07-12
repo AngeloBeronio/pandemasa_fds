@@ -79,7 +79,7 @@ Module [Global]
         End If
     End Sub
 
-    ' LOAD MENU BY CATEGORY
+    ' SEPARATE MENU BY CATEGORY
     Public Sub LoadMenu(dgv As DataGridView, categoryName As String, pictureBox As PictureBox,
                         numericUpDown As NumericUpDown, ByRef selectedProductId As Integer,
                         ByRef selectedProductName As String, ByRef selectedPrice As Decimal)
@@ -141,7 +141,6 @@ Module [Global]
         End Try
     End Sub
 
-    ' ADD ITEMS TO CART
     Public Sub AddToCart(productId As Integer, productName As String,
                          price As Decimal, qty As Integer)
         Try
@@ -190,7 +189,6 @@ Module [Global]
         End Try
     End Sub
 
-    ' LOW STOCK WARNING
     Public Sub LoadLowStockWarning(targetListBox As ListBox)
         targetListBox.Items.Clear()
 
@@ -231,8 +229,7 @@ Module [Global]
         End Try
     End Sub
 
-	' LOW STOCK THRESHOLD TIME SETUP
-	Public Function IsWarningTimeReached() As Boolean
+    Public Function IsWarningTimeReached() As Boolean
 		Try
 			OpenConnection()
 			Dim query As String =
