@@ -4,13 +4,10 @@ Imports iTextSharp.text.pdf
 Imports System.IO
 
 Public Class ReportOptions
-
 	Private Sub ReportOptions_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		MonthCalendar1.MaxSelectionCount = 1
 		MonthCalendar1.SetDate(DateTime.Today)
-
 		PopulateMonthDropdown()
-
 		RadioButton1.Checked = True
 		ToggleModeControls()
 	End Sub
@@ -18,12 +15,10 @@ Public Class ReportOptions
 	Private Sub PopulateMonthDropdown()
 		ComboBox1.Items.Clear()
 		Dim cursor As Date = New Date(DateTime.Today.Year, DateTime.Today.Month, 1)
-
 		For i As Integer = 0 To 11
 			ComboBox1.Items.Add(cursor.ToString("MMMM yyyy"))
 			cursor = cursor.AddMonths(-1)
 		Next
-
 		ComboBox1.SelectedIndex = 0
 	End Sub
 
@@ -51,7 +46,6 @@ Public Class ReportOptions
 				MessageBox.Show("Please select a month.", "Missing Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
 				Return
 			End If
-
 			Dim monthText As String = ComboBox1.SelectedItem.ToString()
 			rangeStart = Date.ParseExact(monthText, "MMMM yyyy", Globalization.CultureInfo.InvariantCulture)
 			rangeEnd = rangeStart.AddMonths(1)
@@ -75,7 +69,6 @@ Public Class ReportOptions
 	Private Sub ExportSalesReportToPdf(rangeStart As Date, rangeEnd As Date, filePath As String)
 		Try
 			OpenConnection()
-
 			Dim salesQuery As String =
 			"SELECT p.product_id, p.product_name, SUM(oi.quantity) AS total_qty, " &
 			"SUM(oi.quantity * oi.price_at_sale) AS total_revenue, " &
@@ -159,7 +152,7 @@ Public Class ReportOptions
 				pTitle.Alignment = Element.ALIGN_CENTER
 				doc.Add(pTitle)
 
-				' TOTAL PROFIT BOX
+				' TOTAL PROFIT
 				Dim summaryBoxTable As New PdfPTable(1)
 				summaryBoxTable.WidthPercentage = 60
 				summaryBoxTable.HorizontalAlignment = Element.ALIGN_CENTER
@@ -193,7 +186,7 @@ Public Class ReportOptions
 				summaryBoxTable.AddCell(containerCell)
 				doc.Add(summaryBoxTable)
 
-				' SUMMARY ROWS WITH CAPTIONS
+				' SUMMARY ROWS 
 				Dim financialTable As New PdfPTable(3)
 				financialTable.WidthPercentage = 100
 				financialTable.SetWidths({45.0F, 20.0F, 35.0F})
@@ -207,7 +200,7 @@ Public Class ReportOptions
 				AddFinancialRow(financialTable, "Total Gross Profit", "PHP " & aggregateGrossProfit.ToString("N2"), "Net Revenue - Total Cost of Goods Sold", boldFont, captionFont)
 				doc.Add(financialTable)
 
-				' PRODUCTS SOLD TABLE - 7 columns
+				' PRODUCTS SOLD
 				doc.Add(New Paragraph("Products Sold", sectionFont) With {.SpacingAfter = 8})
 
 				Dim prodTable As New PdfPTable(7)
@@ -233,6 +226,7 @@ Public Class ReportOptions
 				doc.Add(prodTable)
 				doc.NewPage()
 
+				' EMPLOYEE SALARY
 				doc.Add(New Paragraph("Employee Salary", sectionFont) With {.SpacingAfter = 4})
 				doc.Add(New Paragraph(rangeLabel, subtitleFont) With {.SpacingAfter = 12})
 

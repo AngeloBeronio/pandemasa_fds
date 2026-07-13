@@ -23,7 +23,6 @@ Public Class Admin_OrdLogs
 		DataGridView1.Columns.Add("colSubtotal", "SUBTOTAL")
 		DataGridView1.Columns.Add("colDiscount", "DISCOUNT")
 		DataGridView1.Columns.Add("colTotal", "TOTAL")
-		DataGridView1.Columns.Add("colCreatedAt", "CREATED AT")
 		DataGridView1.Columns.Add("colOrderDate", "ORDER DATE")
 	End Sub
 
@@ -37,14 +36,14 @@ Public Class Admin_OrdLogs
 			Dim searchKeyword As String = TextBox2.Text.Trim()
 
 			Dim query As String = "
-                SELECT order_id, user_id, subtotal, discount_amount, total_amount, created_at, order_date
+                SELECT order_id, user_id, subtotal, discount_amount, total_amount, order_date, order_date
                 FROM orders"
 
 			If Not String.IsNullOrEmpty(searchKeyword) Then
 				query &= " WHERE order_id LIKE @search OR user_id LIKE @search"
 			End If
 
-			query &= " ORDER BY created_at DESC LIMIT @limit OFFSET @offset"
+			query &= " ORDER BY order_date DESC LIMIT @limit OFFSET @offset"
 
 			Dim cmd As New MySqlCommand(query, conn)
 			cmd.Parameters.AddWithValue("@limit", pageSize)
@@ -64,7 +63,6 @@ Public Class Admin_OrdLogs
 				row.Cells("colSubtotal").Value = Convert.ToDecimal(reader("subtotal")).ToString("F2")
 				row.Cells("colDiscount").Value = Convert.ToDecimal(reader("discount_amount")).ToString("F2")
 				row.Cells("colTotal").Value = Convert.ToDecimal(reader("total_amount")).ToString("F2")
-				row.Cells("colCreatedAt").Value = Convert.ToDateTime(reader("created_at")).ToString("yyyy-MM-dd HH:mm:ss")
 				row.Cells("colOrderDate").Value = Convert.ToDateTime(reader("order_date")).ToString("yyyy-MM-dd HH:mm:ss")
 			End While
 			reader.Close()

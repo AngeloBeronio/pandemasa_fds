@@ -135,9 +135,14 @@ Partial Class Admin_ManageProducts
 		' 
 		' DataGridView1
 		' 
+		DataGridView1.AllowUserToAddRows = False
 		DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		DataGridView1.Location = New Point(446, 287)
+		DataGridView1.MultiSelect = False
 		DataGridView1.Name = "DataGridView1"
+		DataGridView1.ReadOnly = True
+		DataGridView1.RowHeadersVisible = False
+		DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
 		DataGridView1.Size = New Size(1003, 545)
 		DataGridView1.TabIndex = 16
 		' 

@@ -30,11 +30,6 @@ Public Class Admin_ManageProducts
         DataGridView1.Columns.Clear()
         DataGridView1.AutoGenerateColumns = False
         DataGridView1.RowTemplate.Height = 60
-        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DataGridView1.MultiSelect = False
-        DataGridView1.ReadOnly = True
-        DataGridView1.AllowUserToAddRows = False
-        DataGridView1.RowHeadersVisible = False
 
         DataGridView1.Columns.Add("colId", "ID")
 

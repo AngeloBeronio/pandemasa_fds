@@ -184,7 +184,7 @@ Public Class Admin_Homevb
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Dim threshold As New SetThreshold()
 		threshold.ShowDialog()
-		LoadDashboard(DateTime.Today) ' Refresh dashboard after threshold is updated
+		LoadDashboard(DateTime.Today)
 	End Sub
 
 	' Set Warning Time
@@ -259,6 +259,7 @@ Public Class Admin_Homevb
 	End Sub
 
 	Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+		Me.Hide()
 		Admin_InvLogs.Show()
 	End Sub
 
