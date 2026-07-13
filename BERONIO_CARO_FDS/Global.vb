@@ -10,7 +10,6 @@ Module [Global]
     Public EmployeeName As String
     Public RoleID As Integer
 
-    ' CONNECTION
     Public Sub OpenConnection()
         conn = New MySqlConnection(connStr)
         If conn.State = ConnectionState.Closed Then conn.Open()
@@ -20,7 +19,7 @@ Module [Global]
         If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then conn.Close()
     End Sub
 
-    ' DATE
+    ' MENU HEADER
     Public Function GetGreeting() As String
         Dim hour As Integer = DateTime.Now.Hour
         Dim greeting As String
@@ -59,7 +58,6 @@ Module [Global]
         dgv.Columns("colName").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
     End Sub
 
-    ' LOAD PRODUCT IMAGE
     Public Sub LoadProductImage(pictureBox As PictureBox, imgPath As String)
         If pictureBox.Image IsNot Nothing Then
             Dim oldImage As Image = pictureBox.Image
