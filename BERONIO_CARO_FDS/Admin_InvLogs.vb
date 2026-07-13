@@ -29,7 +29,6 @@ Public Class Admin_InvLogs
 		End With
 	End Sub
 
-	'LOAD DGV
 	Private Sub LoadLogs()
 		Try
 			OpenConnection()
@@ -82,7 +81,6 @@ Public Class Admin_InvLogs
 		End Try
 	End Sub
 
-	' PAGINATION
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		If currentPage > 1 Then
 			currentPage -= 1
@@ -109,7 +107,6 @@ Public Class Admin_InvLogs
 		LoadLogs()
 	End Sub
 
-	' NAVIGATION
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 		Me.Hide()
 		Admin_ManageProducts.Show()
@@ -138,5 +135,9 @@ Public Class Admin_InvLogs
 	Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
 		Me.Hide()
 		Start.Show()
+	End Sub
+
+	Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+
 	End Sub
 End Class

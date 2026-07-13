@@ -39,8 +39,6 @@ Public Class ReportOptions
 		ComboBox1.Enabled = RadioButton1.Checked
 		MonthCalendar1.Enabled = RadioButton2.Checked
 	End Sub
-
-	' GENERATE REPORT
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Dim rangeStart As Date
 		Dim rangeEnd As Date
@@ -159,7 +157,6 @@ Public Class ReportOptions
 				pTitle.Alignment = Element.ALIGN_CENTER
 				doc.Add(pTitle)
 
-				' TOTAL PROFIT BOX
 				Dim summaryBoxTable As New PdfPTable(1)
 				summaryBoxTable.WidthPercentage = 60
 				summaryBoxTable.HorizontalAlignment = Element.ALIGN_CENTER
@@ -193,7 +190,6 @@ Public Class ReportOptions
 				summaryBoxTable.AddCell(containerCell)
 				doc.Add(summaryBoxTable)
 
-				' SUMMARY ROWS WITH CAPTIONS
 				Dim financialTable As New PdfPTable(3)
 				financialTable.WidthPercentage = 100
 				financialTable.SetWidths({45.0F, 20.0F, 35.0F})
@@ -207,7 +203,6 @@ Public Class ReportOptions
 				AddFinancialRow(financialTable, "Total Gross Profit", "PHP " & aggregateGrossProfit.ToString("N2"), "Net Revenue - Total Cost of Goods Sold", boldFont, captionFont)
 				doc.Add(financialTable)
 
-				' PRODUCTS SOLD TABLE - 7 columns
 				doc.Add(New Paragraph("Products Sold", sectionFont) With {.SpacingAfter = 8})
 
 				Dim prodTable As New PdfPTable(7)

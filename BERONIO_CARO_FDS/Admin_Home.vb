@@ -127,7 +127,6 @@ Public Class Admin_Homevb
 		Try
 			OpenConnection()
 
-			' Total Revenue for the day
 			Dim revenueQuery As String =
 			"SELECT COALESCE(SUM(oi.quantity * oi.price_at_sale), 0) " &
 			"FROM order_items oi " &
@@ -137,7 +136,6 @@ Public Class Admin_Homevb
 			revenueCmd.Parameters.AddWithValue("@d", selectedDate.ToString("yyyy-MM-dd"))
 			Dim totalRevenue As Decimal = Convert.ToDecimal(revenueCmd.ExecuteScalar())
 
-			' Total COGS for the day (cost of products sold)
 			Dim cogsQuery As String =
 			"SELECT COALESCE(SUM(COALESCE(pec.cost_per_piece, 0) * oi.quantity), 0) " &
 			"FROM order_items oi " &
@@ -148,7 +146,6 @@ Public Class Admin_Homevb
 			cogsCmd.Parameters.AddWithValue("@d", selectedDate.ToString("yyyy-MM-dd"))
 			Dim totalCogs As Decimal = Convert.ToDecimal(cogsCmd.ExecuteScalar())
 
-			' Total Salaries for the day (employees who attended)
 			Dim salaryQuery As String =
 			"SELECT COALESCE(SUM(e.salary_per_day), 0) " &
 			"FROM attendance a " &
@@ -180,14 +177,12 @@ Public Class Admin_Homevb
 		DataGridView1.Columns("colProduct").AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
 	End Sub
 
-	' Set Low Stock Threshold
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Dim threshold As New SetThreshold()
 		threshold.ShowDialog()
-		LoadDashboard(DateTime.Today) ' Refresh dashboard after threshold is updated
+		LoadDashboard(DateTime.Today)
 	End Sub
 
-	' Set Warning Time
 	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
 		Dim warningForm As New setwarningtime()
 		warningForm.ShowDialog()
@@ -237,14 +232,13 @@ Public Class Admin_Homevb
 		ReportOptions.Show()
 	End Sub
 
-	' NAVIGATION
 	Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
 		Me.Hide()
 		Admin_ManageProducts.Show()
 	End Sub
 
 	Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
-		Hide()
+		Me.Hide()
 		Admin_OrdLogs.Show()
 	End Sub
 
